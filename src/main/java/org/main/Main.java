@@ -1,9 +1,7 @@
 package org.main;
 
 import API.APIConnection;
-import API.APIEndpoints;
 import Drone.Convert;
-import Drone.Drone;
 
 public class Main {
     // Define constants

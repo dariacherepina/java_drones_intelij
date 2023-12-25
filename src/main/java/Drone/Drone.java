@@ -8,13 +8,13 @@ public class Drone {
         private String serialnumber;
         private int carriage_weight;
         private String carriage_type;
-        private String manufacturer;
-        private String typename;
-        private int weight;
-        private int max_speed;
-        private int battery_capacity;
-        private int control_range;
-        private int max_carriage;
+//        private String manufacturer;
+//        private String typename;
+//        private int weight;
+//        private int max_speed;
+//        private int battery_capacity;
+//        private int control_range;
+//        private int max_carriage;
 
         public Drone (){}
         public Drone(int id, String dronetype, String created, String serialnumber, int carriage_weight, String carriage_type) {
@@ -42,66 +42,15 @@ public class Drone {
                         ", created='" + created + '\'' +
                         ", serialnumber='" + serialnumber + '\'' +
                         ", carriage_weight=" + carriage_weight +
-                        ", carriage_type='" + carriage_type + '\'' +
-                        ", manufacturer='" + manufacturer + '\'' +
-                        ", typename='" + typename + '\'' +
-                        ", weight=" + weight +
-                        ", max_speed=" + max_speed +
-                        ", battery_capacity=" + battery_capacity +
-                        ", control_range=" + control_range +
-                        ", max_carriage=" + max_carriage +
-                        '}';
+                        ", carriage_type='" + carriage_type + '\'';
+//                        ", manufacturer='" + manufacturer + '\'' +
+//                        ", typename='" + typename + '\'' +
+//                        ", weight=" + weight +
+//                        ", max_speed=" + max_speed +
+//                        ", battery_capacity=" + battery_capacity +
+//                        ", control_range=" + control_range +
+//                        ", max_carriage=" + max_carriage +
+//                        '}';
         }
 
-        public int getId() {
-                return id;
-        }
-
-        public String getDronetype() {
-                return dronetype;
-        }
-
-        public String getCreated() {
-                return created;
-        }
-
-        public String getSerialnumber() {
-                return serialnumber;
-        }
-
-        public int getCarriage_weight() {
-                return carriage_weight;
-        }
-
-        public String getCarriage_type() {
-                return carriage_type;
-        }
-
-        public String getManufacturer() {
-                return manufacturer;
-        }
-
-        public String getTypename() {
-                return typename;
-        }
-
-        public int getWeight() {
-                return weight;
-        }
-
-        public int getMax_speed() {
-                return max_speed;
-        }
-
-        public int getBattery_capacity() {
-                return battery_capacity;
-        }
-
-        public int getControl_range() {
-                return control_range;
-        }
-
-        public int getMax_carriage() {
-                return max_carriage;
-        }
 }
