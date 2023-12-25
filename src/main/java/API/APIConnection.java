@@ -15,7 +15,7 @@ import org.json.JSONTokener;
 
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
-    private static final String START_URL = "https://dronesim.facets-labs.com/api/";
+   // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     // Adjusted the variable to be non-static
@@ -39,7 +39,7 @@ public class APIConnection {
                 URL url = new URL(nextPageUrl);
 
                 // Opening connection
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
 
                 // Request setup with a GET Method (fundamental part of the HTTP request)
                 connection.setRequestMethod("GET");
@@ -96,7 +96,7 @@ public class APIConnection {
         return responseContent.toString();
     }
 
-    // von Beispiel
+    // Example
 
     public static void Drones2Json(String input) {
         // Create a JSONObject from the input
@@ -129,10 +129,10 @@ public class APIConnection {
 
         // Check if the JSON is a JSONObject or a JSONArray
         if (json instanceof JSONObject) {
-            JSONObject o = (JSONObject) json;
+            JSONObject item = (JSONObject) json;
 
             // Return the JSONObject as a string with indentation
-            return o.toString(indentSpaces);
+            return item.toString(indentSpaces);
         } else if (json instanceof JSONArray) {
             // Return the JSONArray as a string with indentation
             return ((JSONArray) json).toString(indentSpaces);
