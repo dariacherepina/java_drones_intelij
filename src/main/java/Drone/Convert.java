@@ -1,35 +1,17 @@
 package Drone;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Convert {
     public static void Input2Object(String input) {
         try {
-            JSONObject inputFile = new JSONObject(input);
-            JSONArray jsonFile = inputFile.getJSONArray("results");
-            ArrayList<Drone> dronesList = new ArrayList<>();
-            for (int i = 0; i < jsonFile.length(); ++i) {
-                JSONObject resultItem = jsonFile.getJSONObject(i);
-                Drone drone = new Drone(
-                        resultItem.getInt("id"),
-                        resultItem.getString("dronetype"),
-                        resultItem.getString("created"),
-                        resultItem.getString("serialnumber"),
-                        resultItem.getInt("carriage_weight"),
-                        resultItem.getString("carriage_type")
-//                        resultItem.getString("manufacturer"),
-//                        resultItem.getString("typename"),
-//                        resultItem.getInt("weight"),
-//                        resultItem.getInt("max_speed"),
-//                        resultItem.getInt("battery_capacity"),
-//                        resultItem.getInt("control_range"),
-//                        resultItem.getInt("max_carriage")
-                );
-                dronesList.add(drone);
-                System.out.println("Drone was created");
-            }
+            Gson gson = new Gson();
+            Type type = new TypeToken<Wrapper>(){}.getType();
+            Wrapper wrapper = gson.fromJson(input, type);
+            ArrayList<Drone> dronesList = wrapper.results;
             for (Drone drone : dronesList) {
                 System.out.println(drone.toString());
             }
@@ -37,4 +19,8 @@ public class Convert {
             e.printStackTrace();
         }
     }
+}
+
+class Wrapper {
+    ArrayList<Drone> results;
 }

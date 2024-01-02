@@ -31,11 +31,3 @@ public class APIEndpoints extends APIConnection  {
         return  droneDynamicsResponse; // TODO: figure out limit
     }
 }
-
-
-
-
-
-
-
-

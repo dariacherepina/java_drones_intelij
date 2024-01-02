@@ -24,13 +24,7 @@ public class Drone {
                 this.serialnumber = serialnumber;
                 this.carriage_weight = carriage_weight;
                 this.carriage_type = carriage_type;
-//                this.manufacturer = manufacturer;
-//                this.typename = typename;
-//                this.weight = weight;
-//                this.max_speed = max_speed;
-//                this.battery_capacity = battery_capacity;
-//                this.control_range = control_range;
-//                this.max_carriage = max_carriage;
+
         }
 
 
@@ -42,15 +36,7 @@ public class Drone {
                         ", created='" + created + '\'' +
                         ", serialnumber='" + serialnumber + '\'' +
                         ", carriage_weight=" + carriage_weight +
-                        ", carriage_type='" + carriage_type + '\'';
-//                        ", manufacturer='" + manufacturer + '\'' +
-//                        ", typename='" + typename + '\'' +
-//                        ", weight=" + weight +
-//                        ", max_speed=" + max_speed +
-//                        ", battery_capacity=" + battery_capacity +
-//                        ", control_range=" + control_range +
-//                        ", max_carriage=" + max_carriage +
-//                        '}';
+                        ", carriage_type='" + carriage_type + '\'' + '}';
         }
 
 }
