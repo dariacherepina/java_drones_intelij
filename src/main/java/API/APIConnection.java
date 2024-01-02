@@ -8,11 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";

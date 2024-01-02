@@ -9,7 +9,7 @@ public class Main {
 
 
     public static void main(String[] args){
-           APIConnection apiClient = new APIConnection();
+//          APIConnection apiClient = new APIConnection();
 //            String dronesResponse = apiClient.getResponse("drones/?format=json&limit=20&offset=0");
 //        System.out.println("Drones: " + dronesResponse);
 //        String droneTypesResponse = apiClient.getResponse("dronetypes/?format=json&limit=20&offset=0");
