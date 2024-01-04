@@ -4,6 +4,8 @@ import API.APIConnection;
 import API.APIEndpoints;
 import Drone.Convert;
 
+
+
 public class Main {
     // Define constants
 
@@ -21,12 +23,13 @@ public class Main {
         APIEndpoints droneIndivData = new APIEndpoints();
 //        System.out.println(droneIndivData.getDroneTypesIndivData(55));
 //        String drone55 = droneIndivData.getDroneTypesIndivData(55);
-//        System.out.println(droneIndivData.getDroneTypesIndivData(65));
+  //      System.out.println(droneIndivData.getDroneTypes());
 //        System.out.println(droneIndivData.getDronesIndivData(65));
 //        System.out.println(droneIndivData.getDroneDynamicsIndivData(65));
        // System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
 
-       Convert.Input2Object(droneIndivData.getDrones());
+        Convert.Input2Object(droneIndivData.getDroneTypes(), Convert.Type.DRONETYPES);
+        //Convert.Input2Object(droneIndivData.getDroneTypes(), Convert.Type.DRONES);
 
     }
 }
