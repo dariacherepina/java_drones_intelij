@@ -1,8 +1,6 @@
 package Drone;
 
-import java.util.Comparator;
-
-public class DroneTypes extends Catalog implements Comparator {
+public class DroneTypes extends Catalog {
     private int id;
     private String manufacturer;
     private String typename;
@@ -31,8 +29,5 @@ public class DroneTypes extends Catalog implements Comparator {
         return this.id;
     }
 
-    @Override
-    public int compare(Object o, Object t1) {
-        return 0;
-    }
+
 }
