@@ -10,6 +10,7 @@ import java.util.Comparator;
 
 
 public class Convert {
+    //
     public enum Type {
         DRONES("drones"),
         DRONETYPES("drone types");
@@ -20,7 +21,9 @@ public class Convert {
 
         public static void Input2Object(String input, Type type) {
             try {
+                //creating a GSON object, which is used for JSON parsing
                 Gson gson = new Gson();
+                // parses the input string into a 'JsonElement'
                 JsonElement inputJson = JsonParser.parseString(input);
                 JsonObject inputObject = inputJson.getAsJsonObject();
                 JsonArray inputArray = inputObject.getAsJsonArray("results");
@@ -28,6 +31,8 @@ public class Convert {
                 if (!inputArray.isJsonArray()) {
                     throw new IllegalArgumentException("Input is not a JSON array");
                 }
+
+                // Creating an ArrayList to store the parsed objects
                 ArrayList<Object> parsedResult = new ArrayList<>();
                 for(JsonElement element : inputArray){
                     if(element.isJsonObject()){
@@ -50,10 +55,11 @@ public class Convert {
                 });
 
                 for (Object obj : parsedResult) {
-
+                    //The sorted objects are printed to the console using
                     System.out.println(obj.toString());
                 }
 
+                //generic exception handler
             } catch (Exception e) {
                 e.printStackTrace();
             }
