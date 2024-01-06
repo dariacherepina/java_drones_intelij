@@ -1,6 +1,8 @@
 package API;
 
 
+import Drone.Drone;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.List;
+
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
@@ -90,6 +94,22 @@ public class APIConnection {
 
         return responseContent.toString();
     }
+
+    public List<Drone> getActiveDrones() {
+        return null;
+    }
+
+    public <DroneCatalogEntry> List<DroneCatalogEntry> getDroneCatalog() {
+        return null;
+    }
+
+    public void updateData() {
+    }
+
+    public List<Drone.DroneStatus> getHistoricalData(int i) {
+        return null;
+    }
+
 
     // Example
 
