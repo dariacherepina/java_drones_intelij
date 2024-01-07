@@ -50,7 +50,7 @@ public class MyFrame extends JFrame {  //MyFrame is the child class of JFrame
             this.add(button1);
 
 
-            JLabel label1 = createLabel();
+            createLabel();
 
             DefaultTableModel model = new DefaultTableModel();//JTable uses it to manipulate data like adding or removing rows
             JTable table = new JTable(model); //creates table
@@ -92,7 +92,7 @@ public class MyFrame extends JFrame {  //MyFrame is the child class of JFrame
 
             }
 
-            private JLabel createLabel() {
+            private void createLabel() {
                 JLabel label1 = new JLabel("DRONE TYPES");
                 ImageIcon image2 = new ImageIcon("drones.jpg");
                 label1.setIcon(image2);
@@ -104,7 +104,7 @@ public class MyFrame extends JFrame {  //MyFrame is the child class of JFrame
                 label1.setHorizontalAlignment(JLabel.CENTER); //sets horizontal position of icon + text within label
                 label1.setBounds(380, 40, 600, 350);//sets x, y & dimension of the label within frame
                 this.add(label1); //add label1 to frame
-                return label1;
+
             }
 
 
@@ -113,7 +113,7 @@ public class MyFrame extends JFrame {  //MyFrame is the child class of JFrame
     public static void main(String[] args) {
 
 
-        MyFrame myFrame = new MyFrame(); //creates an instance of the MyFrame class
+         new MyFrame(); //creates an instance of the MyFrame class
 
 
 
