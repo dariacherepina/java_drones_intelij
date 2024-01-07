@@ -2,6 +2,9 @@ package org.main;
 
 import API.APIEndpoints;
 import Drone.Convert;
+import Drone.Drones;
+
+import java.util.ArrayList;
 
 
 public class Main {
@@ -26,9 +29,12 @@ public class Main {
 //        System.out.println(droneIndivData.getDroneDynamics());
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
 
-        //Convert.Input2Object(droneIndivData.getDrones());
-        //Convert.Input2Object(droneIndivData.getDroneTypes());
-        Convert.Input2Object(droneIndivData.getDroneDynamics());
+        ArrayList<Object> DronesList= Convert.Input2Object(droneIndivData.getDrones());
+        System.out.println(DronesList);
+        ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes());
+        System.out.println(DroneTypesList);
+        ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics());
+        System.out.println(DroneDynamicsList);
 
     }
 }

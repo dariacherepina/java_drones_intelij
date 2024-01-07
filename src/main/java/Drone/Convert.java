@@ -9,17 +9,18 @@ import java.util.Collections;
 
 public class Convert {
 
-    public static void Input2Object(String input) {
+    public static ArrayList<Object> Input2Object(String input) {
+        ArrayList<Object> parsedResult = new ArrayList<>();
+        Gson gson = new Gson();
+        JsonElement inputJson = JsonParser.parseString(input);
+        JsonObject inputObject = inputJson.getAsJsonObject();
+        JsonArray inputArray = inputObject.getAsJsonArray("results");
         try {
-            Gson gson = new Gson();
-            JsonElement inputJson = JsonParser.parseString(input);
-            JsonObject inputObject = inputJson.getAsJsonObject();
-            JsonArray inputArray = inputObject.getAsJsonArray("results");
+
             //wrong input
             if (!inputArray.isJsonArray()) {
                 throw new IllegalArgumentException("Input is not a JSON array");
             }
-            ArrayList<Object> parsedResult = new ArrayList<>();
             for (JsonElement element : inputArray) {
                 if (element.isJsonObject()) {
                     JsonObject jsonObject = element.getAsJsonObject();
@@ -60,11 +61,13 @@ public class Convert {
             });
 
 
-            for (Object obj : parsedResult) System.out.println(obj.toString());
+            //for (Object obj : parsedResult) System.out.println(obj.toString());
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return parsedResult;
     }
 }
 
