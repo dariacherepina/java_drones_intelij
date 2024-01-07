@@ -16,7 +16,6 @@ public class Convert {
         JsonObject inputObject = inputJson.getAsJsonObject();
         JsonArray inputArray = inputObject.getAsJsonArray("results");
         try {
-
             //wrong input
             if (!inputArray.isJsonArray()) {
                 throw new IllegalArgumentException("Input is not a JSON array");
@@ -27,9 +26,16 @@ public class Convert {
                     if (jsonObject.has("dronetype")) {
                         parsedResult.add(gson.fromJson(jsonObject, Drones.class));
                     } else if (jsonObject.has("drone")) {
-                        DroneDynamics droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
+                        String droneUrl = jsonObject.get("drone").getAsString();
+
+                        // Extracting ID from the drone URL
+                        DroneDynamics droneDynamics = new DroneDynamics(droneUrl);
+                        int droneID = droneDynamics.extractIdFromUrl(droneUrl);
+                        droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
                         droneDynamics.setDrone(jsonObject.get("drone").getAsString());
-                        parsedResult.add(droneDynamics);
+                        System.out.println("waiting");
+                        droneDynamics.setId(droneID);
+                            parsedResult.add(droneDynamics);
                     } else {
                         parsedResult.add(gson.fromJson(jsonObject, DroneTypes.class));
                     }

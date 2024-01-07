@@ -30,9 +30,9 @@ public class Main {
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
 
         ArrayList<Object> DronesList= Convert.Input2Object(droneIndivData.getDrones());
-        System.out.println(DronesList);
+        //System.out.println(DronesList);
         ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes());
-        System.out.println(DroneTypesList);
+        //System.out.println(DroneTypesList);
         ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics());
         System.out.println(DroneDynamicsList);
 
