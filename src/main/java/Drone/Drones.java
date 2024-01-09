@@ -38,6 +38,26 @@ public class Drones extends Catalog {
 //    }
 
 
+    public DroneTypes getDronetype() {
+        return dronetype;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public String getSerialnumber() {
+        return serialnumber;
+    }
+
+    public int getCarriage_weight() {
+        return carriage_weight;
+    }
+
+    public String getCarriage_type() {
+        return carriage_type;
+    }
+
     @Override
     public String toString() {
         return "Drones [id=" + id +

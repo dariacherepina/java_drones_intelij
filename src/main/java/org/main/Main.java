@@ -33,17 +33,16 @@ public class Main {
 //        System.out.println(droneIndivData.getDronesIndivData(65));
 //        System.out.println(droneIndivData.getDroneDynamics());
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
+
         API.APIEndpoints apiEndpoints = new API.APIEndpoints();
-        ArrayList<Object> DronesList= Convert.Input2Object(droneIndivData.getDrones(), apiEndpoints);
+        ArrayList<Drones> DronesList= Convert.Input2DronesObject(droneIndivData.getDrones(), apiEndpoints);
+        //System.out.println(DronesList);
         System.out.println(DronesList);
-        ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes(), apiEndpoints);
+        ArrayList<DroneDynamics> DroneDynamicsList = Convert.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics(), apiEndpoints);
+        System.out.println(DroneDynamicsList.get(1).getClass());
+        ArrayList<DroneTypes>  DroneTypesList= Convert.Input2DroneTypesObject(droneIndivData.getDroneTypes(), apiEndpoints);
         System.out.println(DroneTypesList);
-        ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics(), apiEndpoints);
-        System.out.println(DroneDynamicsList);
-        // trying to filter the arraylist DroneDynamicsList
-//        List<DroneDynamics> filteredList = DroneDynamicsList.stream()
-//                .filter(droneDynamics -> droneDynamics.getId() == specificId)
-//                .collect(Collectors.toList());
+
 
     }
 

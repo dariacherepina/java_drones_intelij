@@ -76,6 +76,26 @@ public class DroneTypes extends Catalog {
         this.maximumCarriage = maximumCarriage;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getMaximumSpeed() {
+        return maximumSpeed;
+    }
+
+    public int getBatteryCapacity() {
+        return batteryCapacity;
+    }
+
+    public int getControlRange() {
+        return controlRange;
+    }
+
+    public int getMaximumCarriage() {
+        return maximumCarriage;
+    }
+
     public String getTypename() {
         return typename;
     }
