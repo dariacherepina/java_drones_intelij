@@ -38,8 +38,8 @@ public class Main {
         System.out.println(DronesList);
         ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes(), apiEndpoints);
         System.out.println(DroneTypesList);
-        //ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics());
-        //System.out.println(DroneDynamicsList);
+        ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics(), apiEndpoints);
+        System.out.println(DroneDynamicsList);
         // trying to filter the arraylist DroneDynamicsList
 //        List<DroneDynamics> filteredList = DroneDynamicsList.stream()
 //                .filter(droneDynamics -> droneDynamics.getId() == specificId)

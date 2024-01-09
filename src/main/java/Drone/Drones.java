@@ -26,11 +26,8 @@ public class Drones extends Catalog {
         this.serialnumber = serialnumber;
         this.carriage_weight = carriage_weight;
         this.carriage_type = carriage_type;
-//        try {
-//            this.typeId = extractIdFromUrl(this.dronetype);
-//        } catch (MalformedURLException e) {
-//            throw new RuntimeException(e);
-//        }
+        //
+
 
     }
 

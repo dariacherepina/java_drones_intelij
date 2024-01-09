@@ -10,6 +10,18 @@ public class DroneTypes extends Catalog {
     private int controlRange;
     private int maximumCarriage;
     DroneTypes(){}
+
+    public DroneTypes(int id, String manufacturer, String typename, int weight, int maximumSpeed, int batteryCapacity, int controlRange, int maximumCarriage) {
+        this.id = id;
+        this.manufacturer = manufacturer;
+        this.typename = typename;
+        this.weight = weight;
+        this.maximumSpeed = maximumSpeed;
+        this.batteryCapacity = batteryCapacity;
+        this.controlRange = controlRange;
+        this.maximumCarriage = maximumCarriage;
+    }
+
     @Override
     public String toString() {
         return "DroneTypes [id=" + id

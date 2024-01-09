@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class DroneDynamics extends Catalog {
     private int id;
     private String drone;
+    private Drones droneClass;
     private String timestamp;
     private int speed;
     private String align_roll;
@@ -96,4 +97,48 @@ public class DroneDynamics extends Catalog {
 //                })
 //                .collect(Collectors.toCollection(ArrayList::new));
 //    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void setAlign_roll(String align_roll) {
+        this.align_roll = align_roll;
+    }
+
+    public void setAlign_pitch(String align_pitch) {
+        this.align_pitch = align_pitch;
+    }
+
+    public void setAlign_yaw(String align_yaw) {
+        this.align_yaw = align_yaw;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setBattery_status(String battery_status) {
+        this.battery_status = battery_status;
+    }
+
+    public void setLast_seen(String last_seen) {
+        this.last_seen = last_seen;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDroneClass(Drones droneClass) {
+        this.droneClass = droneClass;
+    }
 }

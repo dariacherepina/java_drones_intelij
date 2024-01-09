@@ -9,6 +9,30 @@ import java.util.Collections;
 
 
 public class Convert {
+    public static DroneTypes constructerDroneType(DroneTypes droneTypeFromDrone, JsonObject droneTypesResponse){
+        droneTypeFromDrone.setId(droneTypesResponse.get("id").getAsInt());
+        droneTypeFromDrone.setManufacturer(droneTypesResponse.get("manufacturer").getAsString());
+        droneTypeFromDrone.setTypename(droneTypesResponse.get("typename").getAsString());
+        droneTypeFromDrone.setWeight(droneTypesResponse.get("weight").getAsInt());
+        droneTypeFromDrone.setMaximumSpeed(droneTypesResponse.get("max_speed").getAsInt());
+        droneTypeFromDrone.setBatteryCapacity(droneTypesResponse.get("battery_capacity").getAsInt());
+        droneTypeFromDrone.setControlRange(droneTypesResponse.get("control_range").getAsInt());
+        droneTypeFromDrone.setMaximumCarriage(droneTypesResponse.get("max_carriage").getAsInt());
+        return droneTypeFromDrone;
+    }
+    public static Drones constructerDrones(Drones drone, JsonObject jsonObject){
+        drone.setId(jsonObject.get("id").getAsInt());
+        drone.setCreated(jsonObject.get("created").getAsString());
+        drone.setSerialnumber(jsonObject.get("serialnumber").getAsString());
+        drone.setCarriage_weight(jsonObject.get("carriage_weight").getAsInt());
+        drone.setCarriage_type(jsonObject.get("carriage_type").getAsString());
+
+        return drone;
+    }
+//    public static DronesDynamics constructerDrones(DronesDynamics drone, JsonObject jsonObject){
+//        drone.
+//        return drone;
+//    }
 
     public static ArrayList<Object> Input2Object(JsonObject input, API.APIEndpoints apiEndpoints) {
         ArrayList<Object> parsedResult = new ArrayList<>();
@@ -25,70 +49,47 @@ public class Convert {
                 if (element.isJsonObject()) {
                     JsonObject jsonObject = element.getAsJsonObject();
                     if (jsonObject.has("dronetype")) {
-                        //
+
                         String droneTypeUrl = jsonObject.get("dronetype").getAsString();
-                        //
                         URI uri = new URI(droneTypeUrl);
                         String dronetypePath = uri.getPath().substring("/api/".length());
 
                         // Fetch data for dronetypePath separately
                         JsonObject droneTypesResponse = apiEndpoints.getResponse(dronetypePath + "?format=json");
-                        //System.out.println(droneTypesResponse);
                         //create the object of DroneTypes
                         DroneTypes droneTypeFromDrone = new DroneTypes();
-                        droneTypeFromDrone.setId(droneTypesResponse.get("id").getAsInt());
-                        droneTypeFromDrone.setManufacturer(droneTypesResponse.get("manufacturer").getAsString());
-                        droneTypeFromDrone.setTypename(droneTypesResponse.get("typename").getAsString());
-                        droneTypeFromDrone.setWeight(droneTypesResponse.get("weight").getAsInt());
-                        droneTypeFromDrone.setMaximumSpeed(droneTypesResponse.get("max_speed").getAsInt());
-                        droneTypeFromDrone.setBatteryCapacity(droneTypesResponse.get("battery_capacity").getAsInt());
-                        droneTypeFromDrone.setControlRange(droneTypesResponse.get("control_range").getAsInt());
-                        droneTypeFromDrone.setMaximumCarriage(droneTypesResponse.get("max_carriage").getAsInt());
-
-
-
-                        //
+                        //constructerDroneType(droneTypeFromDrone, droneTypesResponse);
                         // Extracting ID from the drone URL
                         Drones drone = new Drones();
+                        drone.setDronetype(constructerDroneType(droneTypeFromDrone, droneTypesResponse));
+                        parsedResult.add(constructerDrones(drone,jsonObject ));
 
-                        //drone = gson.fromJson(jsonObject, Drones.class);
-                        //int dronetTypeID = drone.extractIdFromUrl(droneTypeUrl);;
-                        //drone.setDronetype(jsonObject.get("dronetype").getAsString());
-                        drone.setDronetype(droneTypeFromDrone);
-                        drone.setId(jsonObject.get("id").getAsInt());
-                        drone.setCreated(jsonObject.get("created").getAsString());
-                        drone.setSerialnumber(jsonObject.get("serialnumber").getAsString());
-                        drone.setCarriage_weight(jsonObject.get("carriage_weight").getAsInt());
-                        drone.setCarriage_type(jsonObject.get("carriage_type").getAsString());
-
-
-
-                        parsedResult.add(drone);
-
-                        //
                     } else if (jsonObject.has("drone")) {
                         String droneUrl = jsonObject.get("drone").getAsString();
-
                         // Extracting ID from the drone URL
                         DroneDynamics droneDynamics = new DroneDynamics(droneUrl);
                         int droneID = droneDynamics.extractIdFromUrl(droneUrl);
-                        droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
+                        //droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
+                        //
+                        Drones drone = new Drones();
+                        URI uri = new URI(droneUrl);
+                        String dronePath = uri.getPath().substring("/api/".length());
+
+                        // Fetch data for dronetypePath separately
+                        JsonObject droneResponse = apiEndpoints.getResponse(dronePath + "?format=json");
+                        //create the object of DroneTypes
+                        DroneTypes droneFromDrone = new DroneTypes();
+                        //
+                        droneDynamics.setDroneClass(constructerDrones(drone, droneResponse));
                         droneDynamics.setDrone(jsonObject.get("drone").getAsString());
-                        System.out.println("waiting");
+                        droneDynamics.setTimestamp(jsonObject.get("drone").getAsString());
                         droneDynamics.setId(droneID);
                         parsedResult.add(droneDynamics);
                     } else {
                        // parsedResult.add(gson.fromJson(jsonObject, DroneTypes.class));
-                        DroneTypes droneTypeFromDrone = new DroneTypes();
-                        droneTypeFromDrone.setId(jsonObject.get("id").getAsInt());
-                        droneTypeFromDrone.setManufacturer(jsonObject.get("manufacturer").getAsString());
-                        droneTypeFromDrone.setTypename(jsonObject.get("typename").getAsString());
-                        droneTypeFromDrone.setWeight(jsonObject.get("weight").getAsInt());
-                        droneTypeFromDrone.setMaximumSpeed(jsonObject.get("max_speed").getAsInt());
-                        droneTypeFromDrone.setBatteryCapacity(jsonObject.get("battery_capacity").getAsInt());
-                        droneTypeFromDrone.setControlRange(jsonObject.get("control_range").getAsInt());
-                        droneTypeFromDrone.setMaximumCarriage(jsonObject.get("max_carriage").getAsInt());
-                        parsedResult.add(droneTypeFromDrone);
+                        DroneTypes droneType = new DroneTypes();
+                        constructerDroneType(droneType,jsonObject);
+                        parsedResult.add(constructerDroneType(droneType,jsonObject));
                     }
                 }
             }
@@ -126,4 +127,5 @@ public class Convert {
         }
         return parsedResult;
     }
+
 }
