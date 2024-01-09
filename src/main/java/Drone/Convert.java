@@ -24,7 +24,17 @@ public class Convert {
                 if (element.isJsonObject()) {
                     JsonObject jsonObject = element.getAsJsonObject();
                     if (jsonObject.has("dronetype")) {
-                        parsedResult.add(gson.fromJson(jsonObject, Drones.class));
+                        //
+                        String droneTypeUrl = jsonObject.get("dronetype").getAsString();
+
+                        // Extracting ID from the drone URL
+                        Drones drone = new Drones(droneTypeUrl);
+                        int dronetTypeID = drone.extractIdFromUrl(droneTypeUrl);
+                        drone = gson.fromJson(jsonObject, Drones.class);
+                        drone.setDronetype(jsonObject.get("dronetype").getAsString());
+                        drone.setTypeId(dronetTypeID);
+                        parsedResult.add(drone);
+                        //
                     } else if (jsonObject.has("drone")) {
                         String droneUrl = jsonObject.get("drone").getAsString();
 
@@ -35,7 +45,7 @@ public class Convert {
                         droneDynamics.setDrone(jsonObject.get("drone").getAsString());
                         System.out.println("waiting");
                         droneDynamics.setId(droneID);
-                            parsedResult.add(droneDynamics);
+                        parsedResult.add(droneDynamics);
                     } else {
                         parsedResult.add(gson.fromJson(jsonObject, DroneTypes.class));
                     }
@@ -76,7 +86,3 @@ public class Convert {
         return parsedResult;
     }
 }
-
-
-
-

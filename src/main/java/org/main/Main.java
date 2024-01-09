@@ -2,9 +2,12 @@ package org.main;
 
 import API.APIEndpoints;
 import Drone.Convert;
+import Drone.DroneDynamics;
 import Drone.Drones;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -22,19 +25,24 @@ public class Main {
 
 
         APIEndpoints droneIndivData = new APIEndpoints();
-//        System.out.println(droneIndivData.getDroneTypesIndivData(55));
+ //      System.out.println(droneIndivData.getDroneTypesIndivData(55));
 //        String drone55 = droneIndivData.getDroneTypesIndivData(55);
 //        System.out.println(droneIndivData.getDroneTypes());
 //        System.out.println(droneIndivData.getDronesIndivData(65));
 //        System.out.println(droneIndivData.getDroneDynamics());
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
-
+        API.APIEndpoints apiEndpoints = new API.APIEndpoints();
         ArrayList<Object> DronesList= Convert.Input2Object(droneIndivData.getDrones());
-        //System.out.println(DronesList);
-        ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes());
+        System.out.println(DronesList);
+        //ArrayList<Object> DroneTypesList = Convert.Input2Object(droneIndivData.getDroneTypes());
         //System.out.println(DroneTypesList);
-        ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics());
-        System.out.println(DroneDynamicsList);
+        //ArrayList<Object> DroneDynamicsList = Convert.Input2Object(droneIndivData.getDroneDynamics());
+        //System.out.println(DroneDynamicsList);
+        // trying to filter the arraylist DroneDynamicsList
+//        List<DroneDynamics> filteredList = DroneDynamicsList.stream()
+//                .filter(droneDynamics -> droneDynamics.getId() == specificId)
+//                .collect(Collectors.toList());
 
     }
+
 }

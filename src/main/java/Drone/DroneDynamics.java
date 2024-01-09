@@ -4,7 +4,9 @@ import com.google.gson.JsonObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class DroneDynamics extends Catalog {
     private int id;
@@ -35,9 +37,9 @@ public class DroneDynamics extends Catalog {
     public DroneDynamics(String url) throws MalformedURLException {
         this.drone = url;
         this.id = extractIdFromUrl(this.drone);
-        System.out.println("con :" + this.id);
+        //System.out.println("con :" + this.id);
     }
-    public int extractIdFromUrl(String drone) throws MalformedURLException {
+    public static int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
             URL urlObj = new URL(drone); // Use the passed parameter
             String path = urlObj.getPath();
@@ -81,4 +83,17 @@ public class DroneDynamics extends Catalog {
     public void setDrone(String drone) {
         this.drone = drone;
     }
+//    public  ArrayList<DroneDynamics> filterDroneDynamicsById(ArrayList<Object> DroneDynamicsList, int id) {
+//        return DroneDynamicsList.stream()
+//                .filter(object -> object instanceof DroneDynamics)
+//                .map(object -> (DroneDynamics) object)
+//                .filter(droneDynamics -> {
+//                    try {
+//                        return droneDynamics.getId() == id;
+//                    } catch (MalformedURLException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                })
+//                .collect(Collectors.toCollection(ArrayList::new));
+//    }
 }
