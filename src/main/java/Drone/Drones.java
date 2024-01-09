@@ -8,8 +8,9 @@ import static Drone.DroneDynamics.extractIdFromUrl;
 public class Drones extends Catalog {
 
     private int id;
-    private int typeId;
-    private String dronetype;
+    //private int typeId;
+
+    private DroneTypes dronetype;
     private String created;
     private String serialnumber;
     private int carriage_weight;
@@ -18,38 +19,31 @@ public class Drones extends Catalog {
     public Drones() {
     }
 
-//    public Drones(int id, String dronetype, String created, String serialnumber, int carriage_weight, String carriage_type) {
-//        this.id = id;
-//        this.dronetype = dronetype;
-//        this.created = created;
-//        this.serialnumber = serialnumber;
-//        this.carriage_weight = carriage_weight;
-//        this.carriage_type = carriage_type;
+    public Drones(int id, DroneTypes dronetype, String created, String serialnumber, int carriage_weight, String carriage_type) {
+        this.id = id;
+        this.dronetype = dronetype;
+        this.created = created;
+        this.serialnumber = serialnumber;
+        this.carriage_weight = carriage_weight;
+        this.carriage_type = carriage_type;
 //        try {
 //            this.typeId = extractIdFromUrl(this.dronetype);
 //        } catch (MalformedURLException e) {
 //            throw new RuntimeException(e);
 //        }
+
+    }
+
+//    public Drones(String url) throws MalformedURLException {
+//        this.dronetype = url;
+//        this.typeId = extractIdFromUrl(this.dronetype);
+//        //System.out.println("con :" + this.id);
 //    }
-    public Drones(String url) throws MalformedURLException {
-        this.dronetype = url;
-        this.typeId = extractIdFromUrl(this.dronetype);
-        //System.out.println("con :" + this.id);
-    }
 
-    public int getId() { return this.id; }
-    public int getTypeId() throws MalformedURLException { return this.id; }
-    public void setTypeId(int typeId)  {
-        this.typeId = typeId;
-    }
 
-    public void setDronetype(String dronetype) {
-        this.dronetype = dronetype;
-    }
     @Override
     public String toString() {
         return "Drones [id=" + id +
-                ", typeId=" + typeId +
                 ", dronetype=" + dronetype +
                 ", created=" + created
                 + ", serialnumber=" + serialnumber
@@ -73,4 +67,33 @@ public class Drones extends Catalog {
             throw e;
         }
     }
+
+    public void setDronetype(DroneTypes dronetype) {
+        this.dronetype = dronetype;
+    }
+    public int getId() { return this.id; }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public void setSerialnumber(String serialnumber) {
+        this.serialnumber = serialnumber;
+    }
+
+    public void setCarriage_weight(int carriage_weight) {
+        this.carriage_weight = carriage_weight;
+    }
+
+    public void setCarriage_type(String carriage_type) {
+        this.carriage_type = carriage_type;
+    }
+// public int getTypeId() throws MalformedURLException { return this.id; }
+    // public void setTypeId(int typeId)  { this.typeId = typeId; }
+
+
 }

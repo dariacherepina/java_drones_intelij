@@ -6,8 +6,7 @@ public class DroneTypes extends Catalog {
     private String typename;
     private int weight;
     private int maximumSpeed;
-    private int battery;
-    private int capacity;
+    private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
     DroneTypes(){}
@@ -18,8 +17,7 @@ public class DroneTypes extends Catalog {
                 + ", typename=" + typename
                 + ", weight=" + weight
                 + ", maximumSpeed=" + maximumSpeed
-                + ", battery=" + battery
-                + ", capacity=" + capacity
+                + ", batteryCapacity=" + batteryCapacity
                 + ", controlRange=" + controlRange
                 + ", maximumCarriage=" + maximumCarriage + "]";
     }
@@ -31,6 +29,39 @@ public class DroneTypes extends Catalog {
 
     public String getManufacturer() {
         return manufacturer;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setMaximumSpeed(int maximumSpeed) {
+        this.maximumSpeed = maximumSpeed;
+    }
+
+    public void setBatteryCapacity(int batteryCapacity) {
+        this.batteryCapacity = batteryCapacity;
+    }
+
+
+    public void setControlRange(int controlRange) {
+        this.controlRange = controlRange;
+    }
+
+    public void setMaximumCarriage(int maximumCarriage) {
+        this.maximumCarriage = maximumCarriage;
     }
 
     public String getTypename() {

@@ -1,6 +1,10 @@
 package API;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +23,7 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    public String getResponse(String endpoint) {
+    public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
 
         BufferedReader reader;
@@ -87,8 +91,11 @@ public class APIConnection {
                 }
             }
         }
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+        JsonObject inputObject = inputJson.getAsJsonObject();
 
-        return responseContent.toString();
+        //return responseContent.toString();
+        return inputObject;
     }
 
     // Example
