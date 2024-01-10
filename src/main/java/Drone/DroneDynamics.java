@@ -23,8 +23,7 @@ public class DroneDynamics extends Catalog {
         this.id = extractIdFromUrl(this.drone);
     }
 
-    public DroneDynamics() {
-    }
+    public DroneDynamics() {}
 
     public int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
@@ -97,7 +96,7 @@ public class DroneDynamics extends Catalog {
     public void setStatus(String status) {
         this.status = status;
     }
-    public int getId() throws MalformedURLException { return this.id; }
+    public int getId() { return this.id; }
     public String getDrone() { return drone;}
     public String getTimestamp() { return timestamp; }
     public int getSpeed() { return speed; }

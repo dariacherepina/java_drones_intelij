@@ -120,7 +120,7 @@ public class Convert {
 //                String droneUrl = jsonObject.get("drone").getAsString();
                 String droneUrl = jsonObject.get("drone").getAsString();
                 // Extracting ID from the drone URL
-                DroneDynamics droneDynamics = null;
+                DroneDynamics droneDynamics;
                 try {
                     droneDynamics = new DroneDynamics(droneUrl);
                     //int droneID = droneDynamics.extractIdFromUrl();

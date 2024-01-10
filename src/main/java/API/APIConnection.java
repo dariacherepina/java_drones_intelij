@@ -81,8 +81,6 @@ public class APIConnection {
                     e.printStackTrace();
                     break;
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

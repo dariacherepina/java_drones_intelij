@@ -30,10 +30,10 @@ public class Drones extends Catalog {
     @Override
     public String toString() {
         return "Drones [id=" + id
-                + ", dronetype= " + droneType
+                + ", droneType= " + droneType
                 + ", droneDynamicsList =" + droneDynamicsList
                 + ", created=" + created
-                + ", serialnumber=" + serialNumber
+                + ", serialNumber=" + serialNumber
                 + ", carriage_weight=" + carriageWeight
                 + ", carriage_type=" + carriageType + "]";
     }

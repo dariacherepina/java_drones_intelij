@@ -5,8 +5,6 @@ import Drone.Convert;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
-
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 
