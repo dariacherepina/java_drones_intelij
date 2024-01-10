@@ -40,6 +40,9 @@ public class DroneDynamics extends Catalog {
         this.id = extractIdFromUrl(this.drone);
         //System.out.println("con :" + this.id);
     }
+
+    public DroneDynamics() {}
+
     public static int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
             URL urlObj = new URL(drone); // Use the passed parameter
@@ -141,4 +144,5 @@ public class DroneDynamics extends Catalog {
     public void setDroneClass(Drones droneClass) {
         this.droneClass = droneClass;
     }
+
 }

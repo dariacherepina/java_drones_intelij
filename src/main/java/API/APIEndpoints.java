@@ -19,18 +19,18 @@ public class APIEndpoints extends APIConnection  {
     }
     public JsonObject getDroneDynamicsIndivData(int droneId) {
 
-        return getResponse(droneId + "/dynamics/?format=json");
+        return getResponse(droneId + "/dynamics/?format=json&limit=100&offset=0");
     }
     public JsonObject getDrones() {
-        dronesResponse = getResponse("drones/?format=json&limit=20");
+        dronesResponse = getResponse("drones/?format=json&limit=30&offset=0");
         return dronesResponse;
     }
     public JsonObject getDroneTypes() {
-        droneTypesResponse = getResponse("dronetypes/?format=json&limit=20&offset=0");
+        droneTypesResponse = getResponse("dronetypes/?format=json");
         return droneTypesResponse;
     }
     public JsonObject getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=30&offset=0");
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=100&offset=0");
         return  droneDynamicsResponse; // TODO: figure out limit
     }
 }

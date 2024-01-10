@@ -2,6 +2,7 @@ package Drone;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static Drone.DroneDynamics.extractIdFromUrl;
 
@@ -9,13 +10,13 @@ public class Drones extends Catalog {
 
     private int id;
     //private int typeId;
-
     private DroneTypes dronetype;
     private String created;
     private String serialnumber;
     private int carriage_weight;
     private String carriage_type;
 
+    private ArrayList<DroneDynamics> droneDynamicsList;
     public Drones() {
     }
 
@@ -60,9 +61,10 @@ public class Drones extends Catalog {
 
     @Override
     public String toString() {
-        return "Drones [id=" + id +
-                ", dronetype=" + dronetype +
-                ", created=" + created
+        return "Drones [id=" + id
+                + ", dronetype= " + dronetype
+                + ", droneDynamicsList" + droneDynamicsList
+                + ", created=" + created
                 + ", serialnumber=" + serialnumber
                 + ", carriage_weight=" + carriage_weight
                 + ", carriage_type=" + carriage_type + "]";
@@ -72,11 +74,8 @@ public class Drones extends Catalog {
         try {
             URL urlObj = new URL(drone); // Use the passed parameter
             String path = urlObj.getPath();
-            // System.out.println(path);
             String[] parts = path.split("/");
-            //System.out.println(Arrays.toString(parts));
             String lastPart = parts[parts.length - 1];
-            //System.out.println(Integer.parseInt(lastPart));
             return Integer.parseInt(lastPart);
         } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
             System.err.println("Failed to extract ID from URL: " + drone);
@@ -113,4 +112,11 @@ public class Drones extends Catalog {
     // public void setTypeId(int typeId)  { this.typeId = typeId; }
 
 
+    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) {
+        this.droneDynamicsList = droneDynamicsList;
+    }
+
+    public ArrayList<DroneDynamics> getDroneDynamicsList() {
+        return droneDynamicsList;
+    }
 }

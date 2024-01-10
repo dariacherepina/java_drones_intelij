@@ -10,10 +10,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import API.APIEndpoints;
 
+import javax.swing.*;
 
 public class Convert {
 
+    static APIEndpoints apiEndpoints = new APIEndpoints();
     public static DroneTypes constructerDroneType(DroneTypes droneTypeFromDrone, JsonObject droneTypesResponse){
         droneTypeFromDrone.setId(droneTypesResponse.get("id").getAsInt());
         droneTypeFromDrone.setManufacturer(droneTypesResponse.get("manufacturer").getAsString());
@@ -35,14 +38,23 @@ public class Convert {
 
         return drone;
     }
-    public static DroneDynamics constructerDroneDynamics(DroneDynamics droneDynamics, JsonObject jsonObject, Drones drone){
+    public static DroneDynamics constructerDroneDynamics(DroneDynamics droneDynamics, JsonObject jsonObject){
         droneDynamics.setTimestamp(jsonObject.get("timestamp").getAsString());
         droneDynamics.setSpeed(jsonObject.get("speed").getAsInt());
+        droneDynamics.setAlign_roll(jsonObject.get("align_roll").getAsString());
+        droneDynamics.setAlign_pitch(jsonObject.get("align_pitch").getAsString());
+        droneDynamics.setAlign_yaw(jsonObject.get("align_yaw").getAsString());
+        droneDynamics.setLongitude(jsonObject.get("longitude").getAsString());
+        droneDynamics.setLatitude(jsonObject.get("latitude").getAsString());
+        droneDynamics.setBattery_status(jsonObject.get("battery_status").getAsString());
+        droneDynamics.setLast_seen(jsonObject.get("last_seen").getAsString());
+        droneDynamics.setStatus(jsonObject.get("status").getAsString());
+
         //droneDynamics.setId(droneID);
         return droneDynamics;
     }
 
-    public static ArrayList<Drones> Input2DronesObject(JsonObject input, API.APIEndpoints apiEndpoints) {
+    public ArrayList<Drones> Input2DronesObject(JsonObject input) {
         ArrayList<Drones> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
         JsonArray inputArray = input.getAsJsonArray("results");
@@ -53,7 +65,7 @@ public class Convert {
                     //wrong input
                     if (!inputArray.isJsonArray()) {
                         throw new IllegalArgumentException("Input is not a JSON array");
-                    }
+                    } //TODO: Own Exception
                     // Drones
                     String droneTypeUrl = jsonObject.get("dronetype").getAsString();
                     URI uri = new URI(droneTypeUrl);
@@ -65,54 +77,16 @@ public class Convert {
                     DroneTypes droneTypeFromDrone = new DroneTypes();
                     //constructerDroneType(droneTypeFromDrone, droneTypesResponse);
                     // Extracting ID from the drone URL
+
                     Drones drone = new Drones();
+
+
                     parsedResult.add(constructerDrones(drone, jsonObject, constructerDroneType(droneTypeFromDrone, droneTypesResponse)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-        return parsedResult;
-    }
-    public static ArrayList<DroneDynamics> Input2DroneDynamicsObject(JsonObject input, API.APIEndpoints apiEndpoints) {
-        ArrayList<DroneDynamics> parsedResult = new ArrayList<>();
-        //Gson gson = new Gson();
-        JsonArray inputArray = input.getAsJsonArray("results");
-            //wrong input
-            if (!inputArray.isJsonArray()) {
-                throw new IllegalArgumentException("Input is not a JSON array");
-            }
-            for (JsonElement element : inputArray) {
-                if (element.isJsonObject()) {
-                    //Dronedynamics
-                    JsonObject jsonObject = element.getAsJsonObject();
-                    String droneUrl = jsonObject.get("drone").getAsString();
-                    //String droneUrl = jsonObject.get("drone").getAsString();
-                    // Extracting ID from the drone URL
-                    DroneDynamics droneDynamics = null;
-                    try {
-                        droneDynamics = new DroneDynamics(droneUrl);
-                        int droneID = droneDynamics.extractIdFromUrl(droneUrl);
-                        //droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
-
-                        Drones drone = new Drones();
-                        URI uri = new URI(droneUrl);
-                        String dronePath = uri.getPath().substring("/api/".length());
-
-                        // Fetch data for dronetypePath separately
-                        JsonObject droneResponse = apiEndpoints.getResponse(dronePath + "?format=json");
-                        //create the object of DroneTypes
-                        DroneTypes dronetypeFromDrone = new DroneTypes();
-
-                        droneDynamics.setDroneClass(constructerDrones(drone, droneResponse, dronetypeFromDrone));
-                        parsedResult.add(constructerDroneDynamics(droneDynamics, jsonObject, constructerDrones(drone, droneResponse, dronetypeFromDrone)));
-                    } catch (URISyntaxException e) {
-                        throw new RuntimeException(e);
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
         return parsedResult;
     }
 
@@ -134,6 +108,55 @@ public class Convert {
         return parsedResult;
     }
 
+    public static ArrayList<DroneDynamics> Input2DroneDynamicsObject(JsonObject input) {
+        ArrayList<DroneDynamics> parsedResult = new ArrayList<>();
+        //Gson gson = new Gson();
+        JsonArray inputArray = input.getAsJsonArray("results");
+        //wrong input
+        if (!inputArray.isJsonArray()) {
+            throw new IllegalArgumentException("Input is not a JSON array");
+        }
+        for (JsonElement element : inputArray) {
+            if (element.isJsonObject()) {
+                //Dronedynamics
+                JsonObject jsonObject = element.getAsJsonObject();
+//                String droneUrl = jsonObject.get("drone").getAsString();
+                String droneUrl = jsonObject.get("drone").getAsString();
+                // Extracting ID from the drone URL
+                DroneDynamics droneDynamics = null;
+                try {
+                    droneDynamics = new DroneDynamics(droneUrl);
+                    //int droneID = droneDynamics.extractIdFromUrl();
+                    //droneDynamics = gson.fromJson(jsonObject, DroneDynamics.class);
 
+                    //Drones drone = new Drones();
+                    //URI uri = new URI(droneUrl);
+                    //String dronePath = uri.getPath().substring("/api/".length());
 
+                    // Fetch data for dronetypePath separately
+                    //JsonObject droneResponse = apiEndpoints.getResponse(dronePath + "?format=json");
+                    //create the object of DroneTypes
+                    //DroneTypes dronetypeFromDrone = new DroneTypes();
+
+                    //droneDynamics.setDroneClass(constructerDrones(drone, droneResponse, dronetypeFromDrone));
+                    parsedResult.add(constructerDroneDynamics(droneDynamics, jsonObject));
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return parsedResult;
+    }
+
+    public void addDroneDynamics(ArrayList<Drones> drones){
+        for(Drones obj : drones){
+            //info for dynamics by  id
+            JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(obj.getId());
+            if(obj.getDroneDynamicsList() == null){
+                ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
+            }
+            obj.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
+
+        }
+    }
 }

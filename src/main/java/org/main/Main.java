@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 public class Main {
     // Define constants
 
-
-    public static void main(String[] args) {
+    static Convert helper = new Convert();
+    public static void main(String[] args) throws MalformedURLException {
 //        APIConnection apiClient = new APIConnection();
 //        String dronesResponse = apiClient.getResponse("drones/?format=json&limit=20&offset=0");
 //        System.out.println("Drones: " + dronesResponse);
@@ -35,13 +35,15 @@ public class Main {
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
 
         API.APIEndpoints apiEndpoints = new API.APIEndpoints();
-        ArrayList<Drones> DronesList= Convert.Input2DronesObject(droneIndivData.getDrones(), apiEndpoints);
+        ArrayList<Drones> DronesList= helper.Input2DronesObject(droneIndivData.getDrones()); //:TODO ApiEndpoint als parameter weg löschen
         //System.out.println(DronesList);
-        System.out.println(DronesList);
-        ArrayList<DroneDynamics> DroneDynamicsList = Convert.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics(), apiEndpoints);
-        System.out.println(DroneDynamicsList.get(1).getClass());
-        ArrayList<DroneTypes>  DroneTypesList= Convert.Input2DroneTypesObject(droneIndivData.getDroneTypes(), apiEndpoints);
-        System.out.println(DroneTypesList);
+//        ArrayList<DroneTypes>  DroneTypesList= Convert.Input2DroneTypesObject(droneIndivData.getDroneTypes(), apiEndpoints);
+//        System.out.println(DroneTypesList);
+        ArrayList<DroneDynamics> DroneDynamicsList = Convert.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
+        System.out.println(DroneDynamicsList);
+        helper.addDroneDynamics(DronesList);
+        System.out.println(DronesList.get(0));
+
 
 
     }

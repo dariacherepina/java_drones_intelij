@@ -85,12 +85,13 @@ public class APIConnection {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
             }
         }
+            if (connection != null) {
+                connection.disconnect();
+                System.out.println("connection disconnected");
+            }
+
         JsonElement inputJson = JsonParser.parseString(responseContent.toString());
         JsonObject inputObject = inputJson.getAsJsonObject();
 
