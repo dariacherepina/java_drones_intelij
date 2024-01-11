@@ -1,6 +1,8 @@
 package Drone;
 
-public class DroneTypes extends Catalog {
+import java.io.Serializable;
+
+public class DroneTypes extends Catalog implements Serializable {
     private int id;
     private String manufacturer;
     private String typeName;
@@ -24,8 +26,8 @@ public class DroneTypes extends Catalog {
         this.maximumCarriage = maximumCarriage;
     }
 
-    @Override
-    public String toString() {
+
+    public String toPrint() {
         return "DroneTypes [id=" + id
                 + ", manufacturer=" + manufacturer
                 + ", typename=" + typeName
@@ -34,6 +36,10 @@ public class DroneTypes extends Catalog {
                 + ", batteryCapacity=" + batteryCapacity
                 + ", controlRange=" + controlRange
                 + ", maximumCarriage=" + maximumCarriage + "]";
+    }
+    @Override
+    public String toString() {
+        return id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "\n";
     }
 
 
@@ -74,6 +80,9 @@ public class DroneTypes extends Catalog {
     }
 
     public String getManufacturer() { return manufacturer; }
+    public String getTypeName() {
+        return typeName;
+    }
 
     public int getWeight() { return weight; }
 
@@ -85,7 +94,5 @@ public class DroneTypes extends Catalog {
 
     public int getMaximumCarriage() { return maximumCarriage; }
 
-    public String getTypeName() {
-        return typeName;
-    }
+
 }

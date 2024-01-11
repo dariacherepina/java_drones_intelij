@@ -1,18 +1,26 @@
 package Drone;
 
 import API.APIEndpoints;
+import Drone.DroneDynamics;
+import Drone.DroneTypes;
+import Drone.Drones;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Collections;
+
 
 
 public class Convert {
 
-    static APIEndpoints apiEndpoints = new APIEndpoints();
+    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
 
     public Drones constructorDrones(Drones drone, JsonObject jsonObject, DroneTypes droneTypeFromDrone) {
         drone.setId(jsonObject.get("id").getAsInt());
@@ -51,6 +59,12 @@ public class Convert {
         return droneDynamics;
     }
 
+    public DroneTypeInDrone constructorDroneTypeInDrones(DroneTypeInDrone droneTypeFromDrone, JsonObject droneTypesResponse) {
+        droneTypeFromDrone.setId(droneTypesResponse.get("id").getAsInt());
+        droneTypeFromDrone.setManufacturer(droneTypesResponse.get("manufacturer").getAsString());
+        droneTypeFromDrone.setTypeName(droneTypesResponse.get("typename").getAsString());
+        return droneTypeFromDrone;
+    }
     public ArrayList<Drones> Input2DronesObject(JsonObject input) {
         ArrayList<Drones> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
@@ -76,9 +90,12 @@ public class Convert {
                     // Extracting ID from the drone URL
 
                     Drones drone = new Drones();
-
-
                     parsedResult.add(constructorDrones(drone, jsonObject, constructorDroneType(droneTypeFromDrone, droneTypesResponse)));
+                    parsedResult.sort((o1, o2) -> {
+                        int id1 = (o1).getId();
+                        int id2 = (o2).getId();
+                        return Integer.compare(id1, id2);
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -102,6 +119,12 @@ public class Convert {
                 parsedResult.add(constructorDroneType(droneType, jsonObject));
             }
         }
+        parsedResult.sort((o1, o2) -> {
+            int id1 = (o1).getId();
+            int id2 = (o2).getId();
+            return Integer.compare(id1, id2);
+        });
+
         return parsedResult;
     }
 
@@ -117,7 +140,7 @@ public class Convert {
             if (element.isJsonObject()) {
                 //Dronedynamics
                 JsonObject jsonObject = element.getAsJsonObject();
-//                String droneUrl = jsonObject.get("drone").getAsString();
+                //String droneUrl = jsonObject.get("drone").getAsString();
                 String droneUrl = jsonObject.get("drone").getAsString();
                 // Extracting ID from the drone URL
                 DroneDynamics droneDynamics;
@@ -137,6 +160,11 @@ public class Convert {
 
                     //droneDynamics.setDroneClass(constructerDrones(drone, droneResponse, dronetypeFromDrone));
                     parsedResult.add(constructorDroneDynamics(droneDynamics, jsonObject));
+                    parsedResult.sort((o1, o2) -> {
+                        int id1 = (o1).getId();
+                        int id2 = (o2).getId();
+                        return Integer.compare(id1, id2);
+                    });
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 }
@@ -144,6 +172,7 @@ public class Convert {
         }
         return parsedResult;
     }
+
 
     public void addDroneDynamics(ArrayList<Drones> drones) {
         for (Drones obj : drones) {
@@ -155,5 +184,65 @@ public class Convert {
             obj.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
 
         }
+    }
+    public Object[][] ArrayList2ObjectDroneType(ArrayList<DroneTypes> droneTypes ) {
+        int numRows = droneTypes.size();
+        Object[][] droneTypesObj = new Object[numRows][8];
+        for (int i = 0; i < numRows; i++) {
+            DroneTypes droneTypeObj = droneTypes.get(i);
+            Object[] droneTypeArray = new Object[8]; // considering there are 9 properties in the DroneType class
+            droneTypeArray[0] = droneTypeObj.getId();
+            droneTypeArray[1] = droneTypeObj.getManufacturer();
+            droneTypeArray[2] = droneTypeObj.getTypeName();
+            droneTypeArray[3] = droneTypeObj.getWeight();
+            droneTypeArray[4] = droneTypeObj.getMaximumSpeed();
+            droneTypeArray[5] = droneTypeObj.getBatteryCapacity();
+            droneTypeArray[6] = droneTypeObj.getControlRange();
+            droneTypeArray[7] = droneTypeObj.getMaximumCarriage();
+            droneTypesObj[i] = droneTypeArray;
+        }
+        System.out.println(Arrays.deepToString(droneTypesObj));
+        return droneTypesObj;
+    }
+    public Object[][] ArrayList2ObjectDrones(ArrayList<Drones> drones ) {
+        int numRows = drones.size();
+        Object[][] droneTypesObj = new Object[numRows][8];
+        for (int i = 0; i < numRows; i++) {
+            Drones droneObj = drones.get(i);
+            Object[] droneArray = new Object[6]; // considering there are 9 properties in the DroneType class
+            droneArray[0] = droneObj.getId();
+            droneArray[1] = droneObj.getDroneType();
+            droneArray[2] = droneObj.getCreated();
+            droneArray[3] = droneObj.getSerialNumber();
+            droneArray[4] = droneObj.getCarriageWeight();
+            droneArray[5] = droneObj.getCarriageType();
+            droneTypesObj[i] = droneArray;
+        }
+        System.out.println(Arrays.deepToString(droneTypesObj));
+        return droneTypesObj;
+    }
+    public Object[][] ArrayList2ObjectDroneDynamics(ArrayList<DroneDynamics> droneDynamics ) {
+        int numRows = droneDynamics.size();
+        Object[][] droneTypesObj = new Object[numRows][8];
+        for (int i = 0; i < numRows; i++) {
+            DroneDynamics droneDynamicsObj = droneDynamics.get(i);
+            Object[] droneDynamicsArray = new Object[11]; // considering there are 9 properties in the DroneType class
+            droneDynamicsArray[0] = droneDynamicsObj.getId();
+            droneDynamicsArray[1] = droneDynamicsObj.getTimestamp();
+            droneDynamicsArray[2] = droneDynamicsObj.getSpeed();
+            droneDynamicsArray[3] = droneDynamicsObj.getAlign_roll();
+            droneDynamicsArray[4] = droneDynamicsObj.getAlign_pitch();
+            droneDynamicsArray[5] = droneDynamicsObj.getAlign_yaw();
+            droneDynamicsArray[6] = droneDynamicsObj.getLongitude();
+            droneDynamicsArray[7] = droneDynamicsObj.getLatitude();
+            droneDynamicsArray[8] = droneDynamicsObj.getBattery_status();
+            droneDynamicsArray[9] = droneDynamicsObj.getLast_seen();
+            droneDynamicsArray[10] = droneDynamicsObj.getStatus();
+
+
+            droneTypesObj[i] = droneDynamicsArray;
+        }
+        System.out.println(Arrays.deepToString(droneTypesObj));
+        return droneTypesObj;
     }
 }
