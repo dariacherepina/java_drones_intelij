@@ -42,7 +42,7 @@ public class DroneDynamics extends Catalog {
 
     @Override
     public String toString() {
-        return "Drone Dynamics [" + "id=" + id
+        return "[" + "id=" + id
                 + ", drone=" + drone
                 + ", timestamp=" + timestamp
                 + ", speed=" + speed

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 public class APIEndpoints extends APIConnection  {
     // class for all methods to get info from endpoints
-    private int countDroneTypes;
+
     private int countDrones;
     private int countDroneDynamics;
 
@@ -18,7 +18,6 @@ public class APIEndpoints extends APIConnection  {
 
 
     public JsonObject getDronesIndivData(int droneId) {
-        System.out.println(getResponse("drones/" + droneId + "/?format=json"));
         return getResponse("drones/" + droneId + "/?format=json");
     }
     public JsonObject getDroneTypesIndivData(int droneId) {

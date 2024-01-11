@@ -14,6 +14,8 @@ public class Drones extends Catalog {
 
     private ArrayList<DroneDynamics> droneDynamicsList;
 
+    private static int dronesCount;
+
     public Drones() {
     }
 
