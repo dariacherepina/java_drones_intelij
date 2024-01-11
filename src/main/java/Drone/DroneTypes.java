@@ -27,6 +27,7 @@ public class DroneTypes extends Catalog implements Serializable {
     }
 
 
+
     public String toPrint() {
         return "DroneTypes [id=" + id
                 + ", manufacturer=" + manufacturer

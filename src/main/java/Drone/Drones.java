@@ -7,7 +7,6 @@ public class Drones extends Catalog {
     private int id;
     //private int typeId;
     private DroneTypes droneType;
-    private String droneTypeStr;
     private String created;
     private String serialNumber;
     private int carriageWeight;
@@ -45,6 +44,7 @@ public class Drones extends Catalog {
         this.id = id;
     }
     public void setDroneType(DroneTypes droneType) { this.droneType = droneType; }
+
     public void setCreated(String created) {
         this.created = created;
     }
@@ -79,11 +79,4 @@ public class Drones extends Catalog {
 
     public ArrayList<DroneDynamics> getDroneDynamicsList() { return droneDynamicsList; }
 
-    public String getDroneTypeStr() {
-        return droneTypeStr;
-    }
-
-    public void setDroneTypeStr(String droneTypeStr) {
-        this.droneTypeStr = droneTypeStr;
-    }
 }

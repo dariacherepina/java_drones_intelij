@@ -33,20 +33,25 @@ public class Main {
 //        System.out.println(DroneTypesList);
 //        System.out.println(DroneDynamicsList);
 
-        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
-        Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
-        System.out.println(Arrays.deepToString(DroneTypeObj));
-        try {
-            write2DArrayToFile(DroneTypeObj);
-            //read2DArrayToFile(DroneTypeObj);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
+//        Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
+//
+        int droneId = 85;
+        ArrayList<Drones> DronesListFull = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
+        Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
+        System.out.println(Arrays.deepToString(data));
+//        try {
+//            write2DArrayToFile(DroneTypeObj);
+//            //read2DArrayToFile(DroneTypeObj);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
 
 
 
     }
+    //:TODO: File stream for gui ?
 //    public static String[][] convertObjectArrayToStringArray(Object[][] objArray) {
 //        String[][] stringArray = new String[objArray.length][];
 //        for (int i = 0; i < objArray.length; i++) {
@@ -70,34 +75,34 @@ public class Main {
 //            }
 //        }
 //    }
-    public static void write2DArrayToFile(Object[][] obj) throws IOException {
-        ObjectOutputStream out = null ;
-        try {
-            /* Following will also work in one line */
-            FileOutputStream filestream = new FileOutputStream ("output.ser");
-            BufferedOutputStream bufOutstream = new BufferedOutputStream (
-                    filestream );
-            out = new ObjectOutputStream ( bufOutstream );
-            out.writeObject(obj);
-            filestream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void writeArrayListToFile(ArrayList<DroneTypes> obj) throws IOException {
-        ObjectOutputStream out = null ;
-        try {
-            /* Following will also work in one line */
-            FileOutputStream filestream = new FileOutputStream ("output.ser");
-            BufferedOutputStream bufOutstream = new BufferedOutputStream (
-                    filestream );
-            out = new ObjectOutputStream ( bufOutstream );
-            out.writeObject(obj);
-            filestream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static void write2DArrayToFile(Object[][] obj) throws IOException {
+//        ObjectOutputStream out = null ;
+//        try {
+//            /* Following will also work in one line */
+//            FileOutputStream filestream = new FileOutputStream ("output.ser");
+//            BufferedOutputStream bufOutstream = new BufferedOutputStream (
+//                    filestream );
+//            out = new ObjectOutputStream ( bufOutstream );
+//            out.writeObject(obj);
+//            filestream.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//    public static void writeArrayListToFile(ArrayList<DroneTypes> obj) throws IOException {
+//        ObjectOutputStream out = null ;
+//        try {
+//            /* Following will also work in one line */
+//            FileOutputStream filestream = new FileOutputStream ("output.ser");
+//            BufferedOutputStream bufOutstream = new BufferedOutputStream (
+//                    filestream );
+//            out = new ObjectOutputStream ( bufOutstream );
+//            out.writeObject(obj);
+//            filestream.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 //    public static void read2DArrayToFile(Object[][] obj) throws IOException {
 //        ObjectInputStream in = null ;
 //        try {

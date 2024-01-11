@@ -18,7 +18,7 @@ public class APIEndpoints extends APIConnection  {
 
 
     public JsonObject getDronesIndivData(int droneId) {
-
+        System.out.println(getResponse("drones/" + droneId + "/?format=json"));
         return getResponse("drones/" + droneId + "/?format=json");
     }
     public JsonObject getDroneTypesIndivData(int droneId) {
@@ -30,7 +30,7 @@ public class APIEndpoints extends APIConnection  {
         return getResponse(droneId + "/dynamics/?format=json&limit=100&offset=0");
     }
     public JsonObject getDrones() {
-        dronesResponse = getResponse("drones/?format=json");
+        dronesResponse = getResponse("drones/?format=json&limit=30&offset=0");
         return dronesResponse;
     }
     public JsonObject getDroneTypes() {
@@ -38,7 +38,7 @@ public class APIEndpoints extends APIConnection  {
         return droneTypesResponse;
     }
     public JsonObject getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=100&offset=0");
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=50&offset=0");
         return  droneDynamicsResponse; // TODO: figure out limit
     }
 

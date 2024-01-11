@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import Drone.DroneDynamics;
 import  Drone.DroneTypes;
 import API.APIEndpoints;
 import API.APIConnection;
@@ -40,31 +42,14 @@ public class MyFrame extends JFrame {
 
 
 
-//        String[] columns = {"ID", "TypeName", "Status"};
-//        Object[][] data = {};
-//        DefaultTableModel defaultModel = new DefaultTableModel(data, columns);
-//        JTable table = new JTable(defaultModel);
-//        JScrollPane scrollPane = new JScrollPane(table);
-//        table.setPreferredScrollableViewportSize(new Dimension(800, 200));
-//        scrollPane.setBounds(180,400,950,350);
-//        this.add(scrollPane);
-
-        String[] columns = {"ID", "manufacturer", "TypeName", "weight", "max_speed","battery_capacity", "control_range", "max_carriage"};
-
-       Object[][] data = {};
+        String[] columns = {"ID", "TypeName", "Status"};
+        Object[][] data = {};
         DefaultTableModel defaultModel = new DefaultTableModel(data, columns);
         JTable table = new JTable(defaultModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setPreferredScrollableViewportSize(new Dimension(800, 200));
         scrollPane.setBounds(180,400,950,350);
         this.add(scrollPane);
-
-
-
-
-
-
-
 
 
 
@@ -156,11 +141,19 @@ public class MyFrame extends JFrame {
         dronesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] columns = {"ID", "DroneType", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
+                String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
                 ArrayList<Drones> DronesList = helper.Input2DronesObject(droneIndivData.getDrones());
                 Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
                 table.setModel(new DefaultTableModel(data, columns));
             }
+            //TODO: Full Info about Drones(user soll droneId eingeben)
+
+//        int droneId = 85;
+//        ArrayList<Drones> DronesListFull = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
+//        Object[][] data = helper.ArrayList2ObjectDronesInd(DronesListFull);
+//
+
+
         });
 
         // ActionListener für droneTypesButton
@@ -179,11 +172,15 @@ public class MyFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] columns = {"ID", "TimeStamp", "Drone", "Speed", "AlignmentRoll", "ControlRange", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-                ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
-                Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
+                ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
+                Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
                 table.setModel(new DefaultTableModel(data, columns));
             }
         });
+
+
+
+
 
         this.add(panel);
         createLabel();
