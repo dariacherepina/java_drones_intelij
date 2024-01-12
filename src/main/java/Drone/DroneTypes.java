@@ -5,7 +5,7 @@ import API.APIEndpoints;
 import java.io.Serializable;
 
 public class DroneTypes extends Catalog implements Serializable {
- //   static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
+    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
     private int id;
     private String manufacturer;
     private String typeName;
@@ -14,7 +14,7 @@ public class DroneTypes extends Catalog implements Serializable {
     private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
-//    private int countDroneTypes;
+    private int countDroneTypes;
     DroneTypes() {
     }
 
@@ -45,20 +45,19 @@ public class DroneTypes extends Catalog implements Serializable {
         return "[" + id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "]";
     }
 
-//    public int setCountDroneTypes(){ //TODO: COUNT
-//        try {
-//            //System.out.println(droneTypesResponse);
-//            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
-//            System.out.println("countDroneTypes " + countDroneTypes);
-//        }catch (NullPointerException e){
-//            System.out.println("count is null?????");
-//        }
-//
-//        return getCountDroneTypes();
-//    }
-//    public int getCountDroneTypes() {
-//        return countDroneTypes;
-//    }
+    public int setCountDroneTypes(){ //TODO: COUNT
+        try {
+            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
+            System.out.println("countDroneTypes " + countDroneTypes);
+        }catch (NullPointerException e){
+            System.out.println("count is null?????");
+        }
+
+        return getCountDroneTypes();
+    }
+    public int getCountDroneTypes() {
+        return countDroneTypes;
+    }
     public void setId(int id) {
         this.id = id;
     }

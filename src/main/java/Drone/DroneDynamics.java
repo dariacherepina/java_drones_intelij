@@ -1,9 +1,12 @@
 package Drone;
 
+import API.APIEndpoints;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DroneDynamics extends Catalog {
+    static APIEndpoints apiEndpoints = new APIEndpoints();
     private int id;
     private String drone;
     private String timestamp;
@@ -16,6 +19,7 @@ public class DroneDynamics extends Catalog {
     private String battery_status;
     private String last_seen;
     private String status;
+    private int countDroneDynamics;
 
 
     public DroneDynamics(String url) throws MalformedURLException {
@@ -56,7 +60,19 @@ public class DroneDynamics extends Catalog {
                 + ", status=" + status + "]";
     }
 
+    public int setCountDroneDynamics(){ //TODO: COUNT
+        try {
+            this.countDroneDynamics = apiEndpoints.getDroneTypes().get("count").getAsInt();
+            System.out.println("countDroneDynamics " + countDroneDynamics);
+        }catch (NullPointerException e){
+            System.out.println("count is null?????");
+        }
 
+        return getCountDroneDynamics();
+    }
+    public int getCountDroneDynamics() {
+        return countDroneDynamics;
+    }
     public void setDrone(String drone) {
         this.drone = drone;
     }

@@ -4,6 +4,9 @@ package API;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +15,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class APIConnection {
     private final String USER_AGENT = "Mozilla Firefox Awesome version";
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
@@ -23,7 +32,7 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    public JsonObject getResponse(String endpoint) {
+    public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
 
         BufferedReader reader;
@@ -32,7 +41,7 @@ public class APIConnection {
         int retries = 3;
 
         // Method 1: java.net.HttpURLConnection (getting response from remote server)
-        while (nextPageUrl != null) {
+       // while (nextPageUrl != null) {
             try {
                 // Define our URL
                 URL url = new URL(nextPageUrl);
@@ -52,25 +61,35 @@ public class APIConnection {
                 connection.setReadTimeout(1000000);
 
                 // Getting Response code from URL
-                int status = connection.getResponseCode();
-                System.out.println("Response code " + status);
+                int responseCode = connection.getResponseCode();
+                System.out.println("Response code " + responseCode);
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
+
                 reader = new BufferedReader(new InputStreamReader(
-                        status > 299 ? connection.getErrorStream() : connection.getInputStream()));
+                        responseCode > 299 ? connection.getErrorStream() : connection.getInputStream()));
 
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                 }
                 reader.close();
-
-                String nextPageLink = connection.getHeaderField("Link");
-                if (nextPageLink != null && !nextPageLink.equals("null")) {
-                    nextPageUrl = nextPageLink;
-                } else {
-                    nextPageUrl = null;
-                }
+//                System.out.println(responseContent);
+//                System.out.println("connection " + connection);
+                //check whether we have header "next"-> we don't  :(
+//                Map<String, List<String>> headers = connection.getHeaderFields();
+//
+//                for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+//                    System.out.println(entry.getKey() + ": " + entry.getValue());
+//                }
+                String nextPageLink = connection.getHeaderField("next");
+//                System.out.println("Server " + connection.getHeaderField("Server"));
+//                System.out.println("nextPageLink " + nextPageLink);
+//                if (nextPageLink != null ) {
+//                    nextPageUrl = nextPageLink;
+//                } else {
+//                    nextPageUrl = null;
+//                }
 
             } catch (SocketTimeoutException e) {
                 if (retries > 0) {
@@ -79,12 +98,12 @@ public class APIConnection {
                 } else {
                     System.out.println("Socket timeout occurred. Max retries reached. Giving up...");
                     e.printStackTrace();
-                    break;
+                    //break;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+//        }
         if (connection != null) {
             connection.disconnect();
             System.out.println("connection disconnected");
@@ -96,4 +115,4 @@ public class APIConnection {
         //return responseContent.toString();
         return inputObject;
     }
-}
+   }

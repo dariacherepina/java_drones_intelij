@@ -37,36 +37,8 @@ public class APIEndpoints extends APIConnection  {
         return droneTypesResponse;
     }
     public JsonObject getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=50&offset=0");
-        return  droneDynamicsResponse; // TODO: figure out limit
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=100&offset=0");
+        return  droneDynamicsResponse;
     }
 
-//    public int setCountDroneTypes(){ //TODO: COUNT
-//        try {
-//            //System.out.println(droneTypesResponse);
-//            this.countDroneTypes = getDroneTypes().get("count").getAsInt();
-//            System.out.println("countDroneTypes " + countDroneTypes);
-//        }catch (NullPointerException e){
-//            System.out.println("count is null?????");
-//        }
-//
-//        return getCountDroneTypes();
-//    }
-//    public int getCountDroneTypes() {
-//        return countDroneTypes;
-//    }
-//    public int getSetCountDrones(){
-//        this.countDrones = droneTypesResponse.get("count").getAsInt();
-//        return getCountDrones();
-//    }
-//    public int getCountDrones() {
-//        return this.countDrones;
-//    }
-//    public int getSetCountDroneDynamics(){
-//        this.countDroneDynamics = droneDynamicsResponse.get("count").getAsInt();
-//        return getCountDroneDynamics();
-//    }
-//    public int getCountDroneDynamics() {
-//        return this.countDroneDynamics;
-//    }
 }

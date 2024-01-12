@@ -4,15 +4,14 @@ import API.APIEndpoints;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -22,10 +21,19 @@ import static java.lang.System.in;
 
 
 public class Convert {
-
+    Drones drone = new Drones();
+    DroneTypes droneType = new DroneTypes();
+    DroneDynamics droneDynamic = new DroneDynamics();
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
-
     public void dataStreamIn (JsonObject jsonObject, String fileName) throws IOException {
+        if(fileName.equals("outputDrones")){
+            drone.setCountDrones();
+        } else if (fileName.equals("outputDroneTypes")){
+            droneType.setCountDroneTypes();
+        }else{
+            droneDynamic.setCountDroneDynamics();
+        }
+
         String jsonString = new Gson().toJson(jsonObject);
         // Write the JSON string to a file
         try {
@@ -36,19 +44,23 @@ public class Convert {
             e.printStackTrace();
         }
     }
-    public void dataStreamOut (String fileName) throws IOException {
+    public JsonObject dataStreamOut (String fileName) throws IOException {
         JsonObject jsonObject = null;
         try {
-            FileReader fileReader = new FileReader( fileName + ".json");
-            System.out.println(fileReader);
-            // Parse the JSON file into a JsonObject
+//            first try
+            FileReader fileReader = new FileReader(fileName + ".json");
             jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
+//            second try
+//            Reader fileReader = Files.newBufferedReader(Paths.get(fileName + ".json"));
+//            jsonObject = JsonParser.parseReader(fileReader).getAsJsonObject();
+
             fileReader.close();
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return jsonObject;
     }
 
     public Drones constructorDrones(Drones drone, JsonObject jsonObject, DroneTypes droneTypeFromDrone) {

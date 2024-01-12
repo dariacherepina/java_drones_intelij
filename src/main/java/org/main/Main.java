@@ -28,6 +28,7 @@ public class Main {
 //        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
 //        ArrayList<Drones> DronesList = helper.Input2DronesObject(droneIndivData.getDrones());
 //        ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
+//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
 //        helper.addDroneDynamics(DronesList);
 //        System.out.println(DronesList);
 //        System.out.println(DronesList.get(0));
@@ -38,20 +39,22 @@ public class Main {
 //        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
 //        Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 //
-        int droneId = 85;
-        Drones DronesListFull = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
-        //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
-        System.out.println(DronesListFull);
+//        int droneId = 85;
+//        Drones DronesListFull = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
+//        //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
+//        System.out.println(DronesListFull);
 
 
-//        try {
-//            helper.dataStreamIn(apiEndpoints.getDrones(), "outputDrones");
-//            helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
-//            helper.dataStreamOut("outputDroneDynamics");
-//            //System.out.println(helper.dataStreamOut("outputDroneTypes"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            helper.dataStreamIn(apiEndpoints.getDrones(), "outputDrones");
+            helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
+            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
+            System.out.println(helper.dataStreamOut("outputDrones"));
+            System.out.println(helper.dataStreamOut("outputDroneTypes"));
+            System.out.println(helper.dataStreamOut("outputDroneDynamics"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     //:TODO: File stream for gui ?
 }
