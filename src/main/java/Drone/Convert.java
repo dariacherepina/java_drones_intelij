@@ -124,7 +124,7 @@ public class Convert {
 
                     Drones drone = new Drones();
                     parsedResult.add(constructorDrones(drone, jsonObject, constructorDroneType(droneTypeFromDrone, droneTypesResponse)));
-                    System.out.println("parsedResult" + parsedResult);
+                    //System.out.println("parsedResult" + parsedResult);
                     parsedResult.sort((o1, o2) -> {
                         int id1 = (o1).getId();
                         int id2 = (o2).getId();

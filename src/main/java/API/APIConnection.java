@@ -4,6 +4,7 @@ package API;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -34,14 +35,14 @@ public class APIConnection {
 
     public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
-
+        String nextPageLink = null;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
         int retries = 3;
 
         // Method 1: java.net.HttpURLConnection (getting response from remote server)
-       // while (nextPageUrl != null) {
+        while (nextPageUrl != null) {
             try {
                 // Define our URL
                 URL url = new URL(nextPageUrl);
@@ -72,24 +73,16 @@ public class APIConnection {
 
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
+                    nextPageLink = pagination(line);
                 }
                 reader.close();
-//                System.out.println(responseContent);
-//                System.out.println("connection " + connection);
-                //check whether we have header "next"-> we don't  :(
-//                Map<String, List<String>> headers = connection.getHeaderFields();
-//
-//                for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-//                    System.out.println(entry.getKey() + ": " + entry.getValue());
-//                }
-                String nextPageLink = connection.getHeaderField("next");
-//                System.out.println("Server " + connection.getHeaderField("Server"));
-//                System.out.println("nextPageLink " + nextPageLink);
-//                if (nextPageLink != null ) {
-//                    nextPageUrl = nextPageLink;
-//                } else {
-//                    nextPageUrl = null;
-//                }
+
+//                System.out.println("nextPageLink" + nextPageLink);
+                if (nextPageLink.equals("null")) {
+                    nextPageUrl = null;
+                } else {
+                    nextPageUrl = nextPageLink;
+                }
 
             } catch (SocketTimeoutException e) {
                 if (retries > 0) {
@@ -103,16 +96,25 @@ public class APIConnection {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//        }
+        }
         if (connection != null) {
             connection.disconnect();
             System.out.println("connection disconnected");
         }
-
+//        System.out.println(responseContent.toString());
         JsonElement inputJson = JsonParser.parseString(responseContent.toString());
-        JsonObject inputObject = inputJson.getAsJsonObject();
-
-        //return responseContent.toString();
-        return inputObject;
+        return inputJson.getAsJsonObject();
     }
-   }
+    public String pagination (String line){
+        try {
+            JSONObject jsonObject = new JSONObject(line);
+
+            if (jsonObject.get("next").toString() != null) {
+                return jsonObject.get("next").toString();
+            }
+        }catch (NullPointerException e){
+            System.out.println("NullPointerException");
+        }
+        return null;
+    }
+}

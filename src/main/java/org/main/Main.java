@@ -1,6 +1,7 @@
 package org.main;
 
 import API.APIEndpoints;
+import API.SaveData;
 import Drone.Convert;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
@@ -19,42 +20,31 @@ public class Main {
     static APIEndpoints apiEndpoints = new APIEndpoints();
 
     public static void main(String[] args) {
-        APIEndpoints droneIndivData = new APIEndpoints();
-//        System.out.println(droneIndivData.getDroneTypesIndivData(55));
-//        String drone55 = droneIndivData.getDroneTypesIndivData(55);
-//        System.out.println(droneIndivData.getDroneTypes());
-//        System.out.println(droneIndivData.getDronesIndivData(65));
-//        System.out.println(droneIndivData.getDroneDynamics());
-//        System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
-//        ArrayList<Drones> DronesList = helper.Input2DronesObject(droneIndivData.getDrones());
-//        ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
-//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
-//        helper.addDroneDynamics(DronesList);
-//        System.out.println(DronesList);
-//        System.out.println(DronesList.get(0));
-//        helper.ArrayList2ObjectDroneType(DroneTypesList);
+        SaveData data = new SaveData();
+        data.saveInfo();
+
+
+//        System.out.println(apiEndpoints.getDroneTypesIndivData(55));
+//        String drone55 = apiEndpoints.getDroneTypesIndivData(55);
+//        System.out.println(apiEndpoints.getDroneTypes());
+//        System.out.println(apiEndpoints.getDronesIndivData(65));
+//        System.out.println(apiEndpoints.getDroneDynamics());
+//        System.out.println(apiEndpoints.formatJson(drone55)); // formats the string input to json
+//
+//
 //        System.out.println(DroneTypesList);
 //        System.out.println(DroneDynamicsList);
-
-//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
+//
+//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(apiEndpoints.getDroneTypes());
 //        Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 //
 //        int droneId = 85;
-//        Drones DronesListFull = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
+//        Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
 //        //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
 //        System.out.println(DronesListFull);
+//
 
 
-        try {
-            helper.dataStreamIn(apiEndpoints.getDrones(), "outputDrones");
-            helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
-            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
-            System.out.println(helper.dataStreamOut("outputDrones"));
-            System.out.println(helper.dataStreamOut("outputDroneTypes"));
-            System.out.println(helper.dataStreamOut("outputDroneDynamics"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     //:TODO: File stream for gui ?
 }

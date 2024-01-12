@@ -62,7 +62,7 @@ public class DroneDynamics extends Catalog {
 
     public int setCountDroneDynamics(){ //TODO: COUNT
         try {
-            this.countDroneDynamics = apiEndpoints.getDroneTypes().get("count").getAsInt();
+            this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
             System.out.println("countDroneDynamics " + countDroneDynamics);
         }catch (NullPointerException e){
             System.out.println("count is null?????");
