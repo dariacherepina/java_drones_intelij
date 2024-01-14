@@ -163,7 +163,7 @@ public class Convert {
     }
 
     public ArrayList<DroneDynamics> Input2DroneDynamicsObject(JsonObject input) {
-        System.out.println(input);
+        //System.out.println(input);
         ArrayList<DroneDynamics> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
         JsonArray inputArray = input.getAsJsonArray("results");
@@ -214,7 +214,7 @@ public class Convert {
             drone.setSerialNumber(input.get("serialnumber").getAsString());
             drone.setCarriageWeight(input.get("carriage_weight").getAsInt());
             drone.setCarriageType(input.get("carriage_type").getAsString());
-            addDroneDynamicsForDrone(drone);
+            addDroneDynamicsForDrone(drone); //TODO:Still problem with pagination -> set limit ?
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

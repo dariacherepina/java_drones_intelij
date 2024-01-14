@@ -232,10 +232,14 @@ public class MyFrame extends JFrame {
         droneDynamicsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
                 String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-                ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
+                ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
                 Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
                 table.setModel(new DefaultTableModel(data, columns));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             }
         });
 

@@ -27,7 +27,7 @@ public class APIEndpoints extends APIConnection  {
         return getResponse("dronetypes/" + droneId + "/?format=json");
     }
     public JsonObject getDroneDynamicsIndivData(int droneId) {
-        return getResponse(droneId + "/dynamics/?format=json&limit=100&offset=0");
+        return getResponse(droneId + "/dynamics/?format=json&limit=10000&offset=0");
     }
     public JsonObject getDrones() {
         dronesResponse = getResponse("drones/?format=json&limit=100&offset=0");

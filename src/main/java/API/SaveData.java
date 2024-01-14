@@ -14,11 +14,11 @@ public class SaveData {
     public void saveInfo(){
         try {
             helper.dataStreamIn(apiEndpoints.getDrones(), "outputDrones");
-            helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
-            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
-            System.out.println(helper.dataStreamOut("outputDrones"));
-            System.out.println(helper.dataStreamOut("outputDroneTypes"));
-           System.out.println(helper.dataStreamOut("outputDroneDynamics"));
+//            helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
+//            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
+//            System.out.println(helper.dataStreamOut("outputDrones"));
+//            System.out.println(helper.dataStreamOut("outputDroneTypes"));
+//           System.out.println(helper.dataStreamOut("outputDroneDynamics"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

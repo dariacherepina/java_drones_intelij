@@ -82,7 +82,7 @@ public class APIConnection {
                     try {
                         nextPageLink = pagination(line);
                     }catch (JSONException e){
-                        System.out.println("ignore");
+                        System.out.println("JSONException e in APIConnection");
                     }
                 }
                 reader.close();
@@ -129,7 +129,7 @@ public class APIConnection {
                 return jsonObject.get("next").toString();
             }
         }catch (JSONException e){
-            return null;
+            System.out.println("NullPointerException");
         }catch (NullPointerException e){
             System.out.println("NullPointerException");
         }
