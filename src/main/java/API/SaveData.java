@@ -15,17 +15,11 @@ public class SaveData {
         try {
             helper.dataStreamIn(apiEndpoints.getDrones(), "outputDrones");
             helper.dataStreamIn(apiEndpoints.getDroneTypes(), "outputDroneTypes");
-//            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
+            helper.dataStreamIn(apiEndpoints.getDroneDynamics(), "outputDroneDynamics");
             System.out.println(helper.dataStreamOut("outputDrones"));
             System.out.println(helper.dataStreamOut("outputDroneTypes"));
-//            System.out.println(helper.dataStreamOut("outputDroneDynamics"));
-            //           ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
-//            ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
-//            ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(apiEndpoints.getDroneDynamics());
-            //           System.out.println(DronesList);
-//            System.out.println(DroneTypesList);
-//            System.out.println(DroneDynamicsList);
-//            helper.ArrayList2ObjectDroneType(DroneTypesList);
+           System.out.println(helper.dataStreamOut("outputDroneDynamics"));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

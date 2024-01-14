@@ -163,6 +163,7 @@ public class Convert {
     }
 
     public ArrayList<DroneDynamics> Input2DroneDynamicsObject(JsonObject input) {
+        System.out.println(input);
         ArrayList<DroneDynamics> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
         JsonArray inputArray = input.getAsJsonArray("results");
@@ -230,6 +231,7 @@ public class Convert {
         drones.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
 
     }
+// version for ArrayList<Drones>
 //    public void addDroneDynamicsForArray(ArrayList<Drones> drones) {
 //        for (Drones obj : drones) {
 //            //info for dynamics by  id
@@ -303,6 +305,7 @@ public class Convert {
         }
         return droneTypesObj;
     }
+// don't need because Drones are directly Objects, not ArrayList<dRONES>
 //    public Object[][] ArrayList2ObjectDronesIndiv(ArrayList<Drones> drones ) {
 //        int numRows = drones.size();
 //        Object[][] droneTypesObj = new Object[numRows][8];

@@ -20,33 +20,31 @@ public class Main {
     static APIEndpoints apiEndpoints = new APIEndpoints();
 
     public static void main(String[] args) {
-        SaveData data = new SaveData();
-        data.saveInfo();
+//        try {
+            SaveData data = new SaveData();
+            data.saveInfo();
+
+//            ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
+//            ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
+//            ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
+//            System.out.println(DronesList);
+//            System.out.println(DroneTypesList);
+//            System.out.println(DroneDynamicsList);
 
 
-//        System.out.println(apiEndpoints.getDroneTypesIndivData(55));
-//        String drone55 = apiEndpoints.getDroneTypesIndivData(55);
-//        System.out.println(apiEndpoints.getDroneTypes());
-//        System.out.println(apiEndpoints.getDronesIndivData(65));
-//        System.out.println(apiEndpoints.getDroneDynamics());
-//        System.out.println(apiEndpoints.formatJson(drone55)); // formats the string input to json
-//
-//
-//        System.out.println(DroneTypesList);
-//        System.out.println(DroneDynamicsList);
-//
-//        ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(apiEndpoints.getDroneTypes());
-//        Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
-//
-//        int droneId = 85;
-//        Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
-//        //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
-//        System.out.println(DronesListFull);
-//
+//            Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 
+//            int droneId = 85;
+//            System.out.println(apiEndpoints.getDronesIndivData(droneId));
+//            Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
+//            //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
+//            System.out.println(DronesListFull);
+
+//        } catch (IOException e) {
+//        throw new RuntimeException(e);
+//    }
 
     }
-    //:TODO: File stream for gui ?
 }
 
 

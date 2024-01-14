@@ -60,7 +60,7 @@ public class DroneDynamics extends Catalog {
                 + ", status=" + status + "]";
     }
 
-    public int setCountDroneDynamics(){ //TODO: COUNT
+    public int setCountDroneDynamics(){
         try {
             this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
             System.out.println("countDroneDynamics " + countDroneDynamics);

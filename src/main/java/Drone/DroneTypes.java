@@ -45,7 +45,7 @@ public class DroneTypes extends Catalog implements Serializable {
         return "[" + id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "]";
     }
 
-    public int setCountDroneTypes(){ //TODO: COUNT
+    public int setCountDroneTypes(){
         try {
             this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
             System.out.println("countDroneTypes " + countDroneTypes);

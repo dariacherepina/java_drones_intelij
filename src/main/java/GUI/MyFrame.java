@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Drone.DroneDynamics;
@@ -143,10 +144,14 @@ public class MyFrame extends JFrame {
         dronesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
                 String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-                ArrayList<Drones> DronesList = helper.Input2DronesObject(droneIndivData.getDrones());
+                ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
                 Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
                 table.setModel(new DefaultTableModel(data, columns));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             }
         });
 
@@ -211,10 +216,14 @@ public class MyFrame extends JFrame {
         droneTypesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
                 String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-                ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
+                ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
                 Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
                 table.setModel(new DefaultTableModel(data, columns));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

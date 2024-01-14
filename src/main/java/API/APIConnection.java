@@ -1,11 +1,13 @@
 package API;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.MalformedJsonException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -17,6 +19,8 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.http.HttpClient;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,7 +37,8 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+    //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+    public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;
@@ -73,12 +78,17 @@ public class APIConnection {
 
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
-                    nextPageLink = pagination(line);
+                    responseContent.append("\n");
+                    try {
+                        nextPageLink = pagination(line);
+                    }catch (JSONException e){
+                        System.out.println("ignore");
+                    }
                 }
                 reader.close();
 
 //                System.out.println("nextPageLink" + nextPageLink);
-                if (nextPageLink.equals("null")) {
+                if (nextPageLink == null || nextPageLink.equals("null")) {
                     nextPageUrl = null;
                 } else {
                     nextPageUrl = nextPageLink;
@@ -101,17 +111,25 @@ public class APIConnection {
             connection.disconnect();
             System.out.println("connection disconnected");
         }
-//        System.out.println(responseContent.toString());
+
+//        String responseContentStr = fixJson(responseContent.toString());
+//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
+//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
         JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+
+
         return inputJson.getAsJsonObject();
     }
     public String pagination (String line){
         try {
             JSONObject jsonObject = new JSONObject(line);
-
-            if (jsonObject.get("next").toString() != null) {
+            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                return null;
+            } else {
                 return jsonObject.get("next").toString();
             }
+        }catch (JSONException e){
+            return null;
         }catch (NullPointerException e){
             System.out.println("NullPointerException");
         }

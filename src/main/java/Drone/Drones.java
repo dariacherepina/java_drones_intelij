@@ -45,7 +45,7 @@ public class Drones extends Catalog {
     }
 
 
-    public int setCountDrones(){ //TODO: COUNT
+    public int setCountDrones(){
         try {
             this.countDrones = apiEndpoints.getDrones().get("count").getAsInt();
             System.out.println("countDrones " + countDrones);
