@@ -92,34 +92,6 @@ public class DroneTypes extends Catalog implements Serializable {
     }
 
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public void setMaximumSpeed(int maximumSpeed) {
-        this.maximumSpeed = maximumSpeed;
-    }
-
-    public void setBatteryCapacity(int batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
-    }
-
-
-    public void setControlRange(int controlRange) {
-        this.controlRange = controlRange;
-    }
 
     public void setMaximumCarriage(int maximumCarriage) {
         this.maximumCarriage = maximumCarriage;
