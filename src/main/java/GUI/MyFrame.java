@@ -9,12 +9,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.IOException;
+
 import java.util.ArrayList;
 
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
 import API.APIEndpoints;
-import API.APIConnection;
+
+//import API.APIConnection;
 import Drone.Convert;
 import Drone.Drones;
 
@@ -39,6 +43,7 @@ public class MyFrame extends JFrame {
         this.setLayout(null); //Layout of the frame
 
 
+
         String[] columns = {"ID", "TypeName", "Status"};
         Object[][] data = {};
         DefaultTableModel defaultModel = new DefaultTableModel(data, columns);
@@ -47,6 +52,7 @@ public class MyFrame extends JFrame {
         table.setPreferredScrollableViewportSize(new Dimension(800, 200));
         scrollPane.setBounds(180, 400, 950, 350);
         this.add(scrollPane);
+
 
 
         JButton dashboardButton = new JButton("Dashboard");
@@ -78,6 +84,7 @@ public class MyFrame extends JFrame {
         droneDynamicsButton.setBounds(0, 170, 140, 40);
         droneDynamicsButton.setBackground(Color.white);
 
+<
         JButton RefreshButton = new JButton("Refresh");
         RefreshButton.setLayout(null);
         RefreshButton.setBounds(1050, 20, 100, 40);
@@ -98,6 +105,7 @@ public class MyFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0, 800, 140, 820);
+
         panel.setBackground(Color.ORANGE);
 
 
@@ -118,9 +126,11 @@ public class MyFrame extends JFrame {
 
                 droneCatalogButton.setBackground(Color.gray);
 
+
                 // Buttons für Drones, DroneTypes und DroneDynamics zum leftPanel hinzufügen
                 panel.add(dronesButton);
                 MyFrame.this.add(dronesButton);
+
 
                 panel.add(droneTypesButton);
                 MyFrame.this.add(droneTypesButton);
@@ -130,6 +140,7 @@ public class MyFrame extends JFrame {
 
                 panel.add(droneIDButton);
                 MyFrame.this.add(droneIDButton);
+
 
                 // Fenster aktualisieren, um die hinzugefügten Buttons anzuzeigen
 
@@ -143,10 +154,16 @@ public class MyFrame extends JFrame {
         dronesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                try{
                 String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-                ArrayList<Drones> DronesList = helper.Input2DronesObject(droneIndivData.getDrones());
+                ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
                 Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
                 table.setModel(new DefaultTableModel(data, columns));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             }
         });
 
@@ -208,51 +225,65 @@ public class MyFrame extends JFrame {
 
 
 // ActionListener für droneTypesButton
-    droneTypesButton.addActionListener(new ActionListener() {
-        @Override
+
+
+        droneTypesButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-            String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-            ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(droneIndivData.getDroneTypes());
-            Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
-            table.setModel(new DefaultTableModel(data, columns));
-        }
-    });
-
-
-                // ActionListener für droneDynamicsButton
-                droneDynamicsButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-                        ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(droneIndivData.getDroneDynamics());
-                        Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
-                        table.setModel(new DefaultTableModel(data, columns));
-                    }
-                });
-
-                this.add(panel);
-                createLabel();
-                this.setVisible(true); // makes frame visible, in the end in order to see every component
+                try {
+                String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
+                ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
+                Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
+                table.setModel(new DefaultTableModel(data, columns));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
+        });
 
-            private void createLabel() {
-                JLabel label1 = new JLabel("DRONE OVERVIEW");
-                ImageIcon image2 = new ImageIcon("drones.jpg");
-                label1.setIcon(image2);
-                label1.setHorizontalTextPosition(JLabel.CENTER); //sets text left, center, right of Imageicon
-                label1.setVerticalTextPosition(JLabel.TOP); //sets text top, center, bottom of Imageicon
-                label1.setForeground(Color.ORANGE); //sets font color of text
-                label1.setIconTextGap(30); //sets gap of text to image
-                label1.setVerticalAlignment(JLabel.CENTER); //sets vertical position of icon + text within label
-                label1.setHorizontalAlignment(JLabel.CENTER); //sets horizontal position of icon + text within label
-                label1.setBounds(380, 40, 600, 350);//sets x, y & dimension of the label within frame
-                this.add(label1); //add label1 to frame
 
+
+        // ActionListener für droneDynamicsButton
+        droneDynamicsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
+                ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
+                Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
+                table.setModel(new DefaultTableModel(data, columns));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-
-
-            public static void main(String[] args) {
-                ArrayList<Object> droneTypesList = new ArrayList<>();
-                new MyFrame(droneTypesList);
             }
-        }
+        });
+
+
+        this.add(panel);
+        createLabel();
+        this.setVisible(true); // makes frame visible, in the end in order to see every component
+    }
+
+    private void createLabel() {
+        JLabel label1 = new JLabel("DRONE OVERVIEW");
+        ImageIcon image2 = new ImageIcon("drones.jpg");
+        label1.setIcon(image2);
+        label1.setHorizontalTextPosition(JLabel.CENTER); //sets text left, center, right of Imageicon
+        label1.setVerticalTextPosition(JLabel.TOP); //sets text top, center, bottom of Imageicon
+        label1.setForeground(Color.ORANGE); //sets font color of text
+        label1.setIconTextGap(30); //sets gap of text to image
+        label1.setVerticalAlignment(JLabel.CENTER); //sets vertical position of icon + text within label
+        label1.setHorizontalAlignment(JLabel.CENTER); //sets horizontal position of icon + text within label
+        label1.setBounds(380, 40, 600, 350);//sets x, y & dimension of the label within frame
+        this.add(label1); //add label1 to frame
+
+    }
+
+
+    public static void main(String[] args) {
+           ArrayList<Object> droneTypesList = new ArrayList<>();
+           new MyFrame(droneTypesList);
+    }
+
+}
+
