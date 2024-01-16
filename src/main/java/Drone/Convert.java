@@ -4,6 +4,7 @@ import API.APIEndpoints;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
+
 import com.google.gson.*;
 
 
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -100,6 +102,7 @@ public class Convert {
     }
 
 
+
     public ArrayList<Drones> Input2DronesObject(JsonObject input) {
         ArrayList<Drones> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
@@ -181,6 +184,7 @@ public class Convert {
                 try {
                     droneDynamics = new DroneDynamics(droneUrl);
                     parsedResult.add(constructorDroneDynamics(droneDynamics, jsonObject));
+
                     parsedResult.sort((o1, o2) -> {
                         int id1 = (o1).getId();
                         int id2 = (o2).getId();
@@ -188,6 +192,7 @@ public class Convert {
                     });
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
+
                 }
             }
         }
@@ -229,6 +234,7 @@ public class Convert {
                 ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
             }
         drones.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
+
 
     }
 // version for ArrayList<Drones>
@@ -301,6 +307,7 @@ public class Convert {
             droneDynamicsArray[9] = droneDynamicsObj.getLast_seen();
             droneDynamicsArray[10] = droneDynamicsObj.getStatus();
 
+
             droneTypesObj[i] = droneDynamicsArray;
         }
         return droneTypesObj;
@@ -323,4 +330,5 @@ public class Convert {
 //        }
 //        return droneTypesObj;
 //    }
+
 }

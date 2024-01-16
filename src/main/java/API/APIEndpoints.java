@@ -1,6 +1,7 @@
 package API;
 
 
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public class APIEndpoints extends APIConnection  {
 
 
     public JsonObject getDronesIndivData(int droneId) {
+
         return getResponse("drones/" + droneId + "/?format=json");
     }
     public JsonObject getDroneTypesIndivData(int droneId) {

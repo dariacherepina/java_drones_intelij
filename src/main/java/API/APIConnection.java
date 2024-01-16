@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,6 +30,7 @@ import java.util.regex.Pattern;
 
 public class APIConnection {
     private final String USER_AGENT = "Mozilla Firefox Awesome version";
+    private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
@@ -38,6 +41,7 @@ public class APIConnection {
     }
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+
     public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
@@ -67,14 +71,17 @@ public class APIConnection {
                 connection.setReadTimeout(1000000);
 
                 // Getting Response code from URL
-                int responseCode = connection.getResponseCode();
-                System.out.println("Response code " + responseCode);
+
+
+                int status = connection.getResponseCode();
+                LOGGER.info("Response code " + status);
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
 
                 reader = new BufferedReader(new InputStreamReader(
-                        responseCode > 299 ? connection.getErrorStream() : connection.getInputStream()));
+                        status > 299 ? connection.getErrorStream() : connection.getInputStream()));
+
 
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
@@ -89,21 +96,27 @@ public class APIConnection {
 
 //                System.out.println("nextPageLink" + nextPageLink);
                 if (nextPageLink == null || nextPageLink.equals("null")) {
+
                     nextPageUrl = null;
                 } else {
                     nextPageUrl = nextPageLink;
                 }
 
             } catch (SocketTimeoutException e) {
+                //Handle SocketTimeoutException with retries
                 if (retries > 0) {
-                    System.out.println("Socket timeout occurred. Retrying...");
+                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Retrying...",e);
                     retries--;
                 } else {
-                    System.out.println("Socket timeout occurred. Max retries reached. Giving up...");
+                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
                     e.printStackTrace();
                     //break;
                 }
+            } catch (MalformedURLException e) {
+                // Handle MaldformedURLException
+                e.printStackTrace();
             } catch (IOException e) {
+                //Handle IOException
                 e.printStackTrace();
             }
         }
@@ -136,3 +149,21 @@ public class APIConnection {
         return null;
     }
 }
+
+            } finally {
+                //Ensure that the connection is closed
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }
+        // Parse the response content into a JsonObject
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+        JsonObject inputObject = inputJson.getAsJsonObject();
+
+        //return responseContent.toString();
+        //Return the JsonObject representing the API response
+        return inputObject;
+    }
+}
+// get respond neu funktion

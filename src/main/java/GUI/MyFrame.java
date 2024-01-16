@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import Drone.DroneDynamics;
@@ -18,6 +19,7 @@ import API.APIEndpoints;
 import API.APIConnection;
 import Drone.Convert;
 import Drone.Drones;
+
 
 
 //JFrame = a GUI window to add components to
@@ -40,6 +42,7 @@ public class MyFrame extends JFrame {
         this.setLayout(null); //Layout of the frame
 
 
+
         String[] columns = {"ID", "TypeName", "Status"};
         Object[][] data = {};
         DefaultTableModel defaultModel = new DefaultTableModel(data, columns);
@@ -50,11 +53,13 @@ public class MyFrame extends JFrame {
         this.add(scrollPane);
 
 
+
         JButton dashboardButton = new JButton("Dashboard");
         dashboardButton.setLayout(null);
         dashboardButton.setBounds(0, 20, 140, 40);
         dashboardButton.setBackground(Color.white);
         this.add(dashboardButton);
+
 
         JButton droneCatalogButton = new JButton("DroneCatalog");
         droneCatalogButton.setLayout(null);
@@ -79,6 +84,7 @@ public class MyFrame extends JFrame {
         droneDynamicsButton.setBounds(0, 170, 140, 40);
         droneDynamicsButton.setBackground(Color.white);
 
+
         JButton RefreshButton = new JButton("Refresh");
         RefreshButton.setLayout(null);
         RefreshButton.setBounds(1050, 20, 100, 40);
@@ -99,6 +105,7 @@ public class MyFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0, 800, 140, 820);
+
         panel.setBackground(Color.ORANGE);
 
 
@@ -119,9 +126,11 @@ public class MyFrame extends JFrame {
 
                 droneCatalogButton.setBackground(Color.gray);
 
+
                 // Buttons für Drones, DroneTypes und DroneDynamics zum leftPanel hinzufügen
                 panel.add(dronesButton);
                 MyFrame.this.add(dronesButton);
+
 
                 panel.add(droneTypesButton);
                 MyFrame.this.add(droneTypesButton);
@@ -131,6 +140,7 @@ public class MyFrame extends JFrame {
 
                 panel.add(droneIDButton);
                 MyFrame.this.add(droneIDButton);
+
 
                 // Fenster aktualisieren, um die hinzugefügten Buttons anzuzeigen
 
@@ -228,6 +238,7 @@ public class MyFrame extends JFrame {
         });
 
 
+
         // ActionListener für droneDynamicsButton
         droneDynamicsButton.addActionListener(new ActionListener() {
             @Override
@@ -242,6 +253,7 @@ public class MyFrame extends JFrame {
             }
             }
         });
+
 
         this.add(panel);
         createLabel();
@@ -268,4 +280,5 @@ public class MyFrame extends JFrame {
         ArrayList<Object> droneTypesList = new ArrayList<>();
         new MyFrame(droneTypesList);
     }
+
 }

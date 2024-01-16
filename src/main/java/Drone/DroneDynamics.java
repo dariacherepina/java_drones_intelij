@@ -2,11 +2,13 @@ package Drone;
 
 import API.APIEndpoints;
 
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DroneDynamics extends Catalog {
     static APIEndpoints apiEndpoints = new APIEndpoints();
+
     private int id;
     private String drone;
     private String timestamp;
@@ -20,6 +22,7 @@ public class DroneDynamics extends Catalog {
     private String last_seen;
     private String status;
     private int countDroneDynamics;
+
 
 
     public DroneDynamics(String url) throws MalformedURLException {
@@ -47,6 +50,7 @@ public class DroneDynamics extends Catalog {
     @Override
     public String toString() {
         return "[" + "id=" + id
+
                 + ", drone=" + drone
                 + ", timestamp=" + timestamp
                 + ", speed=" + speed
@@ -73,6 +77,7 @@ public class DroneDynamics extends Catalog {
     public int getCountDroneDynamics() {
         return countDroneDynamics;
     }
+
     public void setDrone(String drone) {
         this.drone = drone;
     }
