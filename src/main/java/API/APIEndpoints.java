@@ -1,33 +1,73 @@
 package API;
 
+
+import com.google.gson.JsonObject;
+
 public class APIEndpoints extends APIConnection  {
     // class for all methods to get info from endpoints
-    public APIEndpoints(){}
-    String dronesResponse;
-    String droneTypesResponse;
-    String droneDynamicsResponse;
-    public String getDronesIndivData(int droneId) {
+    private int countDroneTypes;
+    private int countDrones;
+    private int countDroneDynamics;
 
+
+
+    //public APIEndpoints(){}
+    JsonObject dronesResponse;
+    JsonObject droneTypesResponse;
+    JsonObject droneDynamicsResponse;
+
+
+    public JsonObject getDronesIndivData(int droneId) {
+        System.out.println(getResponse("drones/" + droneId + "/?format=json"));
         return getResponse("drones/" + droneId + "/?format=json");
     }
-    public String getDroneTypesIndivData(int droneId) {
+    public JsonObject getDroneTypesIndivData(int droneId) {
 
         return getResponse("dronetypes/" + droneId + "/?format=json");
     }
-    public String getDroneDynamicsIndivData(int droneId) {
+    public JsonObject getDroneDynamicsIndivData(int droneId) {
 
-        return getResponse(droneId + "/dynamics/?format=json");
+        return getResponse(droneId + "/dynamics/?format=json&limit=100&offset=0");
     }
-    public String getDrones() {
-        dronesResponse = getResponse("drones/?format=json&limit=20");
+    public JsonObject getDrones() {
+        dronesResponse = getResponse("drones/?format=json&limit=30&offset=0");
         return dronesResponse;
     }
-    public String getDroneTypes() {
-        droneTypesResponse = getResponse("dronetypes/?format=json&limit=20&offset=0");
+    public JsonObject getDroneTypes() {
+        droneTypesResponse = getResponse("dronetypes/?format=json&limit=30&offset=0");
         return droneTypesResponse;
     }
-    public String getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=30&offset=0");
+    public JsonObject getDroneDynamics() {
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=50&offset=0");
         return  droneDynamicsResponse; // TODO: figure out limit
     }
+
+//    public int setCountDroneTypes(){ //TODO: COUNT
+//        try {
+//            //System.out.println(droneTypesResponse);
+//            this.countDroneTypes = getDroneTypes().get("count").getAsInt();
+//            System.out.println("countDroneTypes " + countDroneTypes);
+//        }catch (NullPointerException e){
+//            System.out.println("count is null?????");
+//        }
+//
+//        return getCountDroneTypes();
+//    }
+//    public int getCountDroneTypes() {
+//        return countDroneTypes;
+//    }
+//    public int getSetCountDrones(){
+//        this.countDrones = droneTypesResponse.get("count").getAsInt();
+//        return getCountDrones();
+//    }
+//    public int getCountDrones() {
+//        return this.countDrones;
+//    }
+//    public int getSetCountDroneDynamics(){
+//        this.countDroneDynamics = droneDynamicsResponse.get("count").getAsInt();
+//        return getCountDroneDynamics();
+//    }
+//    public int getCountDroneDynamics() {
+//        return this.countDroneDynamics;
+//    }
 }

@@ -1,43 +1,82 @@
 package Drone;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 
-public class Drones extends Catalog implements Comparator {
+public class Drones extends Catalog {
 
         private int id;
-        private String dronetype;
+        //private int typeId;
+        private DroneTypes droneType;
         private String created;
-        private String serialnumber;
-        private int carriage_weight;
-        private String carriage_type;
+        private String serialNumber;
+        private int carriageWeight;
+        private String carriageType;
 
-        public Drones(){}
-        public Drones(int id, String dronetype, String created, String serialnumber, int carriage_weight, String carriage_type) {
+        private ArrayList<DroneDynamics> droneDynamicsList;
+
+        public Drones() {
+        }
+
+        public Drones(int id, DroneTypes droneType, String created, String serialNumber, int carriageWeight, String carriageType) {
                 this.id = id;
-                this.dronetype = dronetype;
+                this.droneType = droneType;
                 this.created = created;
-                this.serialnumber = serialnumber;
-                this.carriage_weight = carriage_weight;
-                this.carriage_type = carriage_type;
+                this.serialNumber = serialNumber;
+                this.carriageWeight = carriageWeight;
+                this.carriageType = carriageType;
         }
 
-
-        public int getId() {
-                return this.id;
-        }
 
         @Override
         public String toString() {
-                return "Drones [id=" + id +
-                        ", dronetype=" + dronetype +
-                        ", created=" + created
-                        + ", serialnumber=" + serialnumber
-                        + ", carriage_weight=" + carriage_weight
-                        + ", carriage_type=" + carriage_type + "]";
+                return "Drones [id=" + id
+                        + ", droneType= " + droneType
+                        + ", droneDynamicsList =" + droneDynamicsList
+                        + ", created=" + created
+                        + ", serialNumber=" + serialNumber
+                        + ", carriage_weight=" + carriageWeight
+                        + ", carriage_type=" + carriageType + "]";
         }
 
-        @Override
-        public int compare(Object o, Object t1) {
-                return 0;
+
+
+        public void setId(int id) {
+                this.id = id;
         }
+        public void setDroneType(DroneTypes droneType) { this.droneType = droneType; }
+
+        public void setCreated(String created) {
+                this.created = created;
+        }
+        public void setSerialNumber(String serialNumber) {
+                this.serialNumber = serialNumber;
+        }
+        public void setCarriageWeight(int carriageWeight) { this.carriageWeight = carriageWeight; }
+        public void setCarriageType(String carriageType) {
+                this.carriageType = carriageType;
+        }
+        public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) { this.droneDynamicsList = droneDynamicsList; }
+        public int getId() { return this.id; }
+        public DroneTypes getDroneType() {
+                return droneType;
+        }
+
+        public String getCreated() {
+                return created;
+        }
+
+        public String getSerialNumber() {
+                return serialNumber;
+        }
+
+        public int getCarriageWeight() {
+                return carriageWeight;
+        }
+
+        public String getCarriageType() {
+                return carriageType;
+        }
+
+        public ArrayList<DroneDynamics> getDroneDynamicsList() { return droneDynamicsList; }
+
 }
