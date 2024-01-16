@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
+
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,6 +36,7 @@ public class APIConnection {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+
 
     // Adjusted the variable to be non-static
     private HttpURLConnection connection;
@@ -126,6 +128,7 @@ public class APIConnection {
             connection.disconnect();
             System.out.println("connection disconnected");
         }
+
 
 //        String responseContentStr = fixJson(responseContent.toString());
 //        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();

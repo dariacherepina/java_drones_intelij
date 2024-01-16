@@ -10,5 +10,6 @@ public class Catalog {
 
     public String getBatteryLevel() {
         return null;
-    }
+
 }
+

@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
 import API.APIEndpoints;
+
 //import API.APIConnection;
 import Drone.Convert;
 import Drone.Drones;
-
 
 
 //JFrame = a GUI window to add components to
@@ -60,7 +61,6 @@ public class MyFrame extends JFrame {
         dashboardButton.setBackground(Color.white);
         this.add(dashboardButton);
 
-
         JButton droneCatalogButton = new JButton("DroneCatalog");
         droneCatalogButton.setLayout(null);
         droneCatalogButton.setBounds(0, 50, 140, 40);
@@ -84,7 +84,7 @@ public class MyFrame extends JFrame {
         droneDynamicsButton.setBounds(0, 170, 140, 40);
         droneDynamicsButton.setBackground(Color.white);
 
-
+<
         JButton RefreshButton = new JButton("Refresh");
         RefreshButton.setLayout(null);
         RefreshButton.setBounds(1050, 20, 100, 40);
@@ -154,6 +154,7 @@ public class MyFrame extends JFrame {
         dronesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 try{
                 String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
                 ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
@@ -162,6 +163,7 @@ public class MyFrame extends JFrame {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
             }
         });
 
@@ -223,6 +225,8 @@ public class MyFrame extends JFrame {
 
 
 // ActionListener für droneTypesButton
+
+
         droneTypesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,3 +286,4 @@ public class MyFrame extends JFrame {
     }
 
 }
+
