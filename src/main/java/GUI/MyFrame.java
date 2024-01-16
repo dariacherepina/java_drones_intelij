@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
 import API.APIEndpoints;
-import API.APIConnection;
+//import API.APIConnection;
 import Drone.Convert;
 import Drone.Drones;
 
@@ -277,8 +277,8 @@ public class MyFrame extends JFrame {
 
 
     public static void main(String[] args) {
-        ArrayList<Object> droneTypesList = new ArrayList<>();
-        new MyFrame(droneTypesList);
+           ArrayList<Object> droneTypesList = new ArrayList<>();
+           new MyFrame(droneTypesList);
     }
 
 }
