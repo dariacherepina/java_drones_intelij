@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,20 +152,5 @@ public class APIConnection {
     }
 }
 
-            } finally {
-                //Ensure that the connection is closed
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            }
-        }
-        // Parse the response content into a JsonObject
-        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
-        JsonObject inputObject = inputJson.getAsJsonObject();
 
-        //return responseContent.toString();
-        //Return the JsonObject representing the API response
-        return inputObject;
-    }
-}
 // get respond neu funktion
