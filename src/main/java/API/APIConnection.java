@@ -1,6 +1,12 @@
 package API;
 
 
+import Drone.Drone;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import logging.LoggerMain;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,14 +14,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class APIConnection {
+    private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
-    private static final String START_URL = "https://dronesim.facets-labs.com/api/";
+    // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     // Adjusted the variable to be non-static
@@ -24,7 +30,7 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    public String getResponse(String endpoint) {
+    public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
 
         BufferedReader reader;
@@ -39,7 +45,7 @@ public class APIConnection {
                 URL url = new URL(nextPageUrl);
 
                 // Opening connection
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
 
                 // Request setup with a GET Method (fundamental part of the HTTP request)
                 connection.setRequestMethod("GET");
@@ -54,18 +60,18 @@ public class APIConnection {
 
                 // Getting Response code from URL
                 int status = connection.getResponseCode();
-                System.out.println("Response code " + status);
+                LOGGER.info("Response code " + status);
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
                 reader = new BufferedReader(new InputStreamReader(
                         status > 299 ? connection.getErrorStream() : connection.getInputStream()));
-
+                // Read the response content line by line
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                 }
                 reader.close();
-
+                //Get the 'Link' header field to check for pagination
                 String nextPageLink = connection.getHeaderField("Link");
                 if (nextPageLink != null && !nextPageLink.equals("null")) {
                     nextPageUrl = nextPageLink;
@@ -74,71 +80,35 @@ public class APIConnection {
                 }
 
             } catch (SocketTimeoutException e) {
+                //Handle SocketTimeoutException with retries
                 if (retries > 0) {
-                    System.out.println("Socket timeout occurred. Retrying...");
+                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Retrying...",e);
                     retries--;
                 } else {
-                    System.out.println("Socket timeout occurred. Max retries reached. Giving up...");
+                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
                     e.printStackTrace();
                     break;
                 }
             } catch (MalformedURLException e) {
+                // Handle MaldformedURLException
                 e.printStackTrace();
             } catch (IOException e) {
+                //Handle IOException
                 e.printStackTrace();
             } finally {
+                //Ensure that the connection is closed
                 if (connection != null) {
                     connection.disconnect();
                 }
             }
         }
+        // Parse the response content into a JsonObject
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+        JsonObject inputObject = inputJson.getAsJsonObject();
 
-        return responseContent.toString();
-    }
-
-    // von Beispiel
-
-    public static void Drones2Json(String input) {
-        // Create a JSONObject from the input
-        JSONObject inputFile = new JSONObject(input);
-        // Get the JSONArray from the JSONObject
-        JSONArray jsonFile = inputFile.getJSONArray("results");
-        // Loop through the JSONArray
-        for (int i = 0; i < jsonFile.length(); i++) {
-            // Get the JSONObject at index i
-            JSONObject item = jsonFile.getJSONObject(i);
-            // Check if the JSONObject has "carriage_type" and "carriage_weight"
-            if(item.has("carriage_type") && item.has("carriage_weight")){
-                // Get the values of "carriage_type" and "carriage_weight"
-                String a = item.getString("carriage_type");
-                int b = item.getInt("carriage_weight");
-                int id = item.getInt("id");
-                // Print the values
-                System.out.println("Drone " + id + ": carriage type " + a + " (weight: " + b + "g)");
-            }
-        }
-
-    }
-
-    // Method to format JSON
-    public static String formatJson(String input) {
-        // Define the number of spaces for indentation
-        final int indentSpaces = 4;
-        // Create a JSONTokener from the input
-        Object json = new JSONTokener(input).nextValue();
-
-        // Check if the JSON is a JSONObject or a JSONArray
-        if (json instanceof JSONObject) {
-            JSONObject o = (JSONObject) json;
-
-            // Return the JSONObject as a string with indentation
-            return o.toString(indentSpaces);
-        } else if (json instanceof JSONArray) {
-            // Return the JSONArray as a string with indentation
-            return ((JSONArray) json).toString(indentSpaces);
-        } else {
-            // Throw an exception if the input is not a valid JSON
-            throw new IllegalArgumentException("Input string is not a valid JSON");
-        }
+        //return responseContent.toString();
+        //Return the JsonObject representing the API response
+        return inputObject;
     }
 }
+// get respond neu funktion
