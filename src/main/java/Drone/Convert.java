@@ -4,23 +4,66 @@ import API.APIEndpoints;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
+import com.google.gson.*;
 
 
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Collections;
 
+import static java.lang.System.in;
 
 
 public class Convert {
-
+    Drones drone = new Drones();
+    DroneTypes droneType = new DroneTypes();
+    DroneDynamics droneDynamic = new DroneDynamics();
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
+    public void dataStreamIn (JsonObject jsonObject, String fileName) throws IOException {
+        if(fileName.equals("outputDrones")){
+            drone.setCountDrones();
+        } else if (fileName.equals("outputDroneTypes")){
+            droneType.setCountDroneTypes();
+        }else{
+            droneDynamic.setCountDroneDynamics();
+        }
+
+        String jsonString = new Gson().toJson(jsonObject);
+        // Write the JSON string to a file
+        try {
+            FileWriter fileWriter = new FileWriter( fileName + ".json");
+            fileWriter.write(jsonString);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public JsonObject dataStreamOut (String fileName) throws IOException {
+        JsonObject jsonObject = null;
+        try {
+//            first try
+            FileReader fileReader = new FileReader(fileName + ".json");
+            jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
+//            second try
+//            Reader fileReader = Files.newBufferedReader(Paths.get(fileName + ".json"));
+//            jsonObject = JsonParser.parseReader(fileReader).getAsJsonObject();
+
+            fileReader.close();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 
     public Drones constructorDrones(Drones drone, JsonObject jsonObject, DroneTypes droneTypeFromDrone) {
         drone.setId(jsonObject.get("id").getAsInt());
@@ -58,13 +101,7 @@ public class Convert {
         return droneDynamics;
     }
 
-    public DroneTypes constructorDroneTypeInDrones(DroneTypes droneTypeFromDrone, JsonObject droneTypesResponse) {
-        droneTypeFromDrone.setId(droneTypesResponse.get("id").getAsInt());
-        droneTypeFromDrone.setManufacturer(droneTypesResponse.get("manufacturer").getAsString());
-        droneTypeFromDrone.setTypeName(droneTypesResponse.get("typename").getAsString());
-        System.out.println("droneTypeFromDrone" + droneTypeFromDrone);
-        return droneTypeFromDrone;
-    }
+
 
     public ArrayList<Drones> Input2DronesObject(JsonObject input) {
         ArrayList<Drones> parsedResult = new ArrayList<>();
@@ -90,7 +127,7 @@ public class Convert {
 
                     Drones drone = new Drones();
                     parsedResult.add(constructorDrones(drone, jsonObject, constructorDroneType(droneTypeFromDrone, droneTypesResponse)));
-                    System.out.println("parsedResult" + parsedResult);
+                    //System.out.println("parsedResult" + parsedResult);
                     parsedResult.sort((o1, o2) -> {
                         int id1 = (o1).getId();
                         int id2 = (o2).getId();
@@ -129,6 +166,7 @@ public class Convert {
     }
 
     public ArrayList<DroneDynamics> Input2DroneDynamicsObject(JsonObject input) {
+        //System.out.println(input);
         ArrayList<DroneDynamics> parsedResult = new ArrayList<>();
         //Gson gson = new Gson();
         JsonArray inputArray = input.getAsJsonArray("results");
@@ -146,6 +184,7 @@ public class Convert {
                 try {
                     droneDynamics = new DroneDynamics(droneUrl);
                     parsedResult.add(constructorDroneDynamics(droneDynamics, jsonObject));
+
                     parsedResult.sort((o1, o2) -> {
                         int id1 = (o1).getId();
                         int id2 = (o2).getId();
@@ -153,6 +192,7 @@ public class Convert {
                     });
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
+
                 }
             }
         }
@@ -161,13 +201,10 @@ public class Convert {
 
 
 
-    public ArrayList<Drones> Input2DronesObjectIndiv(JsonObject input) {
-        ArrayList<Drones> parsedResult = new ArrayList<>();
-        //Gson gson = new Gson();
-
-        JsonObject jsonObject = input;
+    public Drones Input2DronesObjectIndiv(JsonObject input) {
+        Drones drone = new Drones();
         try {
-            String droneTypeUrl = jsonObject.get("dronetype").getAsString();
+            String droneTypeUrl = input.get("dronetype").getAsString();
             URI uri = new URI(droneTypeUrl);
             String droneTypePath = uri.getPath().substring("/api/".length());
             // Fetch data for dronetypePath separately
@@ -176,34 +213,42 @@ public class Convert {
             DroneTypes droneTypeFromDrone = new DroneTypes();
             //constructerDroneType(droneTypeFromDrone, droneTypesResponse);
             // Extracting ID from the drone URL
-
-            Drones drone = new Drones();
-            parsedResult.add(constructorDrones(drone, jsonObject, constructorDroneType(droneTypeFromDrone, droneTypesResponse)));
-            addDroneDynamics(parsedResult);
-            //System.out.println("parsedResult" + parsedResult);
-//                    parsedResult.sort((o1, o2) -> {
-//                        int id1 = (o1).getId();
-//                        int id2 = (o2).getId();
-//                        return Integer.compare(id1, id2);
-//                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return parsedResult;
+            drone.setId(input.get("id").getAsInt());
+            drone.setDroneType(constructorDroneType(droneTypeFromDrone, droneTypesResponse));
+            drone.setCreated(input.get("created").getAsString());
+            drone.setSerialNumber(input.get("serialnumber").getAsString());
+            drone.setCarriageWeight(input.get("carriage_weight").getAsInt());
+            drone.setCarriageType(input.get("carriage_type").getAsString());
+            addDroneDynamicsForDrone(drone); //TODO:Still problem with pagination -> set limit ?
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        return drone;
     }
 
 
-    public void addDroneDynamics(ArrayList<Drones> drones) {
-        for (Drones obj : drones) {
+    public void addDroneDynamicsForDrone(Drones drones) {
             //info for dynamics by  id
-            JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(obj.getId());
-            if (obj.getDroneDynamicsList() == null) {
+            JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(drones.getId());
+            if (drones.getDroneDynamicsList() == null) {
                 ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
             }
-            obj.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
+        drones.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
 
-        }
+
     }
+// version for ArrayList<Drones>
+//    public void addDroneDynamicsForArray(ArrayList<Drones> drones) {
+//        for (Drones obj : drones) {
+//            //info for dynamics by  id
+//            JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(obj.getId());
+//            if (obj.getDroneDynamicsList() == null) {
+//                ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
+//            }
+//            obj.setDroneDynamicsList(Input2DroneDynamicsObject(droneDynamicsJsonObject));
+//
+//        }
+//    }
 
 
 
@@ -267,21 +312,23 @@ public class Convert {
         }
         return droneTypesObj;
     }
-    public Object[][] ArrayList2ObjectDronesIndiv(ArrayList<Drones> drones ) {
-        int numRows = drones.size();
-        Object[][] droneTypesObj = new Object[numRows][8];
-        for (int i = 0; i < numRows; i++) {
-            Drones droneObj = drones.get(i);
-            Object[] droneArray = new Object[7]; // considering there are 9 properties in the DroneType class
-            droneArray[0] = droneObj.getId();
-            droneArray[1] = droneObj.getDroneType();
-            droneArray[2] = droneObj.getCreated();
-            droneArray[3] = droneObj.getSerialNumber();
-            droneArray[4] = droneObj.getCarriageWeight();
-            droneArray[5] = droneObj.getCarriageType();
-            droneArray[6] = droneObj.getDroneDynamicsList();
-            droneTypesObj[i] = droneArray;
-        }
-        return droneTypesObj;
-    }
+// don't need because Drones are directly Objects, not ArrayList<dRONES>
+//    public Object[][] ArrayList2ObjectDronesIndiv(ArrayList<Drones> drones ) {
+//        int numRows = drones.size();
+//        Object[][] droneTypesObj = new Object[numRows][8];
+//        for (int i = 0; i < numRows; i++) {
+//            Drones droneObj = drones.get(i);
+//            Object[] droneArray = new Object[7]; // considering there are 9 properties in the DroneType class
+//            droneArray[0] = droneObj.getId();
+//            droneArray[1] = droneObj.getDroneType();
+//            droneArray[2] = droneObj.getCreated();
+//            droneArray[3] = droneObj.getSerialNumber();
+//            droneArray[4] = droneObj.getCarriageWeight();
+//            droneArray[5] = droneObj.getCarriageType();
+//            droneArray[6] = droneObj.getDroneDynamicsList();
+//            droneTypesObj[i] = droneArray;
+//        }
+//        return droneTypesObj;
+//    }
+
 }

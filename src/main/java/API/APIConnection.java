@@ -1,11 +1,16 @@
 package API;
 
 
-import Drone.Drone;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import logging.LoggerMain;
+import com.google.gson.stream.MalformedJsonException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,15 +19,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
+import java.net.http.HttpClient;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class APIConnection {
+    private final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-    private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
-    private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+    private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     // Adjusted the variable to be non-static
     private HttpURLConnection connection;
@@ -30,9 +40,11 @@ public class APIConnection {
     public APIConnection() {
     }
 
+    //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+
     public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
-
+        String nextPageLink = null;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -59,24 +71,35 @@ public class APIConnection {
                 connection.setReadTimeout(1000000);
 
                 // Getting Response code from URL
+
+
                 int status = connection.getResponseCode();
                 LOGGER.info("Response code " + status);
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
+
                 reader = new BufferedReader(new InputStreamReader(
                         status > 299 ? connection.getErrorStream() : connection.getInputStream()));
-                // Read the response content line by line
+
+
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
+                    responseContent.append("\n");
+                    try {
+                        nextPageLink = pagination(line);
+                    }catch (JSONException e){
+                        System.out.println("JSONException e in APIConnection");
+                    }
                 }
                 reader.close();
-                //Get the 'Link' header field to check for pagination
-                String nextPageLink = connection.getHeaderField("Link");
-                if (nextPageLink != null && !nextPageLink.equals("null")) {
-                    nextPageUrl = nextPageLink;
-                } else {
+
+//                System.out.println("nextPageLink" + nextPageLink);
+                if (nextPageLink == null || nextPageLink.equals("null")) {
+
                     nextPageUrl = null;
+                } else {
+                    nextPageUrl = nextPageLink;
                 }
 
             } catch (SocketTimeoutException e) {
@@ -87,7 +110,7 @@ public class APIConnection {
                 } else {
                     LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
                     e.printStackTrace();
-                    break;
+                    //break;
                 }
             } catch (MalformedURLException e) {
                 // Handle MaldformedURLException
@@ -95,6 +118,38 @@ public class APIConnection {
             } catch (IOException e) {
                 //Handle IOException
                 e.printStackTrace();
+            }
+        }
+        if (connection != null) {
+            connection.disconnect();
+            System.out.println("connection disconnected");
+        }
+
+//        String responseContentStr = fixJson(responseContent.toString());
+//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
+//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+
+
+        return inputJson.getAsJsonObject();
+    }
+    public String pagination (String line){
+        try {
+            JSONObject jsonObject = new JSONObject(line);
+            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                return null;
+            } else {
+                return jsonObject.get("next").toString();
+            }
+        }catch (JSONException e){
+            System.out.println("NullPointerException");
+        }catch (NullPointerException e){
+            System.out.println("NullPointerException");
+        }
+        return null;
+    }
+}
+
             } finally {
                 //Ensure that the connection is closed
                 if (connection != null) {
