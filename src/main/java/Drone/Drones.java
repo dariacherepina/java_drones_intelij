@@ -1,43 +1,60 @@
 package Drone;
 
-import API.APIEndpoints;
-
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
-
-public class Drones extends Catalog {
-    static APIEndpoints apiEndpoints = new APIEndpoints();
+public class Drones {
+    private ArrayList<DroneDynamics> droneDynamicsList;
+    private DroneTypes dronetype;
+    private int idType;
     private int id;
-    //private int typeId;
-    private DroneTypes droneType;
+    private String dronetypeLink;
     private String created;
     private String serialNumber;
     private int carriageWeight;
     private String carriageType;
 
-    private ArrayList<DroneDynamics> droneDynamicsList;
-    private int countDrones;
+    private final static String link = "http://dronesim.facets-labs.com/api/drones";
+
+    private static int onlineCount;
+    private static int offlineCount;
 
 
-    private static int dronesCount;
 
     public Drones() {
     }
 
-    public Drones(int id, DroneTypes droneType, String created, String serialNumber, int carriageWeight, String carriageType) {
+    public Drones(int id, String dronetypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
-        this.droneType = droneType;
+        this.dronetypeLink = dronetypeLink;
         this.created = created;
         this.serialNumber = serialNumber;
         this.carriageWeight = carriageWeight;
         this.carriageType = carriageType;
+        try {
+            this.idType = extractIdFromUrl(this.dronetypeLink);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-
+    public int extractIdFromUrl(String dronetypeLink) throws MalformedURLException {
+        try {
+            URL urlObj = new URL(dronetypeLink); // Use the passed parameter
+            String path = urlObj.getPath();
+            String[] parts = path.split("/");
+            String lastPart = parts[parts.length - 1];
+            return Integer.parseInt(lastPart);
+        } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to extract ID from URL: " + dronetypeLink);
+            e.printStackTrace();
+            throw e;
+        }
+    }
     @Override
     public String toString() {
         return "Drones [id=" + id
-                + ", droneType= " + droneType
+                + ", droneType= " + dronetype
                 + ", droneDynamicsList =" + droneDynamicsList
                 + ", created=" + created
                 + ", serialNumber=" + serialNumber
@@ -46,23 +63,12 @@ public class Drones extends Catalog {
     }
 
 
-    public int setCountDrones(){
-        try {
-            this.countDrones = apiEndpoints.getDrones().get("count").getAsInt();
-            System.out.println("countDrones " + countDrones);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
-        }
 
-        return getCountDrones();
-    }
-    public int getCountDrones() {
-        return countDrones;
-    }
+
     public void setId(int id) {
         this.id = id;
     }
-    public void setDroneType(DroneTypes droneType) { this.droneType = droneType; }
+    public void setDroneType(DroneTypes droneType) { this.dronetype = droneType; }
 
     public void setCreated(String created) {
         this.created = created;
@@ -77,7 +83,7 @@ public class Drones extends Catalog {
     public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) { this.droneDynamicsList = droneDynamicsList; }
     public int getId() { return this.id; }
     public DroneTypes getDroneType() {
-        return droneType;
+        return dronetype;
     }
 
     public String getCreated() {
@@ -98,5 +104,48 @@ public class Drones extends Catalog {
 
     public ArrayList<DroneDynamics> getDroneDynamicsList() { return droneDynamicsList; }
 
+
+    public DroneTypes getDronetype() {
+        return dronetype;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public String getDronetypeLink() {
+        return dronetypeLink;
+    }
+
+    public void setDronetype(DroneTypes dronetype) {
+        this.dronetype = dronetype;
+    }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
+    public void setDronetypeLink(String dronetypeLink) {
+        this.dronetypeLink = dronetypeLink;
+    }
+
+    public static void setOfflineCount(int offlineCount) {
+        Drones.offlineCount = offlineCount;
+    }
+    public static int getOfflineCount() {
+        return offlineCount;
+    }
+
+    public static int getOnlineCount() {
+        return onlineCount;
+    }
+
+    public static void setOnlineCount(int count) {
+        onlineCount = count;
+    }
+
+
+
 }
+
 

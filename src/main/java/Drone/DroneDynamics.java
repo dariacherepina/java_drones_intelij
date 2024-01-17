@@ -6,7 +6,7 @@ import API.APIEndpoints;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DroneDynamics extends Catalog {
+public class DroneDynamics {
     static APIEndpoints apiEndpoints = new APIEndpoints();
 
     private int id;
@@ -28,6 +28,25 @@ public class DroneDynamics extends Catalog {
     public DroneDynamics(String url) throws MalformedURLException {
         this.drone = url;
         this.id = extractIdFromUrl(this.drone);
+    }
+
+    public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
+        this.drone = drone;
+        this.timestamp = timestamp;
+        this.speed = speed;
+        this.align_roll = align_roll;
+        this.align_pitch = align_pitch;
+        this.align_yaw = align_yaw;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.battery_status = battery_status;
+        this.last_seen = last_seen;
+        this.status = status;
+        try {
+            this.id = extractIdFromUrl(this.drone);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public DroneDynamics() {}
@@ -64,16 +83,16 @@ public class DroneDynamics extends Catalog {
                 + ", status=" + status + "]";
     }
 
-    public int setCountDroneDynamics(){
-        try {
-            this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
-            System.out.println("countDroneDynamics " + countDroneDynamics);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
-        }
-
-        return getCountDroneDynamics();
-    }
+//    public int setCountDroneDynamics(){
+//        try {
+//            this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
+//            System.out.println("countDroneDynamics " + countDroneDynamics);
+//        }catch (NullPointerException e){
+//            System.out.println("count is null?????");
+//        }
+//
+//        return getCountDroneDynamics();
+//    }
     public int getCountDroneDynamics() {
         return countDroneDynamics;
     }
@@ -129,4 +148,6 @@ public class DroneDynamics extends Catalog {
     public String getBattery_status() { return battery_status; }
     public String getLast_seen() { return last_seen; }
     public String getStatus() { return status; }
+
+
 }

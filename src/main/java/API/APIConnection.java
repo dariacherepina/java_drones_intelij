@@ -88,11 +88,11 @@ public class APIConnection {
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                     responseContent.append("\n");
-                    try {
-                        nextPageLink = pagination(line);
-                    }catch (JSONException e){
-                        System.out.println("JSONException e in APIConnection");
-                    }
+//                    try {
+//                        nextPageLink = pagination(line);
+//                    }catch (JSONException e){
+//                        System.out.println("JSONException e in APIConnection");
+//                    }
                 }
                 reader.close();
 
@@ -135,21 +135,23 @@ public class APIConnection {
 
         return inputJson.getAsJsonObject();
     }
-    public String pagination (String line){
-        try {
-            JSONObject jsonObject = new JSONObject(line);
-            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-                return null;
-            } else {
-                return jsonObject.get("next").toString();
-            }
-        }catch (JSONException e){
-            System.out.println("NullPointerException");
-        }catch (NullPointerException e){
-            System.out.println("NullPointerException");
-        }
-        return null;
-    }
+//    public String pagination (String line){
+//        try {
+//            JSONObject jsonObject = new JSONObject(line);
+//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+//                LOGGER.log(Level.INFO, "next is null");
+//                return null;
+//            } else {
+//                LOGGER.log(Level.INFO, "next is not null");
+//                return jsonObject.get("next").toString();
+//            }
+//        }catch (JSONException e){
+//            LOGGER.log(Level.INFO, "JSONException");
+//        }catch (NullPointerException e){
+//            LOGGER.log(Level.INFO, "NullPointerException");
+//        }
+//        return null;
+//    }
 }
 
 

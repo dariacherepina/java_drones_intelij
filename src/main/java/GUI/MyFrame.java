@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
@@ -26,9 +27,20 @@ import Drone.Drones;
 
 public class MyFrame extends JFrame {
     static Convert helper = new Convert();
-    APIEndpoints droneIndivData = new APIEndpoints();
+    public static void main(String[] args) {
+        try {
+            ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
+            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
+            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
 
-    public MyFrame(ArrayList<Object> droneTypesList) {
+            new MyFrame(DronesList, DroneTypesList, DroneDynamicsList);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public MyFrame(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) throws IOException {
 
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
@@ -154,14 +166,9 @@ public class MyFrame extends JFrame {
         dronesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
                 String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-                ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
-                Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
+                Object[][] data = helper.ArrayList2ObjectDrones(dronesList);
                 table.setModel(new DefaultTableModel(data, columns));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
             }
         });
 
@@ -177,8 +184,7 @@ public class MyFrame extends JFrame {
                 int droneId = 85;
 
                 // Use helper method to get information for the specific drone ID
-                Drones droneInfo = helper.Input2DronesObjectIndiv(droneIndivData.getDronesIndivData(droneId));
-
+                Drones droneInfo = helper.findDrone(dronesList, 81);
                 // Create a new JFrame for displaying text
                 JFrame textFrame = new JFrame("Drone Information");
 
@@ -195,7 +201,8 @@ public class MyFrame extends JFrame {
                 // Add the information to the JTextArea
                 String infoText = "Drone ID: " + droneInfo.getId() +
                         "\nCreation Time: " + droneInfo.getCreated() +
-                        "\nSerial Number: " + droneInfo.getSerialNumber() + "\n";
+                        "\nSerial Number: " + droneInfo.getSerialNumber() +
+                        "\n";
                 droneInfoTextArea.setText(infoText);
 
                 // Add the JTextArea to the textFrame
@@ -226,14 +233,9 @@ public class MyFrame extends JFrame {
         droneTypesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
                 String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-                ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
-                Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
+                Object[][] data = helper.ArrayList2ObjectDroneType(droneTypesList);
                 table.setModel(new DefaultTableModel(data, columns));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
             }
         });
 
@@ -243,14 +245,9 @@ public class MyFrame extends JFrame {
         droneDynamicsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
                 String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-                ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
-                Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
+                Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneDynamicsList);
                 table.setModel(new DefaultTableModel(data, columns));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
             }
         });
 
@@ -273,12 +270,6 @@ public class MyFrame extends JFrame {
         label1.setBounds(380, 40, 600, 350);//sets x, y & dimension of the label within frame
         this.add(label1); //add label1 to frame
 
-    }
-
-
-    public static void main(String[] args) {
-           ArrayList<Object> droneTypesList = new ArrayList<>();
-           new MyFrame(droneTypesList);
     }
 
 }
