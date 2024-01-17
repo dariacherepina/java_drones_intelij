@@ -1,35 +1,56 @@
 package org.main;
 
-import API.APIConnection;
 import API.APIEndpoints;
+import API.SaveData;
 import Drone.Convert;
+import Drone.DroneDynamics;
+import Drone.DroneTypes;
+import Drone.Drones;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import org.json.JSONException;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Arrays;
 
 
 public class Main {
-    // Define constants
+        // Define constants
+
+        static Convert helper = new Convert();
+        static APIEndpoints apiEndpoints = new APIEndpoints();
+
+        public static void main(String[] args) {
+                try {
+//            SaveData data = new SaveData();
+//            data.saveInfo();
+//            ArrayList<DroneDynamics> DroneDynamicsList2 = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
 
 
-    public static void main(String[] args){
-//          APIConnection apiClient = new APIConnection();
-//            String dronesResponse = apiClient.getResponse("drones/?format=json&limit=20&offset=0");
-//        System.out.println("Drones: " + dronesResponse);
-//        String droneTypesResponse = apiClient.getResponse("dronetypes/?format=json&limit=20&offset=0");
-//        System.out.println("Drone Types: " + droneTypesResponse);
-//        String droneDynamicsResponse = apiClient.getResponse("dronedynamics/?format=json&limit=20&offset=0");
-//        System.out.println("Drone Types: " + droneDynamicsResponse);
+//            ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
+//            ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
+//            ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
+//            System.out.println(DronesList);
+//            System.out.println(DroneTypesList);
+//            System.out.println(DroneDynamicsList);
 
 
-        APIEndpoints droneIndivData = new APIEndpoints();
-//        System.out.println(droneIndivData.getDroneTypesIndivData(55));
-//        String drone55 = droneIndivData.getDroneTypesIndivData(55);
-  //      System.out.println(droneIndivData.getDroneTypes());
-//        System.out.println(droneIndivData.getDronesIndivData(65));
-//        System.out.println(droneIndivData.getDroneDynamicsIndivData(65));
-       // System.out.println(droneIndivData.formatJson(drone55)); // formats the string input to json
+//            Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 
-        Convert.Input2Object(droneIndivData.getDroneTypes(), Convert.Type.DRONETYPES);
-        //Convert.Input2Object(droneIndivData.getDroneTypes(), Convert.Type.DRONES);
+                        int droneId = 85;
+                        System.out.println(apiEndpoints.getDroneDynamicsIndivData(droneId));
+                        Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
+                        //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
+//            System.out.println(DronesListFull);
 
-    }
+//        } catch (IOException e) {
+//        throw new RuntimeException(e);
+                }catch (JsonSyntaxException e) {
+                        System.out.println("Problems with JSONException e in main ");
+                }
+
+        }
 }
+

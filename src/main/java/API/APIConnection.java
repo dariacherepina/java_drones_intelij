@@ -1,6 +1,16 @@
 package API;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,10 +18,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class APIConnection {
-    private static final String USER_AGENT = "Mozilla Firefox Awesome version";
+    private final String USER_AGENT = "Mozilla Firefox Awesome version";
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
-    private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+    private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     // Adjusted the variable to be non-static
     private HttpURLConnection connection;
@@ -19,9 +37,10 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    public String getResponse(String endpoint) {
+    //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+    public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
-
+        String nextPageLink = null;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -48,24 +67,31 @@ public class APIConnection {
                 connection.setReadTimeout(1000000);
 
                 // Getting Response code from URL
-                int status = connection.getResponseCode();
-                System.out.println("Response code " + status);
+                int responseCode = connection.getResponseCode();
+                System.out.println("Response code " + responseCode);
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
+
                 reader = new BufferedReader(new InputStreamReader(
-                        status > 299 ? connection.getErrorStream() : connection.getInputStream()));
+                        responseCode > 299 ? connection.getErrorStream() : connection.getInputStream()));
 
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
+                    responseContent.append("\n");
+                    try {
+                        nextPageLink = pagination(line);
+                    }catch (JSONException e){
+                        System.out.println("JSONException e in APIConnection");
+                    }
                 }
                 reader.close();
 
-                String nextPageLink = connection.getHeaderField("Link");
-                if (nextPageLink != null && !nextPageLink.equals("null")) {
-                    nextPageUrl = nextPageLink;
-                } else {
+//                System.out.println("nextPageLink" + nextPageLink);
+                if (nextPageLink == null || nextPageLink.equals("null")) {
                     nextPageUrl = null;
+                } else {
+                    nextPageUrl = nextPageLink;
                 }
 
             } catch (SocketTimeoutException e) {
@@ -75,65 +101,38 @@ public class APIConnection {
                 } else {
                     System.out.println("Socket timeout occurred. Max retries reached. Giving up...");
                     e.printStackTrace();
-                    break;
+                    //break;
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
             }
         }
+        if (connection != null) {
+            connection.disconnect();
+            System.out.println("connection disconnected");
+        }
 
-        return responseContent.toString();
+//        String responseContentStr = fixJson(responseContent.toString());
+//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
+//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+
+
+        return inputJson.getAsJsonObject();
     }
-
-    // Example
-
-//    public static void Drones2Json(String input) {
-//        // Create a JSONObject from the input
-//        JSONObject inputFile = new JSONObject(input);
-//        // Get the JSONArray from the JSONObject
-//        JSONArray jsonFile = inputFile.getJSONArray("results");
-//        // Loop through the JSONArray
-//        for (int i = 0; i < jsonFile.length(); i++) {
-//            // Get the JSONObject at index i
-//            JSONObject item = jsonFile.getJSONObject(i);
-//            // Check if the JSONObject has "carriage_type" and "carriage_weight"
-//            if(item.has("carriage_type") && item.has("carriage_weight")){
-//                // Get the values of "carriage_type" and "carriage_weight"
-//                String a = item.getString("carriage_type");
-//                int b = item.getInt("carriage_weight");
-//                int id = item.getInt("id");
-//                // Print the values
-//                System.out.println("Drone " + id + ": carriage type " + a + " (weight: " + b + "g)");
-//            }
-//        }
-//
-//    }
-
-    // Method to format JSON
-//    public static String formatJson(String input) {
-//        // Define the number of spaces for indentation
-//        final int indentSpaces = 4;
-//        // Create a JSONTokener from the input
-//        Object json = new JSONTokener(input).nextValue();
-//
-//        // Check if the JSON is a JSONObject or a JSONArray
-//        if (json instanceof JSONObject) {
-//            JSONObject item = (JSONObject) json;
-//
-//            // Return the JSONObject as a string with indentation
-//            return item.toString(indentSpaces);
-//        } else if (json instanceof JSONArray) {
-//            // Return the JSONArray as a string with indentation
-//            return ((JSONArray) json).toString(indentSpaces);
-//        } else {
-//            // Throw an exception if the input is not a valid JSON
-//            throw new IllegalArgumentException("Input string is not a valid JSON");
-//        }
-//    }
+    public String pagination (String line){
+        try {
+            JSONObject jsonObject = new JSONObject(line);
+            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                return null;
+            } else {
+                return jsonObject.get("next").toString();
+            }
+        }catch (JSONException e){
+            System.out.println("NullPointerException");
+        }catch (NullPointerException e){
+            System.out.println("NullPointerException");
+        }
+        return null;
+    }
 }

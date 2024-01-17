@@ -1,33 +1,45 @@
 package API;
 
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.json.JSONObject;
+
 public class APIEndpoints extends APIConnection  {
     // class for all methods to get info from endpoints
-    public APIEndpoints(){}
-    String dronesResponse;
-    String droneTypesResponse;
-    String droneDynamicsResponse;
-    public String getDronesIndivData(int droneId) {
 
+    private int countDrones;
+    private int countDroneDynamics;
+
+
+
+    //public APIEndpoints(){}
+    JsonObject dronesResponse;
+    JsonObject droneTypesResponse;
+    JsonObject droneDynamicsResponse;
+
+
+    public JsonObject getDronesIndivData(int droneId) {
         return getResponse("drones/" + droneId + "/?format=json");
     }
-    public String getDroneTypesIndivData(int droneId) {
+    public JsonObject getDroneTypesIndivData(int droneId) {
 
         return getResponse("dronetypes/" + droneId + "/?format=json");
     }
-    public String getDroneDynamicsIndivData(int droneId) {
-
-        return getResponse(droneId + "/dynamics/?format=json");
+    public JsonObject getDroneDynamicsIndivData(int droneId) {
+        return getResponse(droneId + "/dynamics/?format=json&limit=10000&offset=0");
     }
-    public String getDrones() {
-        dronesResponse = getResponse("drones/?format=json&limit=20");
+    public JsonObject getDrones() {
+        dronesResponse = getResponse("drones/?format=json&limit=100&offset=0");
         return dronesResponse;
     }
-    public String getDroneTypes() {
-        droneTypesResponse = getResponse("dronetypes/?format=json&limit=20&offset=0");
+    public JsonObject getDroneTypes() {
+        droneTypesResponse = getResponse("dronetypes/?format=json&limit=1000&offset=0");
         return droneTypesResponse;
     }
-    public String getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=30&offset=0");
-        return  droneDynamicsResponse; // TODO: figure out limit
+    public JsonObject getDroneDynamics() {
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=4000000&offset=0");
+        return  droneDynamicsResponse;
     }
+
 }
