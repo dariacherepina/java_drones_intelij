@@ -2,14 +2,13 @@ package org.main;
 
 import API.APIEndpoints;
 import API.SaveData;
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import Drone.*;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Main {
@@ -43,10 +42,35 @@ public class Main {
 
 //        } catch (IOException e) {
 //        throw new RuntimeException(e);
+
+            // Aufrufen meiner Klasse Historical Analysis
+            try {
+                //  historische Daten in DronesListFull und cch möchte den Status der letzten 5 Minuten analysieren von Drone 85
+              //  Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(85));
+
+                ArrayList<DroneDynamics> historicalData = DronesListFull.getDroneDynamicsList();
+
+                // Aktuelles Datum
+                Date currentDate = new Date();
+
+                // Aufruf der historischen Analyse-Funktion
+                ArrayList<DroneDynamics> result = HistoricalAnalysis.analyzeHistoricalData(
+                        historicalData, currentDate, 5);
+
+
+                System.out.println("Historische Daten für die letzten 5 Minuten: " + result);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }catch (JsonSyntaxException e) {
             System.out.println("Problems with JSONException e in main ");
+    // Hab ich jetzt noch hinzugefügt weiß nicht ob wir diese Exceptions noch benötigen,
+    } catch (JsonIOException e) {
+        System.out.println("Problems with JsonIOException in main ");
+    } catch (JSONException e) {
+        System.out.println("Problems with JSONException in main ");
     }
-
     }
 }
 
