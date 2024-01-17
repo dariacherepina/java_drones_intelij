@@ -35,6 +35,7 @@ public class MyFrame extends JFrame {
         this.setExtendedState(MAXIMIZED_BOTH); //shows the Gui in full screen
         this.setTitle("Drones simulator"); //sets title of the frame
 
+
         ImageIcon image = new ImageIcon("drone.jpg"); //creates an ImageIcon
         this.setIconImage(image.getImage()); //change Icon of the frame
         this.getContentPane().setBackground(Color.BLACK); //change color of background
