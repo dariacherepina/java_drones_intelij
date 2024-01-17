@@ -40,7 +40,7 @@ public class MyFrame extends JFrame {
         this.getContentPane().setBackground(Color.BLACK); //change color of background
         this.setLayout(new BorderLayout()); //Layout of the frame
 
-        mainPanel = new JPanel();                 //includes the label1 and the table
+        JPanel mainPanel = new JPanel();                 //includes the label1 and the table
         mainPanel.setBackground(Color.BLACK);
         mainPanel.setLayout(new BorderLayout());
 
