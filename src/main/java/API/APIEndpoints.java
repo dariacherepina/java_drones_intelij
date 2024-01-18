@@ -2,9 +2,7 @@ package API;
 
 
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.json.JSONObject;
 
 public class APIEndpoints extends APIConnection  {
     // class for all methods to get info from endpoints
@@ -28,7 +26,7 @@ public class APIEndpoints extends APIConnection  {
 
         return getResponse("dronetypes/" + droneId + "/?format=json");
     }
-    public JsonObject getDroneDynamicsIndivData(int droneId) {
+    public String getDroneDynamicsIndivData(int droneId) {
         return getResponse(droneId + "/dynamics/?format=json&limit=10000&offset=0");
     }
     public JsonObject getDrones() {

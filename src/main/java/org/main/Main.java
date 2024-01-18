@@ -9,13 +9,15 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
     // Define constants
 
     static Convert helper = new Convert();
     static APIEndpoints apiEndpoints = new APIEndpoints();
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         try {
@@ -35,7 +37,8 @@ public class Main {
 //            Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 
             int droneId = 85;
-            System.out.println(apiEndpoints.getDroneDynamicsIndivData(droneId));
+            LOGGER.info("Fetching drone dynamics individual data for drone ID: " + droneId);
+            LOGGER.info(apiEndpoints.getDroneDynamicsIndivData(droneId));
             Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
             //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
 //            System.out.println(DronesListFull);
@@ -54,23 +57,23 @@ public class Main {
                 Date currentDate = new Date();
 
                 // Aufruf der historischen Analyse-Funktion
+                LOGGER.info("Analyzing historical data for the last 5 minutes");
                 ArrayList<DroneDynamics> result = HistoricalAnalysis.analyzeHistoricalData(
                         historicalData, currentDate, 5);
 
 
-                System.out.println("Historische Daten für die letzten 5 Minuten: " + result);
+                LOGGER.info("Historische Daten für die letzten 5 Minuten: " + result.toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Exception in historical data analysis", e);
             }
-    }catch (JsonSyntaxException e) {
-            System.out.println("Problems with JSONException e in main ");
-    // Hab ich jetzt noch hinzugefügt weiß nicht ob wir diese Exceptions noch benötigen,
-    } catch (JsonIOException e) {
-        System.out.println("Problems with JsonIOException in main ");
-    } catch (JSONException e) {
-        System.out.println("Problems with JSONException in main ");
-    }
+        } catch (JsonSyntaxException e) {
+            LOGGER.log(Level.SEVERE, "Problems with JsonSyntaxException in main ", e);
+        } catch (JsonIOException e) {
+            LOGGER.log(Level.SEVERE, "Problems with JsonIOException in main ", e);
+        } catch (JSONException e) {
+            LOGGER.log(Level.SEVERE, "Problems with JSONException in main ", e);
+        }
     }
 }
 

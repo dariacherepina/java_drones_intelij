@@ -1,10 +1,13 @@
 package Drone;
 
 import API.APIEndpoints;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.Serializable;
 
 public class DroneTypes extends Catalog implements Serializable {
+    private static final Logger LOGGER = Logger.getLogger(DroneTypes.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
 
     private int id;
@@ -51,9 +54,9 @@ public class DroneTypes extends Catalog implements Serializable {
     public int setCountDroneTypes(){
         try {
             this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
-            System.out.println("countDroneTypes " + countDroneTypes);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
+            LOGGER.info("countDroneTypes " + countDroneTypes);
+        } catch (NullPointerException e) {
+            LOGGER.warning("count is null");
         }
 
         return getCountDroneTypes();

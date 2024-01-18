@@ -76,7 +76,7 @@ public class APIConnection {
 
 
                 int status = connection.getResponseCode();
-                LOGGER.info("Response code " + status);
+                LOGGER.info(STR."Response code \{status}");
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
@@ -91,7 +91,7 @@ public class APIConnection {
                     try {
                         nextPageLink = pagination(line);
                     }catch (JSONException e){
-                        System.out.println("JSONException e in APIConnection");
+                        LOGGER.log(Level.SEVERE,"JSONException e in APIConnection",e);
                     }
                 }
                 reader.close();
@@ -111,20 +111,20 @@ public class APIConnection {
                     retries--;
                 } else {
                     LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
-                    e.printStackTrace();
+
                     //break;
                 }
             } catch (MalformedURLException e) {
                 // Handle MaldformedURLException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"MalformedURLException", e);
             } catch (IOException e) {
                 //Handle IOException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"IOException",e);
             }
         }
         if (connection != null) {
             connection.disconnect();
-            System.out.println("connection disconnected");
+            LOGGER.info("connection disconnected") ;
         }
 
 //        String responseContentStr = fixJson(responseContent.toString());
@@ -144,9 +144,9 @@ public class APIConnection {
                 return jsonObject.get("next").toString();
             }
         }catch (JSONException e){
-            System.out.println("NullPointerException");
+            LOGGER.log(Level.SEVERE,"JSONException",e);
         }catch (NullPointerException e){
-            System.out.println("NullPointerException");
+            LOGGER.log(Level.SEVERE,"NullPointerException",e);
         }
         return null;
     }

@@ -5,8 +5,11 @@ import API.APIEndpoints;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DroneDynamics extends Catalog {
+    private static final Logger LOGGER = Logger.getLogger(DroneDynamics.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints();
 
     private int id;
@@ -40,8 +43,7 @@ public class DroneDynamics extends Catalog {
             String lastPart = parts[parts.length - 1];
             return Integer.parseInt(lastPart);
         } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
-            System.err.println("Failed to extract ID from URL: " + drone);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + drone, e);
             throw e;
         }
     }
@@ -67,9 +69,9 @@ public class DroneDynamics extends Catalog {
     public int setCountDroneDynamics(){
         try {
             this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
-            System.out.println("countDroneDynamics " + countDroneDynamics);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
+            LOGGER.info(STR."countDroneDynamics \{countDroneDynamics}");
+        } catch (NullPointerException e) {
+            LOGGER.warning("count is null");
         }
 
         return getCountDroneDynamics();

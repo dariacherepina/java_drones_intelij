@@ -1,11 +1,13 @@
 package Drone;
 
 import API.APIEndpoints;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.util.ArrayList;
 
 public class Drones extends Catalog {
+    private static final Logger LOGGER = Logger.getLogger(DroneDynamics.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints();
     private int id;
     //private int typeId;
@@ -49,9 +51,9 @@ public class Drones extends Catalog {
     public int setCountDrones(){
         try {
             this.countDrones = apiEndpoints.getDrones().get("count").getAsInt();
-            System.out.println("countDrones " + countDrones);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
+            LOGGER.info("countDrones " + countDrones);
+        } catch (NullPointerException e) {
+            LOGGER.warning("count is null");
         }
 
         return getCountDrones();
