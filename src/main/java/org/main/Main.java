@@ -2,10 +2,7 @@ package org.main;
 
 import API.APIEndpoints;
 import API.SaveData;
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import Drone.*;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
@@ -22,7 +19,7 @@ public class Main {
         try {
 
             SaveData data = new SaveData();
-            data.saveInfo(true);
+            data.saveInfo();
 
 //            ArrayList<DroneDynamics> DroneDynamicsList2 = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
 
@@ -31,7 +28,9 @@ public class Main {
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            DronesList.getFirst().getOnlineCount();
+            Refresh.refresh(DronesList.getFirst().checkOfflineCount(), DronesList.getFirst().checkOnlineCount());
+            System.out.println(DronesList.getFirst().getOfflineCount());
+            System.out.println(DronesList.getFirst().getOnlineCount());
 //            System.out.println(DronesList);
 //            System.out.println(DroneTypesList);
             System.out.println(helper.findDrone(DronesList, 81));

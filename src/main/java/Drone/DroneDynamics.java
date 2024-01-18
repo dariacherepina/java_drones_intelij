@@ -1,13 +1,17 @@
 package Drone;
 
 import API.APIEndpoints;
+import com.google.gson.JsonObject;
 
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DroneDynamics {
+public class DroneDynamics extends Refresh{
     static APIEndpoints apiEndpoints = new APIEndpoints();
+    static Convert helper = new Convert();
+
 
     private int id;
     private String drone;
@@ -21,7 +25,8 @@ public class DroneDynamics {
     private String battery_status;
     private String last_seen;
     private String status;
-    private int countDroneDynamics;
+    private static int onlineCount;
+    private static int offlineCount;
 
 
 
@@ -93,9 +98,6 @@ public class DroneDynamics {
 //
 //        return getCountDroneDynamics();
 //    }
-    public int getCountDroneDynamics() {
-        return countDroneDynamics;
-    }
 
     public void setDrone(String drone) {
         this.drone = drone;
@@ -150,4 +152,25 @@ public class DroneDynamics {
     public String getStatus() { return status; }
 
 
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = apiEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
+            System.out.println("countDrones " + onlineCount);
+        }catch (NullPointerException e){
+            System.out.println("count is null?????");
+        }
+        return onlineCount;
+    }
+
+    @Override
+    public int checkOfflineCount() {
+        JsonObject o;
+        try {
+            o = helper.dataStreamOut("outputDrones");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return o.get("count").getAsInt();
+    }
 }

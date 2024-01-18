@@ -44,7 +44,7 @@ public class APIConnection {
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
 
-    public JsonObject getResponse(String endpoint) {
+    public  JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;

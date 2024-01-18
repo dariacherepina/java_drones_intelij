@@ -1,9 +1,13 @@
 package Drone;
 
 import API.APIEndpoints;
+import com.google.gson.JsonObject;
 
-public class DroneTypes{
+import java.io.IOException;
+
+public class DroneTypes extends Refresh{
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
+    static Convert helper = new Convert();
 
     private int id;
     private String manufacturer;
@@ -13,7 +17,8 @@ public class DroneTypes{
     private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
-    private int countDroneTypes;
+    private static int onlineCount;
+    private static int offlineCount;
     DroneTypes() {
     }
 
@@ -56,9 +61,6 @@ public class DroneTypes{
 //
 //        return getCountDroneTypes();
 //    }
-    public int getCountDroneTypes() {
-        return countDroneTypes;
-    }
     public void setId(int id) {
         this.id = id;
     }
@@ -114,6 +116,26 @@ public class DroneTypes{
     public int getMaximumCarriage() { return maximumCarriage; }
 
 
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = apiEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
+            System.out.println("countDrones " + onlineCount);
+        }catch (NullPointerException e){
+            System.out.println("count is null?????");
+        }
+        return onlineCount;
+    }
 
+    @Override
+    public int checkOfflineCount() {
+        JsonObject o;
+        try {
+            o = helper.dataStreamOut("outputDrones");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return o.get("count").getAsInt();
+    }
 }
 

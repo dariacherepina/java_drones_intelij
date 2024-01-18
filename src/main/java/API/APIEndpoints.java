@@ -13,11 +13,11 @@ public class APIEndpoints extends APIConnection  {
     JsonObject droneDynamicsResponse;
 
 
-    public JsonObject getDronesIndivData(int droneId) {
+    public  JsonObject getDronesIndivData(int droneId) {
 
         return getResponse("drones/" + droneId + "/?format=json");
     }
-    public JsonObject getDroneTypesIndivData(int droneId) {
+    public  JsonObject getDroneTypesIndivData(int droneId) {
 
         return getResponse("dronetypes/" + droneId + "/?format=json");
     }
