@@ -4,6 +4,7 @@ import API.APIEndpoints;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 import java.io.Serializable;
 
 public class DroneTypes extends Catalog implements Serializable {
@@ -51,16 +52,7 @@ public class DroneTypes extends Catalog implements Serializable {
         return "[" + id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "]";
     }
 
-    public int setCountDroneTypes(){
-        try {
-            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
-            LOGGER.info("countDroneTypes " + countDroneTypes);
-        } catch (NullPointerException e) {
-            LOGGER.warning("count is null");
-        }
 
-        return getCountDroneTypes();
-    }
     public int getCountDroneTypes() {
         return countDroneTypes;
     }
@@ -117,6 +109,7 @@ public class DroneTypes extends Catalog implements Serializable {
     public int getControlRange() { return controlRange; }
 
     public int getMaximumCarriage() { return maximumCarriage; }
+
 
 
 }

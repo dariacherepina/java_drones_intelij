@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
+
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,6 +36,7 @@ public class APIConnection {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+
 
     // Adjusted the variable to be non-static
     private HttpURLConnection connection;
@@ -88,11 +90,13 @@ public class APIConnection {
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                     responseContent.append("\n");
-                    try {
-                        nextPageLink = pagination(line);
-                    }catch (JSONException e){
-                        LOGGER.log(Level.SEVERE,"JSONException e in APIConnection",e);
-                    }
+
+ //                   try {
+ //                       nextPageLink = pagination(line);
+ //                   }catch (JSONException e){
+ //                       LOGGER.log(Level.SEVERE,"JSONException e in APIConnection",e);
+ //                 }
+
                 }
                 reader.close();
 
@@ -127,6 +131,7 @@ public class APIConnection {
             LOGGER.info("connection disconnected") ;
         }
 
+
 //        String responseContentStr = fixJson(responseContent.toString());
 //        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
 //       JsonElement inputJson = JsonParser.parseString(responseContentStr);
@@ -135,21 +140,25 @@ public class APIConnection {
 
         return inputJson.getAsJsonObject();
     }
-    public String pagination (String line){
-        try {
-            JSONObject jsonObject = new JSONObject(line);
-            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-                return null;
-            } else {
-                return jsonObject.get("next").toString();
-            }
-        }catch (JSONException e){
-            LOGGER.log(Level.SEVERE,"JSONException",e);
-        }catch (NullPointerException e){
-            LOGGER.log(Level.SEVERE,"NullPointerException",e);
-        }
-        return null;
-    }
+
+//    public String pagination (String line){
+//        try {
+//            JSONObject jsonObject = new JSONObject(line);
+//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+//                LOGGER.log(Level.INFO, "next is null");
+//                return null;
+//            } else {
+//                LOGGER.log(Level.INFO, "next is not null");
+//                return jsonObject.get("next").toString();
+//            }
+//        }catch (JSONException e){
+//            LOGGER.log(Level.SEVERE, "JSONException");
+//        }catch (NullPointerException e){
+//            LOGGER.log(Level.SEVERE, "NullPointerException");
+//        }
+//        return null;
+//    }
+
 }
 
 
