@@ -2,9 +2,7 @@ package Drone;
 
 import API.APIEndpoints;
 
-import java.io.Serializable;
-
-public class DroneTypes extends Catalog implements Serializable {
+public class DroneTypes{
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
 
     private int id;
@@ -48,16 +46,16 @@ public class DroneTypes extends Catalog implements Serializable {
         return "[" + id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "]";
     }
 
-    public int setCountDroneTypes(){
-        try {
-            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
-            System.out.println("countDroneTypes " + countDroneTypes);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
-        }
-
-        return getCountDroneTypes();
-    }
+//    public int setCountDroneTypes(){
+//        try {
+//            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
+//            System.out.println("countDroneTypes " + countDroneTypes);
+//        }catch (NullPointerException e){
+//            System.out.println("count is null?????");
+//        }
+//
+//        return getCountDroneTypes();
+//    }
     public int getCountDroneTypes() {
         return countDroneTypes;
     }
@@ -114,6 +112,7 @@ public class DroneTypes extends Catalog implements Serializable {
     public int getControlRange() { return controlRange; }
 
     public int getMaximumCarriage() { return maximumCarriage; }
+
 
 
 }

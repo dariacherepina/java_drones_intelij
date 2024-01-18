@@ -6,10 +6,10 @@ import Drone.Convert;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import org.json.JSONException;
 
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -20,24 +20,29 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-//            SaveData data = new SaveData();
-//            data.saveInfo();
+
+            SaveData data = new SaveData();
+            data.saveInfo(true);
+
 //            ArrayList<DroneDynamics> DroneDynamicsList2 = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
 
 
-//            ArrayList<Drones> DronesList = helper.Input2DronesObject(helper.dataStreamOut("outputDrones"));
-//            ArrayList<DroneTypes> DroneTypesList = helper.Input2DroneTypesObject(helper.dataStreamOut("outputDroneTypes"));
-//            ArrayList<DroneDynamics> DroneDynamicsList = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
+            ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
+            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
+            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
+            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+            DronesList.getFirst().getOnlineCount();
 //            System.out.println(DronesList);
 //            System.out.println(DroneTypesList);
+            System.out.println(helper.findDrone(DronesList, 81));
 //            System.out.println(DroneDynamicsList);
 
 
 //            Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
 
-            int droneId = 85;
-            System.out.println(apiEndpoints.getDroneDynamicsIndivData(droneId));
-            Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
+//            int droneId = 85;
+//            System.out.println(apiEndpoints.getDroneDynamicsIndivData(droneId));
+//            Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
             //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
 //            System.out.println(DronesListFull);
 
@@ -45,7 +50,9 @@ public class Main {
 //        throw new RuntimeException(e);
     }catch (JsonSyntaxException e) {
             System.out.println("Problems with JSONException e in main ");
-    }
+    } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
