@@ -12,16 +12,16 @@ public class SaveData {
     static APIEndpoints apiEndpoints = new APIEndpoints();
     public void saveInfo(boolean initial){
 
-    if(initial) {
+//    if(initial) {
+//
+//    }
 
-    }
-
-        try {
-            JsonObject o = helper.dataStreamOut("outputDrones");
-            o.get("count").getAsInt();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            JsonObject o = helper.dataStreamOut("outputDrones");
+//            o.get("count").getAsInt();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         try {
             

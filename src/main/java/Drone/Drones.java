@@ -5,10 +5,10 @@ import java.net.URL;
 import java.util.ArrayList;
 public class Drones {
     private ArrayList<DroneDynamics> droneDynamicsList;
-    private DroneTypes dronetype;
+    private DroneTypes droneType;
     private int idType;
     private int id;
-    private String dronetypeLink;
+    private String droneTypeLink;
     private String created;
     private String serialNumber;
     private int carriageWeight;
@@ -21,18 +21,17 @@ public class Drones {
 
 
 
-    public Drones() {
-    }
+    public Drones() {}
 
     public Drones(int id, String dronetypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
-        this.dronetypeLink = dronetypeLink;
+        this.droneTypeLink = dronetypeLink;
         this.created = created;
         this.serialNumber = serialNumber;
         this.carriageWeight = carriageWeight;
         this.carriageType = carriageType;
         try {
-            this.idType = extractIdFromUrl(this.dronetypeLink);
+            this.idType = extractIdFromUrl(this.droneTypeLink);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +53,7 @@ public class Drones {
     @Override
     public String toString() {
         return "Drones [id=" + id
-                + ", droneType= " + dronetype
+                + ", droneType= " + droneType
                 + ", droneDynamicsList =" + droneDynamicsList
                 + ", created=" + created
                 + ", serialNumber=" + serialNumber
@@ -64,12 +63,16 @@ public class Drones {
 
 
 
-
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
     public void setId(int id) {
         this.id = id;
     }
-    public void setDroneType(DroneTypes droneType) { this.dronetype = droneType; }
-
+    public void setDroneType(DroneTypes droneType) { this.droneType = droneType; }
+    public void setDroneTypeLink(String droneTypeLink) {
+        this.droneTypeLink = droneTypeLink;
+    }
     public void setCreated(String created) {
         this.created = created;
     }
@@ -81,60 +84,33 @@ public class Drones {
         this.carriageType = carriageType;
     }
     public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) { this.droneDynamicsList = droneDynamicsList; }
+
+
     public int getId() { return this.id; }
     public DroneTypes getDroneType() {
-        return dronetype;
+        return droneType;
     }
-
     public String getCreated() {
         return created;
     }
-
     public String getSerialNumber() {
         return serialNumber;
     }
-
     public int getCarriageWeight() {
         return carriageWeight;
     }
-
     public String getCarriageType() {
         return carriageType;
     }
-
     public ArrayList<DroneDynamics> getDroneDynamicsList() { return droneDynamicsList; }
+    public int getIdType() { return idType;}
+    public String getDroneTypeLink() { return droneTypeLink; }
 
-
-    public DroneTypes getDronetype() {
-        return dronetype;
-    }
-
-    public int getIdType() {
-        return idType;
-    }
-
-    public String getDronetypeLink() {
-        return dronetypeLink;
-    }
-
-    public void setDronetype(DroneTypes dronetype) {
-        this.dronetype = dronetype;
-    }
-
-    public void setIdType(int idType) {
-        this.idType = idType;
-    }
-
-    public void setDronetypeLink(String dronetypeLink) {
-        this.dronetypeLink = dronetypeLink;
-    }
 
     public static void setOfflineCount(int offlineCount) {
         Drones.offlineCount = offlineCount;
     }
-    public static int getOfflineCount() {
-        return offlineCount;
-    }
+    public static int getOfflineCount() { return offlineCount; }
 
     public static int getOnlineCount() {
         return onlineCount;

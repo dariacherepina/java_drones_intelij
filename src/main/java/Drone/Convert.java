@@ -7,12 +7,7 @@ import com.google.gson.*;
 
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Convert {
@@ -141,7 +136,7 @@ public class Convert {
                     drone.setDroneType(droneType);
                 }
             }
-            addDroneDynamicsForDrone(drone);
+            //addDroneDynamicsForDrone(drone);
 
         }
     }
