@@ -9,15 +9,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
 import API.APIEndpoints;
+
 import Drone.Convert;
 import Drone.Drones;
-
 
 
 //JFrame = a GUI window to add components to
@@ -121,7 +122,9 @@ public class MyFrame extends JFrame {
 
         JButton dashboardButton = new JButton("Dashboard");
         dashboardButton.setBackground(Color.white);
+
         panel.add(dashboardButton);
+
 
         JButton droneCatalogButton = new JButton("DroneCatalog");
         droneCatalogButton.setBackground(Color.white);
@@ -142,6 +145,7 @@ public class MyFrame extends JFrame {
         JPanel eastPanel = new JPanel();               //includes refreshButton
         eastPanel.setBackground(Color.BLACK);
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+
 
         JButton refreshButton = new JButton("Refresh");
         refreshButton.setBackground(Color.white);
@@ -252,6 +256,8 @@ public class MyFrame extends JFrame {
         droneTypesButton.addActionListener(new ActionListener() {  // ActionListener für droneTypesButton
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 setLabel("DRONE TYPES");
 
                     String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
@@ -268,6 +274,7 @@ public class MyFrame extends JFrame {
                     String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
                     Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
                     table.setModel(new DefaultTableModel(data, columns));
+
 
             }
         });
@@ -332,6 +339,7 @@ public class MyFrame extends JFrame {
         this.getContentPane().add(eastPanel, BorderLayout.EAST);   //add eastPanel to the frame
         this.getContentPane().add(southPanel, BorderLayout.SOUTH);   //add southPanel to the frame
         createLabel(); //calls the method createLabel
+
         this.setVisible(true); // makes frame visible, in the end in order to see every component
     }
 

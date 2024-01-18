@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 public class APIEndpoints extends APIConnection  {
     // class for all methods to get info from endpoints
 
+
+
     //public APIEndpoints(){}
     JsonObject dronesResponse;
     JsonObject droneTypesResponse;
