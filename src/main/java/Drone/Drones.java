@@ -1,10 +1,17 @@
 package Drone;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+
+import API.APIEndpoints;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.util.ArrayList;
-public class Drones {
-    private ArrayList<DroneDynamics> droneDynamicsList;
+
+public class Drones extends Catalog {
+    private static final Logger LOGGER = Logger.getLogger(DroneDynamics.class.getName());
+    static APIEndpoints apiEndpoints = new APIEndpoints();
+    private int id;
+ 
     private DroneTypes droneType;
     private int idType;
     private int id;
@@ -60,6 +67,7 @@ public class Drones {
                 + ", carriage_weight=" + carriageWeight
                 + ", carriage_type=" + carriageType + "]";
     }
+
 
 
 

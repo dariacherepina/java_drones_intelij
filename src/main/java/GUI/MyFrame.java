@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Drone.DroneDynamics;
 import  Drone.DroneTypes;
@@ -24,11 +26,13 @@ import Drone.Drones;
 //JFrame = a GUI window to add components to
 
 public class MyFrame extends JFrame {
+    private static final Logger LOGGER = Logger.getLogger(MyFrame.class.getName());
     static Convert helper = new Convert();
     APIEndpoints droneIndivData = new APIEndpoints();
     private JLabel label1;
     private JPanel mainPanel;
     private JTable table = new JTable();
+
 
     public static void main(String[] args) {
         try {
@@ -45,6 +49,7 @@ public class MyFrame extends JFrame {
 
     public MyFrame(ArrayList<Drones> DronesList, ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
 
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
         this.setResizable(false); // prevent frame from being resized
         this.setExtendedState(MAXIMIZED_BOTH); //shows the Gui in full screen
@@ -60,11 +65,14 @@ public class MyFrame extends JFrame {
         mainPanel.setBackground(Color.BLACK);
         mainPanel.setLayout(new BorderLayout());
 
+
             // Define the columns for the table
             String[] columns = {"ID", "TypeName", "Status"};
 
             // Determine the number of rows needed based on the ArrayList with the largest size
+
             int numRows = Math.max(DronesList.size(), Math.max(DroneTypesList.size(), DroneDynamicsList.size()));
+
 
             // Create a 2D array to hold the data for the table
             Object[][] data = new Object[numRows][columns.length];
@@ -98,6 +106,7 @@ public class MyFrame extends JFrame {
                     // You need to decide how to map DroneTypes data to the columns
                 }
 
+
                 if (i < DroneDynamicsList.size()) {
                     DroneDynamics droneDynamics = DroneDynamicsList.get(i);
                     // You need to decide how to map DroneDynamics data to the columns
@@ -106,6 +115,7 @@ public class MyFrame extends JFrame {
 
             // Set the new data model for the table
             table.setModel(new DefaultTableModel(data, columns));
+
 
 
         // Object[][] data = {};
@@ -123,7 +133,9 @@ public class MyFrame extends JFrame {
         JButton dashboardButton = new JButton("Dashboard");
         dashboardButton.setBackground(Color.white);
 
+
         panel.add(dashboardButton);
+
 
 
         JButton droneCatalogButton = new JButton("DroneCatalog");
@@ -145,6 +157,7 @@ public class MyFrame extends JFrame {
         JPanel eastPanel = new JPanel();               //includes refreshButton
         eastPanel.setBackground(Color.BLACK);
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+
 
 
         JButton refreshButton = new JButton("Refresh");
@@ -170,15 +183,30 @@ public class MyFrame extends JFrame {
         refreshButton.setMaximumSize(maxButtonSize);
         returnButton.setPreferredSize(maxButtonSize);
 
+
+        //makes all buttons have the same size
+        Dimension maxButtonSize = new Dimension(140, 40);
+        dashboardButton.setMaximumSize(maxButtonSize);
+        droneCatalogButton.setMaximumSize(maxButtonSize);
+        dronesButton.setMaximumSize(maxButtonSize);
+        droneTypesButton.setMaximumSize(maxButtonSize);
+        droneDynamicsButton.setMaximumSize(maxButtonSize);
+        droneIDButton.setMaximumSize(maxButtonSize);
+        refreshButton.setMaximumSize(maxButtonSize);
+        returnButton.setPreferredSize(maxButtonSize);
+
+
         //ActionListeners for the buttons
         dashboardButton.addActionListener(new ActionListener() {   //ActionListener for dashboardButton
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
                     // Define the columns for the table
                     String[] columns = {"ID", "TypeName", "Status"};
 
                     // Determine the number of rows needed based on the ArrayList with the largest size
+
                     int numRows = Math.max(DronesList.size(), Math.max(DroneTypesList.size(), DroneDynamicsList.size()));
 
                     // Create a 2D array to hold the data for the table
@@ -219,11 +247,14 @@ public class MyFrame extends JFrame {
                         }
                     }
 
-                    // Set the new data model for the table
-                    table.setModel(new DefaultTableModel(data, columns));
 
+                    // Logger anstelle von System.out verwenden
+                    LOGGER.info("Setting new data model for the table.");
+                    table.setModel(new DefaultTableModel(data, columns));
+               
             }
         });
+        LOGGER.info("ActionListener for droneCatalogButton");
 
         droneCatalogButton.addActionListener(new ActionListener() {   // ActionListener for droneCatalogButton
             @Override
@@ -236,12 +267,16 @@ public class MyFrame extends JFrame {
                 panel.add(droneTypesButton);
                 panel.add(droneDynamicsButton);
                 panel.add(droneIDButton);
+              
+                LOGGER.info("Updating frame to include the added buttons");
 
                 MyFrame.this.revalidate();   //update frame in order to include the added buttons
                 MyFrame.this.repaint();
             }
 
         });
+
+         LOGGER.info("ActionListener for dronesButton");
         dronesButton.addActionListener(new ActionListener() {          // ActionListener für dronesButton
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -253,6 +288,7 @@ public class MyFrame extends JFrame {
 
             }
         });
+        LOGGER.info("ActionListener for droneTypesButton");
         droneTypesButton.addActionListener(new ActionListener() {  // ActionListener für droneTypesButton
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -266,11 +302,12 @@ public class MyFrame extends JFrame {
 
             }
         });
+
+        LOGGER.info("ActionListener for droneDynamicsButton");
         droneDynamicsButton.addActionListener(new ActionListener() {    // ActionListener für droneDynamicsButton
             @Override
             public void actionPerformed(ActionEvent e) {
                 setLabel("DRONE DYNAMICS");
-
                     String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
                     Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
                     table.setModel(new DefaultTableModel(data, columns));
@@ -280,6 +317,8 @@ public class MyFrame extends JFrame {
         });
 
 
+
+        LOGGER.info("ActionListener for droneIDButton");
         droneIDButton.addActionListener(new ActionListener() {      // ActionListener für droneIDButton
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -333,6 +372,7 @@ public class MyFrame extends JFrame {
             }
         });
 
+        LOGGER.info("Adding components to the frame.");
 
         this.getContentPane().add(panel, BorderLayout.WEST);  //add panel to frame
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);  //add mainPanel to frame
@@ -358,6 +398,7 @@ public class MyFrame extends JFrame {
     }
     private void setLabel(String labelText){  //changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
         label1.setText(labelText);
+
     }
 
 

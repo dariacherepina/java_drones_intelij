@@ -78,7 +78,7 @@ public class APIConnection {
 
 
                 int status = connection.getResponseCode();
-                LOGGER.info("Response code " + status);
+                LOGGER.info(STR."Response code \{status}");
 
                 // Response from the endpoint
                 // Handle both unsuccessful and successful responses
@@ -90,11 +90,13 @@ public class APIConnection {
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                     responseContent.append("\n");
-//                    try {
-//                        nextPageLink = pagination(line);
-//                    }catch (JSONException e){
-//                        System.out.println("JSONException e in APIConnection");
-//                    }
+
+ //                   try {
+ //                       nextPageLink = pagination(line);
+ //                   }catch (JSONException e){
+ //                       LOGGER.log(Level.SEVERE,"JSONException e in APIConnection",e);
+ //                 }
+
                 }
                 reader.close();
 
@@ -113,20 +115,20 @@ public class APIConnection {
                     retries--;
                 } else {
                     LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
-                    e.printStackTrace();
+
                     //break;
                 }
             } catch (MalformedURLException e) {
                 // Handle MaldformedURLException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"MalformedURLException", e);
             } catch (IOException e) {
                 //Handle IOException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE,"IOException",e);
             }
         }
         if (connection != null) {
             connection.disconnect();
-            System.out.println("connection disconnected");
+            LOGGER.info("connection disconnected") ;
         }
 
 
@@ -138,6 +140,7 @@ public class APIConnection {
 
         return inputJson.getAsJsonObject();
     }
+
 //    public String pagination (String line){
 //        try {
 //            JSONObject jsonObject = new JSONObject(line);
@@ -149,12 +152,13 @@ public class APIConnection {
 //                return jsonObject.get("next").toString();
 //            }
 //        }catch (JSONException e){
-//            LOGGER.log(Level.INFO, "JSONException");
+//            LOGGER.log(Level.SEVERE, "JSONException");
 //        }catch (NullPointerException e){
-//            LOGGER.log(Level.INFO, "NullPointerException");
+//            LOGGER.log(Level.SEVERE, "NullPointerException");
 //        }
 //        return null;
 //    }
+
 }
 
 
