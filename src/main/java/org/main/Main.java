@@ -21,32 +21,31 @@ public class Main {
             SaveData data = new SaveData();
             data.saveInfo();
 
-//            ArrayList<DroneDynamics> DroneDynamicsList2 = helper.Input2DroneDynamicsObject(helper.dataStreamOut("outputDroneDynamics"));
-
 
             ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            Refresh.refresh(DronesList.getFirst().checkOfflineCount(), DronesList.getFirst().checkOnlineCount());
-            System.out.println(DronesList.getFirst().getOfflineCount());
-            System.out.println(DronesList.getFirst().getOnlineCount());
+//check the refresh
+//            DronesList.getFirst().refresh();
+//            System.out.println(Drones.getOfflineCount());
+//            System.out.println(Drones.getOnlineCount());
+//            DroneTypesList.getFirst().refresh();
+//            System.out.println(DroneTypes.getOfflineCount());
+//            System.out.println(DroneTypes.getOnlineCount());
+//            DroneDynamicsList.getFirst().refresh();
+//            System.out.println(DroneDynamics.getOfflineCount());
+//            System.out.println(DroneDynamics.getOnlineCount());
 //            System.out.println(DronesList);
 //            System.out.println(DroneTypesList);
-            System.out.println(helper.findDrone(DronesList, 81));
+//            System.out.println(helper.findDrone(DronesList, 81));
 //            System.out.println(DroneDynamicsList);
 
+//check the findDrone function
+            int droneId = 85;
+            Drones DroneData= helper.findDrone(DronesList, droneId);
+            System.out.println(DroneData);
 
-//            Object[][] DroneTypeObj= helper.ArrayList2ObjectDroneType(DroneTypesList);
-
-//            int droneId = 85;
-//            System.out.println(apiEndpoints.getDroneDynamicsIndivData(droneId));
-//            Drones DronesListFull = helper.Input2DronesObjectIndiv(apiEndpoints.getDronesIndivData(droneId));
-            //Object[][] data = helper.ArrayList2ObjectDronesIndiv(DronesListFull);
-//            System.out.println(DronesListFull);
-
-//        } catch (IOException e) {
-//        throw new RuntimeException(e);
     }catch (JsonSyntaxException e) {
             System.out.println("Problems with JSONException e in main ");
     } catch (IOException e) {

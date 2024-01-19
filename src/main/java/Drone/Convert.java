@@ -1,42 +1,39 @@
 package Drone;
 
-import API.APIConnection;
 import API.APIEndpoints;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import com.google.gson.*;
-
-
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class Convert {
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
 
-    public void dataStreamIn (JsonObject jsonObject, String fileName) throws IOException {
+    public void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException {
 
         String jsonString = new Gson().toJson(jsonObject);
         // Write the JSON string to a file
         try {
-            FileWriter fileWriter = new FileWriter( fileName + ".json");
+            FileWriter fileWriter = new FileWriter(fileName + ".json", true);
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public JsonObject dataStreamOut (String fileName) throws IOException {
+
+    public JsonObject dataStreamOut(String fileName) throws IOException {
         JsonObject jsonObject = null;
         try {
-//            first try
             FileReader fileReader = new FileReader(fileName + ".json");
             jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
-//            second try
-//            Reader fileReader = Files.newBufferedReader(Paths.get(fileName + ".json"));
-//            jsonObject = JsonParser.parseReader(fileReader).getAsJsonObject();
-
             fileReader.close();
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,6 +88,7 @@ public class Convert {
         }
         return droneTypesList;
     }
+
     public ArrayList<DroneDynamics> initialiseDroneDynamics(JsonObject input) {
         ArrayList<DroneDynamics> droneDynamicsList = new ArrayList<>();
         JsonArray jsonArray = input.getAsJsonArray("results");
@@ -120,19 +118,19 @@ public class Convert {
     }
 
     // find right drone in arrayList of drones
-    public Drones findDrone(ArrayList<Drones> dronesList, int id){
-        for (Drones drone : dronesList){
-            if(drone.getId() == id){
+    public Drones findDrone(ArrayList<Drones> dronesList, int id) {
+        for (Drones drone : dronesList) {
+            if (drone.getId() == id) {
                 return drone;
             }
         }
         return null;
     }
 
-    public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList)  {
-        for(Drones drone : dronesList){
-            for (DroneTypes droneType : droneTypesList){
-                if(drone.getIdType() == droneType.getId()){
+    public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
+        for (Drones drone : dronesList) {
+            for (DroneTypes droneType : droneTypesList) {
+                if (drone.getIdType() == droneType.getId()) {
                     drone.setDroneType(droneType);
                 }
             }
@@ -140,8 +138,9 @@ public class Convert {
 
         }
     }
+
     public void addDroneDynamicsForDrone(Drones drones) {
-            //info for dynamics by  id
+        //info for dynamics by  id
         JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(drones.getId());
         if (drones.getDroneDynamicsList() == null) {
             ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
@@ -150,7 +149,7 @@ public class Convert {
 
     }
 
-    public Object[][] ArrayList2ObjectDrones(ArrayList<Drones> drones ) {
+    public Object[][] ArrayList2ObjectDrones(ArrayList<Drones> drones) {
         int numRows = drones.size();
         Object[][] droneTypesObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {
@@ -166,7 +165,8 @@ public class Convert {
         }
         return droneTypesObj;
     }
-    public Object[][] ArrayList2ObjectDroneType(ArrayList<DroneTypes> droneTypes ) {
+
+    public Object[][] ArrayList2ObjectDroneType(ArrayList<DroneTypes> droneTypes) {
         int numRows = droneTypes.size();
         Object[][] droneTypesObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {
@@ -186,7 +186,8 @@ public class Convert {
         }
         return droneTypesObj;
     }
-    public Object[][] ArrayList2ObjectDroneDynamics(ArrayList<DroneDynamics> droneDynamics ) {
+
+    public Object[][] ArrayList2ObjectDroneDynamics(ArrayList<DroneDynamics> droneDynamics) {
         int numRows = droneDynamics.size();
         Object[][] droneTypesObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {

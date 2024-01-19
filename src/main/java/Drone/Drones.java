@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import API.APIConnection;
 import API.APIEndpoints;
 import com.google.gson.JsonObject;
 
-public class Drones extends Refresh{
+public class Drones extends Refreshable {
+    private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
     static Convert helper = new Convert();
     private ArrayList<DroneDynamics> droneDynamicsList;
@@ -19,8 +23,6 @@ public class Drones extends Refresh{
     private String serialNumber;
     private int carriageWeight;
     private String carriageType;
-
-    private final static String link = "http://dronesim.facets-labs.com/api/drones";
 
     private static int onlineCount;
     private static int offlineCount;
@@ -113,28 +115,9 @@ public class Drones extends Refresh{
     public String getDroneTypeLink() { return droneTypeLink; }
 
 
-    public static void setOfflineCount(int offlineCount) {
-        Drones.offlineCount = offlineCount;
-    }
     public static int getOfflineCount() { return offlineCount; }
 
     public static int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static void setOnlineCount(int count) {
-        onlineCount = count;
-    }
-
-
-    @Override
-    public int checkOnlineCount() {
-        try {
-            onlineCount = apiEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
-            System.out.println("countDrones " + onlineCount);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
-        }
         return onlineCount;
     }
 
@@ -143,10 +126,32 @@ public class Drones extends Refresh{
         JsonObject o;
         try {
             o = helper.dataStreamOut("outputDrones");
+            offlineCount = o.get("count").getAsInt();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return o.get("count").getAsInt();
+        return offlineCount;
+    }
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = apiEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
+        }catch (NullPointerException e){
+            LOGGER.warning("NullPointerException: count is null");
+        }
+        return onlineCount;
+    }
+
+    @Override
+    public void refresh() throws IOException {
+        if(checkOfflineCount() < checkOnlineCount()){
+            helper.dataStreamIn(apiEndpoints.getDronesUrl(100, offlineCount), "outputDrones");
+        }else if(checkOfflineCount() > checkOfflineCount()){
+            LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
+        }else {
+            LOGGER.info("Same amount of data. No Updates ");
+        }
     }
 }
 

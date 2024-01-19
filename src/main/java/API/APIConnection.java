@@ -1,16 +1,9 @@
 package API;
 
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.MalformedJsonException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,16 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-
-import java.net.http.HttpClient;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class APIConnection {
     private final String USER_AGENT = "Mozilla Firefox Awesome version";
@@ -44,7 +29,7 @@ public class APIConnection {
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
 
-    public  JsonObject getResponse(String endpoint) {
+    public JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;
@@ -107,10 +92,10 @@ public class APIConnection {
             } catch (SocketTimeoutException e) {
                 //Handle SocketTimeoutException with retries
                 if (retries > 0) {
-                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Retrying...",e);
+                    LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
                     retries--;
                 } else {
-                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
+                    LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
                     e.printStackTrace();
                     //break;
                 }
