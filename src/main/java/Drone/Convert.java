@@ -127,26 +127,29 @@ public class Convert {
         return null;
     }
 
+
+//addign DroneTypes and DroneDynamics to the Drones based on the id
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
-            for (DroneTypes droneType : droneTypesList) {
-                if (drone.getIdType() == droneType.getId()) {
-                    drone.setDroneType(droneType);
-                }
-            }
-            //addDroneDynamicsForDrone(drone);
-
+            addDroneTypesForDrone(drone, droneTypesList);
+            addDroneDynamicsForDrone(drone, droneDynamicsList);
         }
     }
-
-    public void addDroneDynamicsForDrone(Drones drones) {
-        //info for dynamics by  id
-        JsonObject droneDynamicsJsonObject = apiEndpoints.getDroneDynamicsIndivData(drones.getId());
-        if (drones.getDroneDynamicsList() == null) {
-            ArrayList<DroneDynamics> droneDynamicsArrayList = new ArrayList<>();
+    public void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) {
+        for (DroneTypes droneType : droneTypesList) {
+            if (drone.getIdType() == droneType.getId()) {
+                drone.setDroneType(droneType);
+            }
         }
-        drones.setDroneDynamicsList(initialiseDroneDynamics(droneDynamicsJsonObject));
-
+    }
+    public void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
+        ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
+        for(DroneDynamics droneDynamic : droneDynamicsList) {
+            if (drone.getId() == droneDynamic.getId()) {
+                droneDynamicsForDrone.add(droneDynamic);
+            }
+        }
+        drone.setDroneDynamicsList(droneDynamicsForDrone);
     }
 
     public Object[][] ArrayList2ObjectDrones(ArrayList<Drones> drones) {

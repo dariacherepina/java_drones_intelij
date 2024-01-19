@@ -26,16 +26,19 @@ public class Main {
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+            System.out.println(DronesList.getFirst());
+
+
 //check the refresh
-            DronesList.getFirst().refresh();
-            System.out.println(Drones.getOfflineCount());
-            System.out.println(Drones.getOnlineCount());
-            DroneTypesList.getFirst().refresh();
-            System.out.println(DroneTypes.getOfflineCount());
-            System.out.println(DroneTypes.getOnlineCount());
-            DroneDynamicsList.getFirst().refresh();
-            System.out.println(DroneDynamics.getOfflineCount());
-            System.out.println(DroneDynamics.getOnlineCount());
+//            DronesList.getFirst().refresh();
+//            System.out.println(Drones.getOfflineCount());
+//            System.out.println(Drones.getOnlineCount());
+//            DroneTypesList.getFirst().refresh();
+//            System.out.println(DroneTypes.getOfflineCount());
+//            System.out.println(DroneTypes.getOnlineCount());
+//            DroneDynamicsList.getFirst().refresh();
+//            System.out.println(DroneDynamics.getOfflineCount());
+//            System.out.println(DroneDynamics.getOnlineCount());
 
 
 //check the findDrone function

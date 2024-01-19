@@ -114,7 +114,6 @@ public class Drones extends Refreshable {
     public int getIdType() { return idType;}
     public String getDroneTypeLink() { return droneTypeLink; }
 
-
     public static int getOfflineCount() { return offlineCount; }
 
     public static int getOnlineCount() {

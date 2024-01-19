@@ -20,6 +20,7 @@ public class DroneTypes extends Refreshable {
     private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
+
     private static int onlineCount;
     private static int offlineCount;
 
