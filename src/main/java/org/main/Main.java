@@ -1,4 +1,4 @@
-package org.main;
+
 
 import API.APIEndpoints;
 import API.SaveData;
@@ -27,24 +27,21 @@ public class Main {
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
 //check the refresh
-//            DronesList.getFirst().refresh();
-//            System.out.println(Drones.getOfflineCount());
-//            System.out.println(Drones.getOnlineCount());
-//            DroneTypesList.getFirst().refresh();
-//            System.out.println(DroneTypes.getOfflineCount());
-//            System.out.println(DroneTypes.getOnlineCount());
-//            DroneDynamicsList.getFirst().refresh();
-//            System.out.println(DroneDynamics.getOfflineCount());
-//            System.out.println(DroneDynamics.getOnlineCount());
-//            System.out.println(DronesList);
-//            System.out.println(DroneTypesList);
-//            System.out.println(helper.findDrone(DronesList, 81));
-//            System.out.println(DroneDynamicsList);
+            DronesList.getFirst().refresh();
+            System.out.println(Drones.getOfflineCount());
+            System.out.println(Drones.getOnlineCount());
+            DroneTypesList.getFirst().refresh();
+            System.out.println(DroneTypes.getOfflineCount());
+            System.out.println(DroneTypes.getOnlineCount());
+            DroneDynamicsList.getFirst().refresh();
+            System.out.println(DroneDynamics.getOfflineCount());
+            System.out.println(DroneDynamics.getOnlineCount());
+
 
 //check the findDrone function
-            int droneId = 85;
-            Drones DroneData= helper.findDrone(DronesList, droneId);
-            System.out.println(DroneData);
+//            int droneId = 85;
+//            Drones DroneData= helper.findDrone(DronesList, droneId);
+//            System.out.println(DroneData);
 
     }catch (JsonSyntaxException e) {
             System.out.println("Problems with JSONException e in main ");
