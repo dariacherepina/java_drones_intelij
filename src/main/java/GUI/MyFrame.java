@@ -306,9 +306,11 @@ public class MyFrame extends JFrame {
                                 "\nCreation Time: " + droneInfo.getCreated() +
                                 "\nSerial Number: " + droneInfo.getSerialNumber() +
                                 "\nCarriage Weight: " + droneInfo.getCarriageWeight() +
-                                "\nCarriage Type: " + droneInfo.getCarriageType();
+                                "\nCarriage Type: " + droneInfo.getCarriageType() +
+                                "\nDD: " + droneInfo.getDroneDynamicsList().get(0);
                 droneInfoTextArea.setText(infoText);
-
+                // DroneDynamics for Drone as Object[][]
+                //Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneInfo.getDroneDynamicsList());
                 // Add the JTextArea to the textFrame
                 textFrame.add(new JScrollPane(droneInfoTextArea));
 
@@ -348,6 +350,4 @@ public class MyFrame extends JFrame {
     private void setLabel(String labelText) {  //changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
         label1.setText(labelText);
     }
-
-
 }

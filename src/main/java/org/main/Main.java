@@ -26,7 +26,8 @@ public class Main {
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            System.out.println(DronesList.getFirst());
+            System.out.println(DronesList.getFirst().getDroneDynamicsList().getFirst());
+           helper.ArrayList2ObjectDroneDynamics(DronesList.getFirst().getDroneDynamicsList());
 
 
 //check the refresh
