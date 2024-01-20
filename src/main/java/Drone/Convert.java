@@ -102,6 +102,7 @@ public class Convert {
             if (drone.getIdType() == droneType.getId()) {
                 drone.setDroneType(droneType);
             }
+            //TODO:Exception -> no Type for a Drone, is that an exception??
         }
     }
 
