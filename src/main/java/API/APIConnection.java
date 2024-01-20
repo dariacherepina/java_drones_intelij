@@ -32,21 +32,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class APIConnection {
-    private final String USER_AGENT = "Mozilla Firefox Awesome version";
+    private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
-    private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+    private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
 
     // Adjusted the variable to be non-static
-    private HttpURLConnection connection;
+    private static HttpURLConnection connection;
 
     public APIConnection() {
     }
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
 
-    public JsonObject getResponse(String endpoint) {
+    public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;

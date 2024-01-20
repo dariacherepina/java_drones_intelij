@@ -1,5 +1,10 @@
 package Drone;
 
+import API.APIConnection;
+import API.APIEndpoints;
+import API.Stream;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,14 +12,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import API.APIConnection;
-import API.APIEndpoints;
-import com.google.gson.JsonObject;
-
 public class Drones extends Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
-    static Convert helper = new Convert();
     private ArrayList<DroneDynamics> droneDynamicsList;
     private DroneTypes droneType;
     private int idType;
@@ -29,12 +28,9 @@ public class Drones extends Refreshable {
     private static int offlineCount;
 
 
-
-    public Drones() {}
-
-    public Drones(int id, String dronetypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
+    public Drones(int id, String droneTypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
-        this.droneTypeLink = dronetypeLink;
+        this.droneTypeLink = droneTypeLink;
         this.created = created;
         this.serialNumber = serialNumber;
         this.carriageWeight = carriageWeight;
@@ -46,18 +42,19 @@ public class Drones extends Refreshable {
         }
     }
 
-    public int extractIdFromUrl(String dronetypeLink) throws MalformedURLException {
+    public int extractIdFromUrl(String droneTypeLink) throws MalformedURLException {
         try {
-            URL urlObj = new URL(dronetypeLink); // Use the passed parameter
+            URL urlObj = new URL(droneTypeLink); // Use the passed parameter
             String path = urlObj.getPath();
             String[] parts = path.split("/");
             String lastPart = parts[parts.length - 1];
             return Integer.parseInt(lastPart);
         } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
-            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + dronetypeLink, e);
+            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + droneTypeLink, e);
             throw e;
         }
     }
+
     @Override
     public String toString() {
         return "Drones [id=" + id
@@ -70,51 +67,82 @@ public class Drones extends Refreshable {
     }
 
 
-
     public void setIdType(int idType) {
         this.idType = idType;
     }
+
     public void setId(int id) {
         this.id = id;
     }
-    public void setDroneType(DroneTypes droneType) { this.droneType = droneType; }
+
+    public void setDroneType(DroneTypes droneType) {
+        this.droneType = droneType;
+    }
+
     public void setDroneTypeLink(String droneTypeLink) {
         this.droneTypeLink = droneTypeLink;
     }
+
     public void setCreated(String created) {
         this.created = created;
     }
+
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
-    public void setCarriageWeight(int carriageWeight) { this.carriageWeight = carriageWeight; }
+
+    public void setCarriageWeight(int carriageWeight) {
+        this.carriageWeight = carriageWeight;
+    }
+
     public void setCarriageType(String carriageType) {
         this.carriageType = carriageType;
     }
-    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) { this.droneDynamicsList = droneDynamicsList; }
+
+    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) {
+        this.droneDynamicsList = droneDynamicsList;
+    }
 
 
-    public int getId() { return this.id; }
+    public int getId() {
+        return this.id;
+    }
+
     public DroneTypes getDroneType() {
         return droneType;
     }
+
     public String getCreated() {
         return created;
     }
+
     public String getSerialNumber() {
         return serialNumber;
     }
+
     public int getCarriageWeight() {
         return carriageWeight;
     }
+
     public String getCarriageType() {
         return carriageType;
     }
-    public ArrayList<DroneDynamics> getDroneDynamicsList() { return droneDynamicsList; }
-    public int getIdType() { return idType;}
-    public String getDroneTypeLink() { return droneTypeLink; }
 
-    public static int getOfflineCount() { return offlineCount; }
+    public ArrayList<DroneDynamics> getDroneDynamicsList() {
+        return droneDynamicsList;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public String getDroneTypeLink() {
+        return droneTypeLink;
+    }
+
+    public static int getOfflineCount() {
+        return offlineCount;
+    }
 
     public static int getOnlineCount() {
         return onlineCount;
@@ -124,7 +152,7 @@ public class Drones extends Refreshable {
     public int checkOfflineCount() {
         JsonObject o;
         try {
-            o = helper.dataStreamOut("outputDrones");
+            o = Stream.dataStreamOut("outputDrones");
             offlineCount = o.get("count").getAsInt();
 
         } catch (IOException e) {
@@ -132,11 +160,12 @@ public class Drones extends Refreshable {
         }
         return offlineCount;
     }
+
     @Override
     public int checkOnlineCount() {
         try {
-            onlineCount = apiEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
-        }catch (NullPointerException e){
+            onlineCount = APIEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
+        } catch (NullPointerException e) {
             LOGGER.warning("NullPointerException: count is null");
         }
         return onlineCount;
@@ -144,11 +173,11 @@ public class Drones extends Refreshable {
 
     @Override
     public void refresh() throws IOException {
-        if(checkOfflineCount() < checkOnlineCount()){
-            helper.dataStreamIn(apiEndpoints.getDronesUrl(100, offlineCount), "outputDrones");
-        }else if(checkOfflineCount() > checkOfflineCount()){
+        if (checkOfflineCount() < checkOnlineCount()) {
+            Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, offlineCount), "outputDrones");
+        } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
-        }else {
+        } else {
             LOGGER.info("Same amount of data. No Updates ");
         }
     }

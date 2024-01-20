@@ -1,49 +1,15 @@
 package Drone;
 
-import API.APIEndpoints;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 
 public class Convert {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
-    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
-
-    public void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException {
-
-        String jsonString = new Gson().toJson(jsonObject);
-        // Write the JSON string to a file
-        try {
-            FileWriter fileWriter = new FileWriter(fileName + ".json", true);
-            fileWriter.write(jsonString);
-            fileWriter.close();
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing JSON to file", e);
-        }
-    }
-
-    public JsonObject dataStreamOut(String fileName) throws IOException {
-        JsonObject jsonObject = null;
-        try {
-            FileReader fileReader = new FileReader(fileName + ".json");
-            jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
-            fileReader.close();
-
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading JSON from file", e);
-        }
-        return jsonObject;
-    }
 
     public ArrayList<Drones> initialiseDrones(JsonObject input) {
         ArrayList<Drones> dronesList = new ArrayList<>();
@@ -80,11 +46,6 @@ public class Convert {
                     obj.get("max_carriage").getAsInt()
             ));
 
-//            droneTypesList.sort((o1, o2) -> {
-//                int id1 = (o1).getId();
-//                int id2 = (o2).getId();
-//                return Integer.compare(id1, id2);
-//            });
         }
         return droneTypesList;
     }
@@ -135,6 +96,7 @@ public class Convert {
             addDroneDynamicsForDrone(drone, droneDynamicsList);
         }
     }
+
     public void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) {
         for (DroneTypes droneType : droneTypesList) {
             if (drone.getIdType() == droneType.getId()) {
@@ -142,9 +104,10 @@ public class Convert {
             }
         }
     }
+
     public void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
         ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
-        for(DroneDynamics droneDynamic : droneDynamicsList) {
+        for (DroneDynamics droneDynamic : droneDynamicsList) {
             if (drone.getId() == droneDynamic.getId()) {
                 droneDynamicsForDrone.add(droneDynamic);
             }

@@ -2,8 +2,8 @@ package Drone;
 
 import API.APIConnection;
 import API.APIEndpoints;
+import API.Stream;
 import com.google.gson.JsonObject;
-
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,10 +11,8 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DroneDynamics  extends Refreshable{
+public class DroneDynamics extends Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-    static APIEndpoints apiEndpoints = new APIEndpoints();
-    static Convert helper = new Convert();
 
     private int id;
     private String drone;
@@ -31,12 +29,6 @@ public class DroneDynamics  extends Refreshable{
     private static int onlineCount;
     private static int offlineCount;
 
-
-
-    public DroneDynamics(String url) throws MalformedURLException {
-        this.drone = url;
-        this.id = extractIdFromUrl(this.drone);
-    }
 
     public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
         this.drone = drone;
@@ -57,7 +49,6 @@ public class DroneDynamics  extends Refreshable{
         }
     }
 
-    public DroneDynamics() {}
 
     public int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
@@ -90,16 +81,6 @@ public class DroneDynamics  extends Refreshable{
                 + ", status=" + status + "]";
     }
 
-//    public int setCountDroneDynamics(){
-//        try {
-//            this.countDroneDynamics = apiEndpoints.getDroneDynamics().get("count").getAsInt();
-//            System.out.println("countDroneDynamics " + countDroneDynamics);
-//        }catch (NullPointerException e){
-//            System.out.println("count is null?????");
-//        }
-//
-//        return getCountDroneDynamics();
-//    }
 
     public void setDrone(String drone) {
         this.drone = drone;
@@ -116,42 +97,86 @@ public class DroneDynamics  extends Refreshable{
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
     public void setAlign_roll(String align_roll) {
         this.align_roll = align_roll;
     }
+
     public void setAlign_pitch(String align_pitch) {
         this.align_pitch = align_pitch;
     }
+
     public void setAlign_yaw(String align_yaw) {
         this.align_yaw = align_yaw;
     }
+
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
+
     public void setBattery_status(String battery_status) {
         this.battery_status = battery_status;
     }
+
     public void setLast_seen(String last_seen) {
         this.last_seen = last_seen;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
-    public int getId() { return this.id; }
-    public String getDrone() { return drone;}
-    public String getTimestamp() { return timestamp; }
-    public int getSpeed() { return speed; }
-    public String getAlign_roll() { return align_roll; }
-    public String getAlign_pitch() { return align_pitch; }
-    public String getAlign_yaw() { return align_yaw; }
-    public String getLongitude() { return longitude;}
-    public String getLatitude() { return latitude; }
-    public String getBattery_status() { return battery_status; }
-    public String getLast_seen() { return last_seen; }
-    public String getStatus() { return status; }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getDrone() {
+        return drone;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public String getAlign_roll() {
+        return align_roll;
+    }
+
+    public String getAlign_pitch() {
+        return align_pitch;
+    }
+
+    public String getAlign_yaw() {
+        return align_yaw;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getBattery_status() {
+        return battery_status;
+    }
+
+    public String getLast_seen() {
+        return last_seen;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
     public static int getOnlineCount() {
         return onlineCount;
@@ -165,7 +190,7 @@ public class DroneDynamics  extends Refreshable{
     public int checkOfflineCount() {
         JsonObject o;
         try {
-            o = helper.dataStreamOut("outputDroneDynamics");
+            o = Stream.dataStreamOut("outputDroneDynamics");
             offlineCount = o.get("count").getAsInt();
 
         } catch (IOException e) {
@@ -177,7 +202,7 @@ public class DroneDynamics  extends Refreshable{
     @Override
     public int checkOnlineCount() {
         try {
-            onlineCount = apiEndpoints.getDroneDynamics(1, 0).get("count").getAsInt();
+            onlineCount = APIEndpoints.getDroneDynamics(1, 0).get("count").getAsInt();
         } catch (NullPointerException e) {
             LOGGER.warning("NullPointerException: count is null");
         }
@@ -187,7 +212,7 @@ public class DroneDynamics  extends Refreshable{
     @Override
     public void refresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
-            helper.dataStreamIn(apiEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics");
+            Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics");
         } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
         } else {

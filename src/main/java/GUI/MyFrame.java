@@ -1,6 +1,6 @@
 package GUI;
 
-import API.APIEndpoints;
+import API.Stream;
 import Drone.Convert;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
@@ -19,22 +19,9 @@ import java.util.ArrayList;
 
 public class MyFrame extends JFrame {
     static Convert helper = new Convert();
-    APIEndpoints droneIndivData = new APIEndpoints();
     private JLabel label1;
     private JPanel mainPanel;
     private JTable table = new JTable();
-
-    public static void main(String[] args) {
-        try {
-            ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
-            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
-            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
-            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            new MyFrame(DronesList, DroneTypesList, DroneDynamicsList);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public MyFrame(ArrayList<Drones> DronesList, ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
 
@@ -269,8 +256,6 @@ public class MyFrame extends JFrame {
         // Object[][] data = helper.ArrayList2ObjectDroneDynamics(Sort.sortStatus(DroneDynamicsList));
 
 
-
-
         droneIDButton.addActionListener(new ActionListener() {      // ActionListener für droneIDButton
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -335,6 +320,17 @@ public class MyFrame extends JFrame {
         this.setVisible(true); // makes frame visible, in the end in order to see every component
     }
 
+    public static void main(String[] args) {
+        try {
+            ArrayList<Drones> DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
+            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
+            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
+            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+            new MyFrame(DronesList, DroneTypesList, DroneDynamicsList);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void createLabel() {   //includes the title of the site and the image
         label1 = new JLabel("DRONE OVERVIEW");

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public interface Sort {
-    public static ArrayList<Drones> sortCarriageWeight(ArrayList<Drones> dronesList) {
+    static ArrayList<Drones> sortCarriageWeight(ArrayList<Drones> dronesList) {
         Collections.sort(dronesList, new Comparator<Drones>() {
             @Override
             public int compare(Drones d1, Drones d2) {
@@ -15,7 +15,7 @@ public interface Sort {
         return dronesList;
     }
 
-    public static ArrayList<DroneTypes> sortSpeed(ArrayList<DroneTypes> droneTypesList) {
+    static ArrayList<DroneTypes> sortSpeed(ArrayList<DroneTypes> droneTypesList) {
         Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
             @Override
             public int compare(DroneTypes d1, DroneTypes d2) {
@@ -25,7 +25,7 @@ public interface Sort {
         return droneTypesList;
     }
 
-    public static ArrayList<DroneTypes> sortMaximumCarriage(ArrayList<DroneTypes> droneTypesList) {
+    static ArrayList<DroneTypes> sortMaximumCarriage(ArrayList<DroneTypes> droneTypesList) {
         Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
             @Override
             public int compare(DroneTypes d1, DroneTypes d2) {
@@ -35,7 +35,7 @@ public interface Sort {
         return droneTypesList;
     }
 
-    public static ArrayList<DroneDynamics> sortStatus(ArrayList<DroneDynamics> droneDynamicsList) {
+    static ArrayList<DroneDynamics> sortStatus(ArrayList<DroneDynamics> droneDynamicsList) {
         Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
             @Override
             public int compare(DroneDynamics d1, DroneDynamics d2) {
@@ -52,15 +52,15 @@ public interface Sort {
                 if (d1.getStatus().equals("ON")) {
                     return -1; // ON goes first
                 } else if (d1.getStatus().equals("OF")) { // OF
-                    if (d2.getStatus().equals("ON")){
+                    if (d2.getStatus().equals("ON")) {
                         return 1; // if ON or OF -> OF goes second
-                    }else{
+                    } else {
                         return -1; //if IS or OF -> OF goes first
                     }
                 } else { // IS
-                    if(d2.getStatus().equals("ON") || d2.getStatus().equals("OF")){
+                    if (d2.getStatus().equals("ON") || d2.getStatus().equals("OF")) {
                         return 1; // everything accept IS goes first
-                    }else{
+                    } else {
                         return -1;
                     }
                 }

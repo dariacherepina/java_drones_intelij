@@ -1,9 +1,7 @@
 package org.main;
 
-import API.APIEndpoints;
-import API.SaveData;
+import API.Stream;
 import Drone.*;
-import com.google.gson.JsonSyntaxException;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -12,21 +10,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Main implements Sort{
+public class Main implements Sort {
     // Define constants
 
     static Convert helper = new Convert();
-    static APIEndpoints apiEndpoints = new APIEndpoints();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         try {
 //
-//            SaveData data = new SaveData();
+//            Stream data = new Stream();
 //            data.saveInfo();
-            ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
-            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
-            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
+            ArrayList<Drones> DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
+            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
+            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
             //helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
             //LOGGER.info(String.valueOf(DronesList.getFirst().getDroneDynamicsList().getFirst()));
             //helper.ArrayList2ObjectDroneDynamics(DronesList.getFirst().getDroneDynamicsList();
@@ -38,7 +35,7 @@ public class Main implements Sort{
             LOGGER.info(String.valueOf(Sort.sortStatus(DroneDynamicsList)));
 
 
-//check the refresh
+//check the refresh :TODO: threads for refresh every 5 min?
 //            DronesList.getFirst().refresh();
 //            System.out.println(Drones.getOfflineCount());
 //            System.out.println(Drones.getOnlineCount());
