@@ -19,7 +19,9 @@ public class Main implements Sort {
     public static void main(String[] args) {
         try {
             Stream data = new Stream();
-            data.saveData();
+            data.saveData(false);
+
+
             ArrayList<Drones> DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));

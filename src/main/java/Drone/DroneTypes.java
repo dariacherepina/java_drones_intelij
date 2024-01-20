@@ -157,7 +157,7 @@ public class DroneTypes extends Refreshable {
     @Override
     public void refresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
-            Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(100, offlineCount), "outputDroneTypes");
+            Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(100, offlineCount), "outputDroneTypes", true);
         } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
         } else {

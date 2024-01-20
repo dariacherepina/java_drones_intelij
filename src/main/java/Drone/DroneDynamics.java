@@ -212,7 +212,8 @@ public class DroneDynamics extends Refreshable {
     @Override
     public void refresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
-            Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics");
+            //true stands for append in dataStreamIn func
+            Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics", true);
         } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
         } else {
