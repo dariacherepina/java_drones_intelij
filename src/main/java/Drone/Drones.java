@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import API.APIConnection;
@@ -53,8 +54,7 @@ public class Drones extends Refreshable {
             String lastPart = parts[parts.length - 1];
             return Integer.parseInt(lastPart);
         } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
-            System.err.println("Failed to extract ID from URL: " + dronetypeLink);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + dronetypeLink, e);
             throw e;
         }
     }
@@ -153,5 +153,3 @@ public class Drones extends Refreshable {
         }
     }
 }
-
-

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public abstract class Refreshable {
+
     public abstract int checkOnlineCount();
     public abstract int checkOfflineCount();
 

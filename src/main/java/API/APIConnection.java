@@ -1,9 +1,16 @@
 package API;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.MalformedJsonException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,14 +19,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
+
+import java.net.http.HttpClient;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class APIConnection {
     private final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
     private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+
 
     // Adjusted the variable to be non-static
     private HttpURLConnection connection;
@@ -101,17 +118,17 @@ public class APIConnection {
                 }
             } catch (MalformedURLException e) {
                 // Handle MaldformedURLException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "MalformedURLException occurred", e);
             } catch (IOException e) {
-                //Handle IOException
-                e.printStackTrace();
+                // Handle IOException
+                LOGGER.log(Level.SEVERE, "IOException occurred", e);
             }
-        }
-        if (connection != null) {
-            connection.disconnect();
-            System.out.println("connection disconnected");
-        }
+            if (connection != null) {
+                connection.disconnect();
+                LOGGER.info("connection disconnected");
+            }
 
+        }
 //        String responseContentStr = fixJson(responseContent.toString());
 //        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
 //       JsonElement inputJson = JsonParser.parseString(responseContentStr);
@@ -137,7 +154,7 @@ public class APIConnection {
 //        }
 //        return null;
 //    }
-}
 
 
 // get respond neu funktion
+}

@@ -1,12 +1,15 @@
-
+package org.main;
 
 import API.APIEndpoints;
 import API.SaveData;
 import Drone.*;
 import com.google.gson.JsonSyntaxException;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Main {
@@ -14,6 +17,7 @@ public class Main {
 
     static Convert helper = new Convert();
     static APIEndpoints apiEndpoints = new APIEndpoints();
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
         try {
@@ -26,7 +30,7 @@ public class Main {
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
             helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            System.out.println(DronesList.getFirst().getDroneDynamicsList().getFirst());
+            LOGGER.info(String.valueOf(DronesList.getFirst().getDroneDynamicsList().getFirst()));
            helper.ArrayList2ObjectDroneDynamics(DronesList.getFirst().getDroneDynamicsList());
 
 
@@ -47,9 +51,9 @@ public class Main {
 //            Drones DroneData= helper.findDrone(DronesList, droneId);
 //            System.out.println(DroneData);
 
-    }catch (JsonSyntaxException e) {
-            System.out.println("Problems with JSONException e in main ");
-    } catch (IOException e) {
+        } catch (JSONException e) {
+            LOGGER.log(Level.SEVERE, "Problems with JSONException in main ", e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 

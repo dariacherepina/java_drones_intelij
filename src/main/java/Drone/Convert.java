@@ -10,9 +10,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 
 public class Convert {
+    private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
 
     public void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException {
@@ -24,7 +28,7 @@ public class Convert {
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error writing JSON to file", e);
         }
     }
 
@@ -36,7 +40,7 @@ public class Convert {
             fileReader.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error reading JSON from file", e);
         }
         return jsonObject;
     }
@@ -55,11 +59,7 @@ public class Convert {
                     obj.get("carriage_type").getAsString()
             ));
 
-//            dronesList.sort((o1, o2) -> {
-//                int id1 = (o1).getId();
-//                int id2 = (o2).getId();
-//                return Integer.compare(id1, id2);
-//            });
+
         }
         return dronesList;
     }
@@ -128,7 +128,7 @@ public class Convert {
     }
 
 
-//addign DroneTypes and DroneDynamics to the Drones based on the id
+    //addign DroneTypes and DroneDynamics to the Drones based on the id
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
             addDroneTypesForDrone(drone, droneTypesList);

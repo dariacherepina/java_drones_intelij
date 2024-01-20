@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DroneDynamics  extends Refreshable{
@@ -66,8 +67,7 @@ public class DroneDynamics  extends Refreshable{
             String lastPart = parts[parts.length - 1];
             return Integer.parseInt(lastPart);
         } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
-            System.err.println("Failed to extract ID from URL: " + drone);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + drone, e);
             throw e;
         }
     }
