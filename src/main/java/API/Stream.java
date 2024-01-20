@@ -17,7 +17,7 @@ public class Stream {
         String jsonString = new Gson().toJson(jsonObject);
         // Write the JSON string to a file
         try {
-            FileWriter fileWriter = new FileWriter(fileName + ".json", true);
+            FileWriter fileWriter = new FileWriter(fileName + ".json");
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class Stream {
         return jsonObject;
     }
 
-    public void saveInfo() {
+    public void saveData() {
         try {
 
             dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones");

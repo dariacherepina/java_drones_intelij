@@ -90,11 +90,11 @@ public class APIConnection {
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                     responseContent.append("\n");
-//                    try {
-//                        nextPageLink = pagination(line);
-//                    }catch (JSONException e){
-//                        System.out.println("JSONException e in APIConnection");
-//                    }
+                    try {
+                        nextPageLink = pagination(line);
+                    }catch (JSONException e){
+                        System.out.println("JSONException e in APIConnection");
+                    }
                 }
                 reader.close();
 
@@ -113,7 +113,6 @@ public class APIConnection {
                     retries--;
                 } else {
                     LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
-                    e.printStackTrace();
                     //break;
                 }
             } catch (MalformedURLException e) {
@@ -129,30 +128,26 @@ public class APIConnection {
             }
 
         }
-//        String responseContentStr = fixJson(responseContent.toString());
-//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
-//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
+
         JsonElement inputJson = JsonParser.parseString(responseContent.toString());
-
-
         return inputJson.getAsJsonObject();
     }
-//    public String pagination (String line){
-//        try {
-//            JSONObject jsonObject = new JSONObject(line);
-//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-//                LOGGER.log(Level.INFO, "next is null");
-//                return null;
-//            } else {
-//                LOGGER.log(Level.INFO, "next is not null");
-//                return jsonObject.get("next").toString();
-//            }
-//        }catch (JSONException e){
-//            LOGGER.log(Level.INFO, "JSONException");
-//        }catch (NullPointerException e){
-//            LOGGER.log(Level.INFO, "NullPointerException");
-//        }
-//        return null;
-//    }
+    public static String pagination (String line){
+        try {
+            JSONObject jsonObject = new JSONObject(line);
+            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                LOGGER.log(Level.INFO, "next is null");
+                return null;
+            } else {
+                LOGGER.log(Level.INFO, "next is not null");
+                return jsonObject.get("next").toString();
+            }
+        }catch (JSONException e){
+            LOGGER.log(Level.INFO, "JSONException");
+        }catch (NullPointerException e){
+            LOGGER.log(Level.INFO, "NullPointerException");
+        }
+        return null;
+    }
 
 }
