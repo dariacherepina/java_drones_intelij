@@ -34,7 +34,6 @@ public class MyFrame extends JFrame {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public MyFrame(ArrayList<Drones> DronesList, ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
@@ -306,8 +305,7 @@ public class MyFrame extends JFrame {
                                 "\nCreation Time: " + droneInfo.getCreated() +
                                 "\nSerial Number: " + droneInfo.getSerialNumber() +
                                 "\nCarriage Weight: " + droneInfo.getCarriageWeight() +
-                                "\nCarriage Type: " + droneInfo.getCarriageType() +
-                                "\nDD: " + droneInfo.getDroneDynamicsList().get(0);
+                                "\nCarriage Type: " + droneInfo.getCarriageType();
                 droneInfoTextArea.setText(infoText);
                 // DroneDynamics for Drone as Object[][]
                 //Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneInfo.getDroneDynamicsList());
