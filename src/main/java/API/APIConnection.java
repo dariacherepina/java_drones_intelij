@@ -155,6 +155,4 @@ public class APIConnection {
 //        return null;
 //    }
 
-
-// get respond neu funktion
 }

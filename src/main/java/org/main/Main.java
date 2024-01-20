@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Main {
+public class Main implements Sort{
     // Define constants
 
     static Convert helper = new Convert();
@@ -21,17 +21,21 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-
-            SaveData data = new SaveData();
-            data.saveInfo();
-
-
+//
+//            SaveData data = new SaveData();
+//            data.saveInfo();
             ArrayList<Drones> DronesList = helper.initialiseDrones(helper.dataStreamOut("outputDrones"));
             ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(helper.dataStreamOut("outputDroneTypes"));
             ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(helper.dataStreamOut("outputDroneDynamics"));
-            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            LOGGER.info(String.valueOf(DronesList.getFirst().getDroneDynamicsList().getFirst()));
-           helper.ArrayList2ObjectDroneDynamics(DronesList.getFirst().getDroneDynamicsList());
+            //helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+            //LOGGER.info(String.valueOf(DronesList.getFirst().getDroneDynamicsList().getFirst()));
+            //helper.ArrayList2ObjectDroneDynamics(DronesList.getFirst().getDroneDynamicsList();
+
+//check sort the ArrayLists by the CarriageWeight, MaximumCarriage, sortSpeed, sortStatus
+            LOGGER.info(String.valueOf(Sort.sortCarriageWeight(DronesList)));
+            LOGGER.info(String.valueOf(Sort.sortMaximumCarriage(DroneTypesList)));
+            LOGGER.info(String.valueOf(Sort.sortSpeed(DroneTypesList)));
+            LOGGER.info(String.valueOf(Sort.sortStatus(DroneDynamicsList)));
 
 
 //check the refresh

@@ -265,6 +265,10 @@ public class MyFrame extends JFrame {
 
             }
         });
+        //the Object[][] data with sorted DroneDynamics by Status
+        // Object[][] data = helper.ArrayList2ObjectDroneDynamics(Sort.sortStatus(DroneDynamicsList));
+
+
 
 
         droneIDButton.addActionListener(new ActionListener() {      // ActionListener für droneIDButton

@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class DroneTypes extends Refreshable {
+public class DroneTypes extends Refreshable{
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
     static Convert helper = new Convert();
