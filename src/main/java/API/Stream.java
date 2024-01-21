@@ -9,14 +9,15 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Exception.*;
 
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
-    public static void dataStreamIn(JsonObject jsonObject, String fileName, boolean append) throws IOException {
-//        if (!isValidFileName(fileName)) {
-//            throw new InvalidFileNameException("The filename provided is incorrect.");
-//        }//TODO: Exception
+    public static void dataStreamIn(JsonObject jsonObject, String fileName, boolean append) throws IOException, InvalidFileNameException {
+        if (!isValidFileName(fileName)) {
+            throw new InvalidFileNameException("The filename provided is incorrect.");
+        }//TODO: Exception
 
         String jsonString = new Gson().toJson(jsonObject);
         // Write the JSON string to a file
@@ -52,6 +53,8 @@ public class Stream {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error while fetching and saving data", e);
             throw new RuntimeException(e);
+        }catch (InvalidFileNameException e){
+            LOGGER.log(Level.SEVERE, "Name of the File is invalid", e);
         }
     }
     public static boolean isValidFileName(String fileName){

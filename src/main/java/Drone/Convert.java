@@ -1,5 +1,6 @@
 package Drone;
 
+import Exception.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -79,34 +80,40 @@ public class Convert {
     }
 
     // find right drone in arrayList of drones
-    public Drones findDrone(ArrayList<Drones> dronesList, int id) {
+    public Drones findDrone(ArrayList<Drones> dronesList, int id) throws InvalidIdInput{
         for (Drones drone : dronesList) {
             if (drone.getId() == id) {
                 return drone;
             }
         }
-        return null;
+        throw new InvalidIdInput("Invalid drone ID input"); //TODO: check implementation of Exception
     }
 
 
     //addign DroneTypes and DroneDynamics to the Drones based on the id
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
-            addDroneTypesForDrone(drone, droneTypesList);
-            addDroneDynamicsForDrone(drone, droneDynamicsList);
+            try {
+                addDroneTypesForDrone(drone, droneTypesList);
+                addDroneDynamicsForDrone(drone, droneDynamicsList);
+            } catch (AbsenceTypeForDrone e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) {
+    private void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) throws AbsenceTypeForDrone {
         for (DroneTypes droneType : droneTypesList) {
             if (drone.getIdType() == droneType.getId()) {
                 drone.setDroneType(droneType);
             }
-            //TODO:Exception -> no Type for a Drone, is that an exception??
+        }
+        if(drone.getDroneType() == null){
+            throw new AbsenceTypeForDrone("No DroneType for this Drone");//TODO: check implementation of Exception
         }
     }
 
-    public void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
+    private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
         ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
         for (DroneDynamics droneDynamic : droneDynamicsList) {
             if (drone.getId() == droneDynamic.getId()) {

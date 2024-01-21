@@ -5,6 +5,7 @@ import Drone.Convert;
 import Drone.DroneDynamics;
 import Drone.DroneTypes;
 import Drone.Drones;
+import Exception.InvalidIdInput;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,11 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 //JFrame = a GUI window to add components to
 
 public class MyFrame extends JFrame {
+    private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
     static Convert helper = new Convert();
     private JLabel label1;
     private JPanel mainPanel;
@@ -271,8 +274,15 @@ public class MyFrame extends JFrame {
                 int droneId = Integer.parseInt(droneIdString);
 
                 // Use helper method to get information for the specific drone ID
-                Drones droneInfo = helper.findDrone(DronesList, droneId);
-                ;
+                Drones droneInfo = null;
+                //Custom Exception
+                try {
+                    droneInfo = helper.findDrone(DronesList, droneId);
+                } catch (InvalidIdInput ex) {
+                    LOGGER.warning("Wrong Input Of Drone Id");
+                    throw new RuntimeException(ex);
+                }
+
 
                 // Create a new JFrame for displaying text
                 JFrame textFrame = new JFrame("Drone Information");
