@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Exception.*;
 
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
