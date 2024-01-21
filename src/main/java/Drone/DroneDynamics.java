@@ -3,6 +3,7 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
+import Exception.*;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -213,7 +214,11 @@ public class DroneDynamics extends Refreshable {
     public void refresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
             //true stands for append in dataStreamIn func
-            Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics", true);
+            try {
+                Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics", true);
+            } catch (InvalidFileNameException e) {
+                throw new RuntimeException(e);
+            }
         } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
         } else {

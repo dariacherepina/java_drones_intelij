@@ -3,6 +3,7 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
+import Exception.*;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class Drones extends Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
@@ -174,7 +176,11 @@ public class Drones extends Refreshable {
     @Override
     public void refresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
-            Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, offlineCount), "outputDrones", true);
+            try {
+                Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, offlineCount), "outputDrones", true);
+            } catch (InvalidFileNameException e) {
+                throw new RuntimeException(e);
+            }
         } else if (checkOfflineCount() > checkOfflineCount()) {
             LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
         } else {

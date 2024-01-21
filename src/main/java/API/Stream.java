@@ -55,7 +55,7 @@ public class Stream {
             throw new RuntimeException(e);
         }catch (InvalidFileNameException e){
             LOGGER.log(Level.SEVERE, "Name of the File is invalid", e);
-        }
+            }
     }
     public static boolean isValidFileName(String fileName){
         if(!Objects.equals(fileName, "outputDrones") ||
