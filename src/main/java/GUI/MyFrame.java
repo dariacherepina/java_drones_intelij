@@ -23,7 +23,13 @@ public class MyFrame extends JFrame {
     static Convert helper = new Convert();
     private JLabel label1;
     private JPanel mainPanel;
+    private JPanel panel;
     private JTable table = new JTable();
+    private JButton droneCatalogButton;
+    private JButton dronesButton;
+    private JButton droneTypesButton;
+    private JButton droneDynamicsButton;
+    private JButton droneIDButton;
 
 
     public MyFrame(ArrayList<Drones> DronesList, ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
@@ -119,7 +125,7 @@ public class MyFrame extends JFrame {
        // scrollPane.setBackground(Color.DARK_GRAY);
         mainPanel.add(scrollPane, BorderLayout.SOUTH);
 
-        JPanel panel = new JPanel();            //includes the buttons Dashboard, Drone Catalog, Drones, DroneTypes, Drone Dynamics, DroneID
+        panel = new JPanel();            //includes the buttons Dashboard, Drone Catalog, Drones, DroneTypes, Drone Dynamics, DroneID
         panel.setBackground(Color.black);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -127,20 +133,20 @@ public class MyFrame extends JFrame {
         dashboardButton.setBackground(Color.white);
         panel.add(dashboardButton);
 
-        JButton droneCatalogButton = new JButton("DroneCatalog");
+        droneCatalogButton = new JButton("DroneCatalog");
         droneCatalogButton.setBackground(Color.white);
         panel.add(droneCatalogButton);
 
-        JButton dronesButton = new JButton("Drones");
+        dronesButton = new JButton("Drones");
         dronesButton.setBackground(Color.white);
 
-        JButton droneTypesButton = new JButton("DroneTypes");
+        droneTypesButton = new JButton("DroneTypes");
         droneTypesButton.setBackground(Color.white);
 
-        JButton droneDynamicsButton = new JButton("DroneDynamics");
+        droneDynamicsButton = new JButton("DroneDynamics");
         droneDynamicsButton.setBackground(Color.white);
 
-        JButton droneIDButton = new JButton("DroneID");
+        droneIDButton = new JButton("DroneID");
         droneIDButton.setBackground(Color.white);
 
         JPanel eastPanel = new JPanel();               //includes refreshButton
@@ -171,197 +177,13 @@ public class MyFrame extends JFrame {
         returnButton.setPreferredSize(maxButtonSize);
 
         //ActionListeners for the buttons
-        dashboardButton.addActionListener(new ActionListener() {   //ActionListener for dashboardButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLabel("DRONE OVERVIEW");
+        dashboardButton.addActionListener(new DashboardActionListener(this, DronesList, DroneTypesList,DroneDynamicsList));   //ActionListener for dashboardButton
+        droneCatalogButton.addActionListener(new DroneCatalogActionListener(this));
+        dronesButton.addActionListener(new DronesActionListener(this, DronesList));
+        droneTypesButton.addActionListener(new DroneTypesActionListener(this, DroneTypesList));
+        droneDynamicsButton.addActionListener(new DroneDynamicsActionListener(this,DroneDynamicsList));    // ActionListener für droneDynamicsButton
+        droneIDButton.addActionListener(new DroneIDActionListener(this,DronesList));     // ActionListener für droneIDButton
 
-                // Define the columns for the table
-                String[] columns = {"ID", "TypeName", "Status"};
-
-
-
-                // Determine the number of rows needed based on the ArrayList with the largest size
-                int numRows = Math.max(DronesList.size(), Math.max(DroneTypesList.size(), DroneDynamicsList.size()));
-
-                // Create a 2D array to hold the data for the table
-                Object[][] data = new Object[numRows][columns.length];
-
-                // Populate the data array with the specific information you need
-                for (int i = 0; i < numRows; i++) {
-                    if (i < DronesList.size()) {
-                        Drones drone = DronesList.get(i);
-                        data[i][0] = drone.getId();
-
-                        // Assuming you have a method to get TypeName from Drone
-                        data[i][1] = drone.getDroneType().getTypeName();
-
-                        if (i < DroneDynamicsList.size()) {
-                            DroneDynamics droneDynamics = DroneDynamicsList.get(i);
-                            // Assuming you have a method to get Status from DroneDynamics
-                            data[i][2] = droneDynamics.getStatus();
-                        }
-//                        else {
-//                            data[i][2] = ""; // Placeholder for Status, modify accordingly
-//                        }
-                    }
-//                    else {
-//                        // Populate remaining rows with empty data or placeholders
-//                        data[i][0] = "";
-//                        data[i][1] = "";
-//                        data[i][2] = "";
-//                    }
-
-
-                    if (i < DroneTypesList.size()) {
-                        DroneTypes droneType = DroneTypesList.get(i);
-                        // You need to decide how to map DroneTypes data to the columns
-                    }
-
-                    if (i < DroneDynamicsList.size()) {
-                        DroneDynamics droneDynamics = DroneDynamicsList.get(i);
-                        // You need to decide how to map DroneDynamics data to the columns
-                    }
-                }
-
-                // Set the new data model for the table
-                table.setModel(new DefaultTableModel(data, columns));
-
-            }
-        });
-
-        droneCatalogButton.addActionListener(new ActionListener() {   // ActionListener for droneCatalogButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                droneCatalogButton.setBackground(Color.gray);  //droneCatalogButton turns gray when you click it once
-
-                // include buttons for Drones, DroneTypes and DroneDynamics to the Panel
-                panel.add(dronesButton);
-                panel.add(droneTypesButton);
-                panel.add(droneDynamicsButton);
-                panel.add(droneIDButton);
-
-                MyFrame.this.revalidate();   //update frame in order to include the added buttons
-                MyFrame.this.repaint();
-            }
-
-        });
-        dronesButton.addActionListener(new ActionListener() {          // ActionListener für dronesButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLabel("DRONES");
-
-                String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-                Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
-                table.setModel(new DefaultTableModel(data, columns));
-
-            }
-        });
-        droneTypesButton.addActionListener(new ActionListener() {  // ActionListener für droneTypesButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLabel("DRONE TYPES");
-
-                String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-                Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
-                table.setModel(new DefaultTableModel(data, columns));
-
-            }
-        });
-        droneDynamicsButton.addActionListener(new ActionListener() {    // ActionListener für droneDynamicsButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setLabel("DRONE DYNAMICS");
-
-                String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-                Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
-                table.setModel(new DefaultTableModel(data, columns));
-
-            }
-        });
-        //the Object[][] data with sorted DroneDynamics by Status
-        // Object[][] data = helper.ArrayList2ObjectDroneDynamics(Sort.sortStatus(DroneDynamicsList));
-
-
-        droneIDButton.addActionListener(new ActionListener() {      // ActionListener für droneIDButton
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Use input dialog to get drone ID from the user
-                String droneIdString = JOptionPane.showInputDialog("Enter Drone ID: (71-95)");
-
-                // Check if the user clicked Cancel or entered an empty value
-                if (droneIdString == null || droneIdString.trim().isEmpty()) {
-                    return; // Exit if no input or canceled
-                }
-
-
-                // Convert the input to an integer
-                int droneId = Integer.parseInt(droneIdString);
-
-                if (droneId < 71 || droneId > 95) {
-                    JFrame textFrame1 = new JFrame("ATTENTION!");
-                    textFrame1.setSize(350,90);
-                    textFrame1.setLocation(810,450);
-                    // Create a JTextArea to display the information
-                    JTextArea droneInfoTextArea1 = new JTextArea();
-                    droneInfoTextArea1.setEditable(false);
-                    // Add the information to the JTextArea
-                    String infoText1 = "             !!Please enter a Drone ID between 71 and 95!!" ;
-                    droneInfoTextArea1.setForeground(Color.RED);
-                    droneInfoTextArea1.setText(infoText1);
-                    // Add the JTextArea to the textFrame
-                    textFrame1.add(new JScrollPane(droneInfoTextArea1));
-                    // Set the default close operation and make the frame visible
-                    textFrame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    textFrame1.setVisible(true);
-                    textFrame1.setResizable(false);
-
-                    return; // Exit if no input or canceled
-                }
-
-
-
-                // Use helper method to get information for the specific drone ID
-                Drones droneInfo = helper.findDrone(DronesList, droneId);
-                ;
-
-                // Create a new JFrame for displaying text
-                JFrame textFrame = new JFrame("Drone Information");
-
-                // Set the size to match the JTable and JScrollPane dimensions
-                textFrame.setSize(950, 350);
-
-                // Set the location to match the JTable and JScrollPane position
-                textFrame.setLocation(500, 400);
-
-                // Create a JTextArea to display the information
-                JTextArea droneInfoTextArea = new JTextArea();
-                droneInfoTextArea.setEditable(false);
-
-                // Add the information to the JTextArea
-                String infoText =
-                        "Drone ID: " + droneInfo.getId() +
-                                "\nDroneType: " + droneInfo.getDroneType() +
-                                "\nCreation Time: " + droneInfo.getCreated() +
-                                "\nSerial Number: " + droneInfo.getSerialNumber() +
-                                "\nCarriage Weight: " + droneInfo.getCarriageWeight() +
-                                "\nCarriage Type: " + droneInfo.getCarriageType();
-                droneInfoTextArea.setText(infoText);
-                // DroneDynamics for Drone as Object[][]
-                //Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneInfo.getDroneDynamicsList());
-                // Add the JTextArea to the textFrame
-                textFrame.add(new JScrollPane(droneInfoTextArea));
-
-                // Set the default close operation and make the frame visible
-                textFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                textFrame.setVisible(true);
-
-                // Hide the JTable and JScrollPane
-               /* table.setVisible(false);
-                scrollPane.setVisible(false);*/
-            }
-        });
 
 
         this.getContentPane().add(panel, BorderLayout.WEST);  //add panel to frame
@@ -384,6 +206,8 @@ public class MyFrame extends JFrame {
         }
     }
 
+
+
     private void createLabel() {   //includes the title of the site and the image
         label1 = new JLabel("DRONE OVERVIEW");
         ImageIcon image2 = new ImageIcon("drones.png");
@@ -397,7 +221,35 @@ public class MyFrame extends JFrame {
         mainPanel.add(label1,BorderLayout.CENTER); //add label1 to mainPanel
     }
 
-    private void setLabel(String labelText) {  //changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
+    public void setLabel(String labelText) {  //changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
         label1.setText(labelText);
     }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public JPanel getPanel(){
+        return panel;
+    }
+    public JButton getDroneCatalogButton(){
+        return droneCatalogButton;
+    }
+
+    public JButton getDronesButton(){
+        return dronesButton;
+    }
+
+    public JButton getDroneTypesButton(){
+        return droneTypesButton;
+    }
+
+    public  JButton getDroneDynamicsButton(){
+        return droneDynamicsButton;
+    }
+
+    public JButton getDroneIDButton(){
+        return droneIDButton;
+    }
+
 }
