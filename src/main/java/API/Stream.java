@@ -14,7 +14,7 @@ import Exception.*;
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
-    public static void dataStreamIn(JsonObject jsonObject, String fileName, boolean append) throws IOException, InvalidFileNameException {
+    public static void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException, InvalidFileNameException {
         if (!isValidFileName(fileName)) {
             throw new InvalidFileNameException("The filename provided is incorrect.");
         }//TODO: Exception
@@ -22,7 +22,7 @@ public class Stream {
         String jsonString = new Gson().toJson(jsonObject);
         // Write the JSON string to a file
         try {
-            FileWriter fileWriter = new FileWriter(fileName + ".json", append);
+            FileWriter fileWriter = new FileWriter(fileName + ".json");
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException e) {
@@ -43,12 +43,12 @@ public class Stream {
         return jsonObject;
     }
 
-    public void saveData(boolean append) {
+    public static void fetchData() {
         try {
 
-            dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones", append);
-            dataStreamIn(APIEndpoints.getDroneTypesUrl(100, 0), "outputDroneTypes", append);
-            dataStreamIn(APIEndpoints.getDroneDynamics(1000000, 0), "outputDroneDynamics", append);
+            dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones");
+            dataStreamIn(APIEndpoints.getDroneTypesUrl(100, 0), "outputDroneTypes");
+            dataStreamIn(APIEndpoints.getDroneDynamics(1000000, 0), "outputDroneDynamics");
 
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error while fetching and saving data", e);

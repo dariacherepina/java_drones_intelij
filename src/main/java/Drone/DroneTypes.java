@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class DroneTypes extends Refreshable {
+public class DroneTypes extends Refresh {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String manufacturer;
@@ -22,6 +22,7 @@ public class DroneTypes extends Refreshable {
 
     private static int onlineCount;
     private static int offlineCount;
+    DroneTypes(){};
 
     public DroneTypes(int id, String manufacturer, String typeName, int weight, int maximumSpeed, int batteryCapacity, int controlRange, int maximumCarriage) {
         this.id = id;
@@ -36,14 +37,14 @@ public class DroneTypes extends Refreshable {
 
 
     public String toString() {
-        return "DroneTypes [id=" + id
-                + ", manufacturer=" + manufacturer
-                + ", typename=" + typeName
-                + ", weight=" + weight
-                + ", maximumSpeed=" + maximumSpeed
-                + ", batteryCapacity=" + batteryCapacity
-                + ", controlRange=" + controlRange
-                + ", maximumCarriage=" + maximumCarriage + "]";
+        return "\n Id: " + id
+                + "\nManufacturer: " + manufacturer
+                + "\nTypename: " + typeName
+                + "\nWeight: " + weight
+                + "\nMaximum Speed: " + maximumSpeed
+                + "\nBattery Capacity: " + batteryCapacity
+                + "\nControl Range: " + controlRange
+                + "\nMaximumCarriage: " + maximumCarriage;
     }
 
 
@@ -148,7 +149,7 @@ public class DroneTypes extends Refreshable {
     @Override
     public int checkOnlineCount() {
         try {
-            onlineCount = APIEndpoints.getDroneTypesUrl(1, 0).get("count").getAsInt();
+            onlineCount = APIEndpoints.getDroneTypesUrl(25, 19).get("count").getAsInt();
         } catch (NullPointerException e) {
             LOGGER.warning("NullPointerException: count is null");
         }
@@ -156,19 +157,27 @@ public class DroneTypes extends Refreshable {
     }
 
     @Override
-    public void refresh() throws IOException {
+    public boolean checkRefresh() throws IOException{
         if (checkOfflineCount() < checkOnlineCount()) {
-            try {
-                Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(100, offlineCount), "outputDroneTypes", true);
-            } catch (InvalidFileNameException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (checkOfflineCount() > checkOfflineCount()) {
-            LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
+            return true;
         } else {
-            LOGGER.info("Same amount of data. No Updates ");
+            LOGGER.warning("No updates");
+            return false;
         }
     }
+
+//    @Override
+//    public void refresh() throws IOException {
+//        if (checkRefresh()) {
+//            try {
+//                Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(100, 0), "outputDroneTypes");
+//            } catch (InvalidFileNameException e) {
+//                throw new RuntimeException(e);
+//            }
+//        } else {
+//            LOGGER.info("Same amount of data. No Updates ");
+//        }
+//    }
 
 
 }

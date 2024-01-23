@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DroneDynamics extends Refreshable {
+public class DroneDynamics extends Refresh {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
     private int id;
@@ -29,6 +29,7 @@ public class DroneDynamics extends Refreshable {
     private String status;
     private static int onlineCount;
     private static int offlineCount;
+    DroneDynamics(){}
 
 
     public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
@@ -67,19 +68,18 @@ public class DroneDynamics extends Refreshable {
 
     @Override
     public String toString() {
-        return "[" + "id=" + id
-
-                + ", drone=" + drone
-                + ", timestamp=" + timestamp
-                + ", speed=" + speed
-                + ", align_roll=" + align_roll
-                + ", align_pitch=" + align_pitch
-                + ", align_yaw=" + align_yaw
-                + ", longitude=" + longitude
-                + ", latitude=" + latitude
-                + ", battery_status=" + battery_status
-                + ", last_seen=" + last_seen
-                + ", status=" + status + "]";
+        return "Id: " + id
+                + "\nDrone: " + drone
+                + "\nTimestamp: " + timestamp
+                + "\nSpeed:" + speed
+                + "\nAlign Roll:" + align_roll
+                + "\nAlign Pitch: " + align_pitch
+                + "\nAlign Yaw: " + align_yaw
+                + "\nLongitude: " + longitude
+                + "\nLatitude: " + latitude
+                + "\nBattery Status: " + battery_status
+                + "\nLast Seen: " + last_seen
+                + "\nStatus: " + status ;
     }
 
 
@@ -189,10 +189,8 @@ public class DroneDynamics extends Refreshable {
 
     @Override
     public int checkOfflineCount() {
-        JsonObject o;
         try {
-            o = Stream.dataStreamOut("outputDroneDynamics");
-            offlineCount = o.get("count").getAsInt();
+            offlineCount = Stream.dataStreamOut("outputDroneDynamics").get("count").getAsInt();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -203,28 +201,34 @@ public class DroneDynamics extends Refreshable {
     @Override
     public int checkOnlineCount() {
         try {
-            onlineCount = APIEndpoints.getDroneDynamics(1, 0).get("count").getAsInt();
+            onlineCount = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
         } catch (NullPointerException e) {
             LOGGER.warning("NullPointerException: count is null");
         }
         return onlineCount;
     }
-
     @Override
-    public void refresh() throws IOException {
+    public boolean checkRefresh() throws IOException{
         if (checkOfflineCount() < checkOnlineCount()) {
-            //true stands for append in dataStreamIn func
-            try {
-                Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, offlineCount), "outputDroneDynamics", true);
-            } catch (InvalidFileNameException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (checkOfflineCount() > checkOfflineCount()) {
-            LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
+            return true;
         } else {
-            LOGGER.info("Same amount of data. No Updates ");
+            LOGGER.info("No updates");
+            return false;
         }
     }
+//    @Override
+//    public void refresh() throws IOException {
+//        if (checkRefresh()) {
+//            //true stands for append in dataStreamIn func
+//            try {
+//                Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, 0), "outputDroneDynamics");
+//            } catch (InvalidFileNameException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }else {
+//            LOGGER.info("Same amount of data. No Updates ");
+//        }
+//    }
 
 
 }
