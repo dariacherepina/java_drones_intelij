@@ -1,49 +1,16 @@
 package Drone;
 
-import API.APIEndpoints;
-import com.google.gson.Gson;
+import Exception.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 
 public class Convert {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
-    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
-
-    public void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException {
-
-        String jsonString = new Gson().toJson(jsonObject);
-        // Write the JSON string to a file
-        try {
-            FileWriter fileWriter = new FileWriter(fileName + ".json", true);
-            fileWriter.write(jsonString);
-            fileWriter.close();
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing JSON to file", e);
-        }
-    }
-
-    public JsonObject dataStreamOut(String fileName) throws IOException {
-        JsonObject jsonObject = null;
-        try {
-            FileReader fileReader = new FileReader(fileName + ".json");
-            jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
-            fileReader.close();
-
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading JSON from file", e);
-        }
-        return jsonObject;
-    }
 
     public ArrayList<Drones> initialiseDrones(JsonObject input) {
         ArrayList<Drones> dronesList = new ArrayList<>();
@@ -59,11 +26,7 @@ public class Convert {
                     obj.get("carriage_type").getAsString()
             ));
 
-//            dronesList.sort((o1, o2) -> {
-//                int id1 = (o1).getId();
-//                int id2 = (o2).getId();
-//                return Integer.compare(id1, id2);
-//            });
+
         }
         return dronesList;
     }
@@ -84,11 +47,6 @@ public class Convert {
                     obj.get("max_carriage").getAsInt()
             ));
 
-//            droneTypesList.sort((o1, o2) -> {
-//                int id1 = (o1).getId();
-//                int id2 = (o2).getId();
-//                return Integer.compare(id1, id2);
-//            });
         }
         return droneTypesList;
     }
@@ -122,33 +80,42 @@ public class Convert {
     }
 
     // find right drone in arrayList of drones
-    public Drones findDrone(ArrayList<Drones> dronesList, int id) {
+    public Drones findDrone(ArrayList<Drones> dronesList, int id) throws InvalidIdInput{
         for (Drones drone : dronesList) {
             if (drone.getId() == id) {
                 return drone;
             }
         }
-        return null;
+        throw new InvalidIdInput("Invalid drone ID input"); //TODO: check implementation of Exception
     }
 
 
     //addign DroneTypes and DroneDynamics to the Drones based on the id
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
-            addDroneTypesForDrone(drone, droneTypesList);
-            addDroneDynamicsForDrone(drone, droneDynamicsList);
+            try {
+                addDroneTypesForDrone(drone, droneTypesList);
+                addDroneDynamicsForDrone(drone, droneDynamicsList);
+            } catch (AbsenceTypeForDrone e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-    public void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) {
+
+    private void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) throws AbsenceTypeForDrone {
         for (DroneTypes droneType : droneTypesList) {
             if (drone.getIdType() == droneType.getId()) {
                 drone.setDroneType(droneType);
             }
         }
+        if(drone.getDroneType() == null){
+            throw new AbsenceTypeForDrone("No DroneType for this Drone");//TODO: check implementation of Exception
+        }
     }
-    public void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
+
+    private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
         ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
-        for(DroneDynamics droneDynamic : droneDynamicsList) {
+        for (DroneDynamics droneDynamic : droneDynamicsList) {
             if (drone.getId() == droneDynamic.getId()) {
                 droneDynamicsForDrone.add(droneDynamic);
             }

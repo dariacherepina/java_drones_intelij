@@ -32,21 +32,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class APIConnection {
-    private final String USER_AGENT = "Mozilla Firefox Awesome version";
+    private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
-    private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+    private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
 
     // Adjusted the variable to be non-static
-    private HttpURLConnection connection;
+    private static HttpURLConnection connection;
 
     public APIConnection() {
     }
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
 
-    public JsonObject getResponse(String endpoint) {
+    public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;
@@ -90,11 +90,11 @@ public class APIConnection {
                 while ((line = reader.readLine()) != null) {
                     responseContent.append(line);
                     responseContent.append("\n");
-//                    try {
-//                        nextPageLink = pagination(line);
-//                    }catch (JSONException e){
-//                        System.out.println("JSONException e in APIConnection");
-//                    }
+                    try {
+                        nextPageLink = pagination(line);
+                    }catch (JSONException e){
+                        System.out.println("JSONException e in APIConnection");
+                    }
                 }
                 reader.close();
 
@@ -113,7 +113,6 @@ public class APIConnection {
                     retries--;
                 } else {
                     LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
-                    e.printStackTrace();
                     //break;
                 }
             } catch (MalformedURLException e) {
@@ -129,32 +128,26 @@ public class APIConnection {
             }
 
         }
-//        String responseContentStr = fixJson(responseContent.toString());
-//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
-//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
-            JsonElement inputJson = JsonParser.parseString(responseContent.toString());
 
-
-            return inputJson.getAsJsonObject();
-        }
-//    public String pagination (String line){
-//        try {
-//            JSONObject jsonObject = new JSONObject(line);
-//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-//                LOGGER.log(Level.INFO, "next is null");
-//                return null;
-//            } else {
-//                LOGGER.log(Level.INFO, "next is not null");
-//                return jsonObject.get("next").toString();
-//            }
-//        }catch (JSONException e){
-//            LOGGER.log(Level.INFO, "JSONException");
-//        }catch (NullPointerException e){
-//            LOGGER.log(Level.INFO, "NullPointerException");
-//        }
-//        return null;
-//    }
-
-
-// get respond neu funktion
+        JsonElement inputJson = JsonParser.parseString(responseContent.toString());
+        return inputJson.getAsJsonObject();
     }
+    public static String pagination (String line){
+        try {
+            JSONObject jsonObject = new JSONObject(line);
+            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                LOGGER.log(Level.INFO, "next is null");
+                return null;
+            } else {
+                LOGGER.log(Level.INFO, "next is not null");
+                return jsonObject.get("next").toString();
+            }
+        }catch (JSONException e){
+            LOGGER.log(Level.INFO, "JSONException");
+        }catch (NullPointerException e){
+            LOGGER.log(Level.INFO, "NullPointerException");
+        }
+        return null;
+    }
+
+}
