@@ -29,7 +29,7 @@ public class DroneDynamics extends Refresh {
     private String status;
     private static int onlineCount;
     private static int offlineCount;
-    DroneDynamics(){}
+    public DroneDynamics(){}
 
 
     public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
@@ -216,19 +216,6 @@ public class DroneDynamics extends Refresh {
             return false;
         }
     }
-//    @Override
-//    public void refresh() throws IOException {
-//        if (checkRefresh()) {
-//            //true stands for append in dataStreamIn func
-//            try {
-//                Stream.dataStreamIn(APIEndpoints.getDroneDynamics(100, 0), "outputDroneDynamics");
-//            } catch (InvalidFileNameException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }else {
-//            LOGGER.info("Same amount of data. No Updates ");
-//        }
-//    }
 
 
 }

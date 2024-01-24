@@ -1,5 +1,8 @@
 package API;
 
+import Threads.ThreadDrone;
+import Threads.ThreadDroneDynamic;
+import Threads.ThreadDroneType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -45,17 +48,27 @@ public class Stream {
 
     public static void fetchData() {
         try {
-
-            dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones");
-            dataStreamIn(APIEndpoints.getDroneTypesUrl(100, 0), "outputDroneTypes");
-            dataStreamIn(APIEndpoints.getDroneDynamics(1000000, 0), "outputDroneDynamics");
-
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error while fetching and saving data", e);
+            int countD = APIEndpoints.getDronesUrl(25, 24).get("count").getAsInt();
+            Stream.dataStreamIn(APIEndpoints.getDronesUrl(countD, 0), "outputDrones");
+            int countDT = APIEndpoints.getDroneTypesUrl(20, 19).get("count").getAsInt();
+            Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(countDT, 0), "outputDroneTypes");
+            int countDD = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
+            Stream.dataStreamIn(APIEndpoints.getDroneDynamics(countDD, 0), "outputDroneDynamics");
+//            ThreadDrone threadDrone = new ThreadDrone() ;
+//            Thread threadD = new Thread (threadDrone);
+//            ThreadDroneType threadDroneType = new ThreadDroneType() ;
+//            Thread threadDT = new Thread (threadDroneType);
+//            ThreadDroneDynamic threadDroneDynamic = new ThreadDroneDynamic() ;
+//            Thread threadDD = new Thread (threadDroneDynamic);
+//            threadD.start();
+//            threadDT.start();
+//            threadDD.start();
+//            threadD.join();
+//            threadDT.join();
+//            threadDD.join();//TODO: join?
+        } catch (Exception e) {
             throw new RuntimeException(e);
-        }catch (InvalidFileNameException e){
-            LOGGER.log(Level.SEVERE, "Name of the File is invalid", e);
-            }
+        }
     }
     public static boolean isValidFileName(String fileName){
         if(!Objects.equals(fileName, "outputDrones") ||

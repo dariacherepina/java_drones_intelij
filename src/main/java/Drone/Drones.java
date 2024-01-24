@@ -183,18 +183,6 @@ public class Drones extends Refresh {
             return false;
         }
     }
-//    @Override
-//    public void refresh() throws IOException {
-//        if (checkRefresh()) {
-//            try {
-//                Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones");
-//                //trigger gui to refetch data
-//            } catch (InvalidFileNameException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }else {
-//            LOGGER.info("Same amount of data. No Updates ");
-//        }
-//    }
+
 
 }
