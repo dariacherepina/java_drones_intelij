@@ -13,8 +13,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class DroneIDActionListener implements ActionListener {
+    private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
+
     private MyFrame frame;
     private ArrayList<Drones> DronesList;
     private Convert helper;
@@ -67,6 +70,7 @@ public class DroneIDActionListener implements ActionListener {
         try {
             droneInfo = helper.findDrone(DronesList, droneId);
         } catch (InvalidIdInput ex) {
+            LOGGER.warning("Id is in out of range");
             throw new RuntimeException(ex);
         }
         ;
@@ -85,8 +89,10 @@ public class DroneIDActionListener implements ActionListener {
         // Create a JTextArea to display the information
         JTextArea droneInfoTextArea = new JTextArea();
         droneInfoTextArea.setEditable(false);
-        int userNumber = 0;
-        String nextTimeStemp = getOneDroneDynamicsById(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
+        int userNumber = 5;
+        String nextTimeStempPlus = getDroneDynamicPlus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
+        String nextTimeStempMinus = getDroneDynamicMinus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
+
 
         // Add the information to the JTextArea
         String infoText =
@@ -95,8 +101,11 @@ public class DroneIDActionListener implements ActionListener {
                         "\nCreation Time: " + droneInfo.getCreated() +
                         "\nSerial Number: " + droneInfo.getSerialNumber() +
                         "\nCarriage Weight: " + droneInfo.getCarriageWeight() +
-                        "\nCarriage Type: " + droneInfo.getCarriageType() +
-                        "\n" +  findDroneDyn5min(nextTimeStemp, droneInfo).toString();
+                        "\nCarriage Type: " + droneInfo.getCarriageType();
+        // das in bereich UserNummer  von 0 bis 1436
+                        findDroneDyn5min(nextTimeStempPlus, droneInfo).toString();
+        // das in bereich UserNummer  von 5 bis 1441
+        findDroneDyn5min(nextTimeStempMinus, droneInfo).toString();
         droneInfoTextArea.setText(infoText);
         // DroneDynamics for Drone as Object[][]
         //Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneInfo.getDroneDynamicsList());
@@ -112,10 +121,17 @@ public class DroneIDActionListener implements ActionListener {
                 scrollPane.setVisible(false);*/
 
     }
-    private String getOneDroneDynamicsById(String timestamp){
+    private String getDroneDynamicPlus5(String timestamp){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
         ZonedDateTime zoneDateTime = ZonedDateTime.parse(timestamp, formatter);
         zoneDateTime = zoneDateTime.plusMinutes(5);
+        System.out.println(zoneDateTime.format(formatter));
+        return zoneDateTime.format(formatter);
+    }
+    private String getDroneDynamicMinus5(String timestamp){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
+        ZonedDateTime zoneDateTime = ZonedDateTime.parse(timestamp, formatter);
+        zoneDateTime = zoneDateTime.minusMinutes(5);
         System.out.println(zoneDateTime.format(formatter));
         return zoneDateTime.format(formatter);
     }
