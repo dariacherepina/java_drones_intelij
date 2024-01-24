@@ -1,48 +1,28 @@
 package API;
 
 
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.json.JSONObject;
 
-public class APIEndpoints extends APIConnection  {
+public class APIEndpoints extends APIConnection {
     // class for all methods to get info from endpoints
+    static JsonObject dronesResponse;
+    static JsonObject droneTypesResponse;
+    static JsonObject droneDynamicsResponse;
 
-
-    private int countDrones;
-    private int countDroneDynamics;
-
-
-
-    //public APIEndpoints(){}
-    JsonObject dronesResponse;
-    JsonObject droneTypesResponse;
-    JsonObject droneDynamicsResponse;
-
-
-    public JsonObject getDronesIndivData(int droneId) {
-
-        return getResponse("drones/" + droneId + "/?format=json");
-    }
-    public JsonObject getDroneTypesIndivData(int droneId) {
-
-        return getResponse("dronetypes/" + droneId + "/?format=json");
-    }
-    public JsonObject getDroneDynamicsIndivData(int droneId) {
-        return getResponse(droneId + "/dynamics/?format=json&limit=10000&offset=0");
-    }
-    public JsonObject getDrones() {
-        dronesResponse = getResponse("drones/?format=json&limit=100&offset=0");
+    public static JsonObject getDronesUrl(int limit, int offset) {
+        dronesResponse = getResponse("drones/?format=json&limit=" + limit + "&offset=" + offset);
+        //dronesResponse = getResponse("drones/?format=json&limit=100&offset=0");
         return dronesResponse;
     }
-    public JsonObject getDroneTypes() {
-        droneTypesResponse = getResponse("dronetypes/?format=json&limit=1000&offset=0");
+
+    public static JsonObject getDroneTypesUrl(int limit, int offset) {
+        droneTypesResponse = getResponse("dronetypes/?format=json&limit=" + limit + "&offset=" + offset);
         return droneTypesResponse;
     }
-    public JsonObject getDroneDynamics() {
-        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=4000000&offset=0");
-        return  droneDynamicsResponse;
+
+    public static JsonObject getDroneDynamics(int limit, int offset) {
+        droneDynamicsResponse = getResponse("dronedynamics/?format=json&limit=" + limit + "&offset=" + offset);
+        return droneDynamicsResponse;
     }
 
 }

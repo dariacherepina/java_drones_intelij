@@ -32,21 +32,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class APIConnection {
-    private final String USER_AGENT = "Mozilla Firefox Awesome version";
+    private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     // private static final String START_URL = "https://dronesim.facets-labs.com/api/";
-    private final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
+    private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
 
     // Adjusted the variable to be non-static
-    private HttpURLConnection connection;
+    private static HttpURLConnection connection;
 
     public APIConnection() {
     }
 
     //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
 
-    public JsonObject getResponse(String endpoint) {
+    public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         String nextPageLink = null;
         BufferedReader reader;
@@ -109,51 +109,45 @@ public class APIConnection {
             } catch (SocketTimeoutException e) {
                 //Handle SocketTimeoutException with retries
                 if (retries > 0) {
-                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Retrying...",e);
+                    LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
                     retries--;
                 } else {
-                    LOGGER.log(Level.SEVERE,"Socket timeout occurred. Max retries reached. Giving up...",e);
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
                     //break;
                 }
             } catch (MalformedURLException e) {
                 // Handle MaldformedURLException
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "MalformedURLException occurred", e);
             } catch (IOException e) {
-                //Handle IOException
-                e.printStackTrace();
+                // Handle IOException
+                LOGGER.log(Level.SEVERE, "IOException occurred", e);
             }
-        }
-        if (connection != null) {
-            connection.disconnect();
-            System.out.println("connection disconnected");
+            if (connection != null) {
+                connection.disconnect();
+                LOGGER.info("connection disconnected");
+            }
+
         }
 
-
-//        String responseContentStr = fixJson(responseContent.toString());
-//        JsonObject inputJson = JsonParser.parseString(responseContent.toString()).getAsJsonObject();
-//       JsonElement inputJson = JsonParser.parseString(responseContentStr);
         JsonElement inputJson = JsonParser.parseString(responseContent.toString());
-
-
         return inputJson.getAsJsonObject();
     }
-    public String pagination (String line){
+    public static String pagination (String line){
         try {
             JSONObject jsonObject = new JSONObject(line);
             if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+                LOGGER.log(Level.INFO, "next is null");
                 return null;
             } else {
+                LOGGER.log(Level.INFO, "next is not null");
                 return jsonObject.get("next").toString();
             }
         }catch (JSONException e){
-            System.out.println("NullPointerException");
+            LOGGER.log(Level.INFO, "JSONException");
         }catch (NullPointerException e){
-            System.out.println("NullPointerException");
+            LOGGER.log(Level.INFO, "NullPointerException");
         }
         return null;
     }
+
 }
-
-
-// get respond neu funktion

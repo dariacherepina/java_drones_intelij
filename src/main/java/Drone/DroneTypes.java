@@ -1,12 +1,16 @@
 package Drone;
 
+import API.APIConnection;
 import API.APIEndpoints;
+import API.Stream;
+import Exception.*;
+import com.google.gson.JsonObject;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.util.logging.Logger;
 
-public class DroneTypes extends Catalog implements Serializable {
-    static APIEndpoints apiEndpoints = new APIEndpoints(); // wieso nicht attribute sondern static
-
+public class DroneTypes extends Refreshable {
+    private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String manufacturer;
     private String typeName;
@@ -15,10 +19,9 @@ public class DroneTypes extends Catalog implements Serializable {
     private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
-    private int countDroneTypes;
-    DroneTypes() {
-    }
 
+    private static int onlineCount;
+    private static int offlineCount;
 
     public DroneTypes(int id, String manufacturer, String typeName, int weight, int maximumSpeed, int batteryCapacity, int controlRange, int maximumCarriage) {
         this.id = id;
@@ -32,8 +35,7 @@ public class DroneTypes extends Catalog implements Serializable {
     }
 
 
-
-    public String toPrint() {
+    public String toString() {
         return "DroneTypes [id=" + id
                 + ", manufacturer=" + manufacturer
                 + ", typename=" + typeName
@@ -43,24 +45,18 @@ public class DroneTypes extends Catalog implements Serializable {
                 + ", controlRange=" + controlRange
                 + ", maximumCarriage=" + maximumCarriage + "]";
     }
-    @Override
-    public String toString() {
-        return "[" + id + ", " + manufacturer + ", " + typeName + ", " + weight + ", " + maximumSpeed + ", " + batteryCapacity + ", " + controlRange + ", " + maximumCarriage + "]";
-    }
 
-    public int setCountDroneTypes(){
-        try {
-            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
-            System.out.println("countDroneTypes " + countDroneTypes);
-        }catch (NullPointerException e){
-            System.out.println("count is null?????");
-        }
 
-        return getCountDroneTypes();
-    }
-    public int getCountDroneTypes() {
-        return countDroneTypes;
-    }
+    //    public int setCountDroneTypes(){
+//        try {
+//            this.countDroneTypes = apiEndpoints.getDroneTypes().get("count").getAsInt();
+//            System.out.println("countDroneTypes " + countDroneTypes);
+//        }catch (NullPointerException e){
+//            System.out.println("count is null?????");
+//        }
+//
+//        return getCountDroneTypes();
+//    }
     public void setId(int id) {
         this.id = id;
     }
@@ -92,29 +88,87 @@ public class DroneTypes extends Catalog implements Serializable {
     }
 
 
-
     public void setMaximumCarriage(int maximumCarriage) {
         this.maximumCarriage = maximumCarriage;
     }
+
     public int getId() {
         return this.id;
     }
 
-    public String getManufacturer() { return manufacturer; }
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
     public String getTypeName() {
         return typeName;
     }
 
-    public int getWeight() { return weight; }
+    public int getWeight() {
+        return weight;
+    }
 
-    public int getMaximumSpeed() { return maximumSpeed; }
+    public int getMaximumSpeed() {
+        return maximumSpeed;
+    }
 
-    public int getBatteryCapacity() { return batteryCapacity; }
+    public int getBatteryCapacity() {
+        return batteryCapacity;
+    }
 
-    public int getControlRange() { return controlRange; }
+    public int getControlRange() {
+        return controlRange;
+    }
 
-    public int getMaximumCarriage() { return maximumCarriage; }
+    public int getMaximumCarriage() {
+        return maximumCarriage;
+    }
+
+    public static int getOnlineCount() {
+        return onlineCount;
+    }
+
+    public static int getOfflineCount() {
+        return offlineCount;
+    }
+
+    @Override
+    public int checkOfflineCount() {
+        JsonObject o;
+        try {
+            o = Stream.dataStreamOut("outputDroneTypes");
+            offlineCount = o.get("count").getAsInt();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return offlineCount;
+    }
+
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = APIEndpoints.getDroneTypesUrl(1, 0).get("count").getAsInt();
+        } catch (NullPointerException e) {
+            LOGGER.warning("NullPointerException: count is null");
+        }
+        return onlineCount;
+    }
+
+    @Override
+    public void refresh() throws IOException {
+        if (checkOfflineCount() < checkOnlineCount()) {
+            try {
+                Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(100, offlineCount), "outputDroneTypes", true);
+            } catch (InvalidFileNameException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (checkOfflineCount() > checkOfflineCount()) {
+            LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
+        } else {
+            LOGGER.info("Same amount of data. No Updates ");
+        }
+    }
 
 
 }
-
