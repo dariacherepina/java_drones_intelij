@@ -71,7 +71,8 @@ public class DroneDynamics extends Refresh {
 
     @Override
     public String toString() {
-        return "Id: " + id
+        return "Drone Dynamic:\n"
+                + "\nId: " + id
                 + "\nTimestamp: " + timestamp
                 + "\nSpeed:" + speed
                 + "\nAlign Roll:" + align_roll

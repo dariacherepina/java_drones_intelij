@@ -200,7 +200,7 @@ public class Drones extends Refresh {
             return false;
         }
     }
-    public static boolean ifFileValid(){
+    public static boolean ifFileValid() throws IOException {
         if (file.exists() && file.isFile() && file.length() > 0){
             return true;
         }else {

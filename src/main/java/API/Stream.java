@@ -1,8 +1,5 @@
 package API;
 
-import Threads.ThreadDrone;
-import Threads.ThreadDroneDynamic;
-import Threads.ThreadDroneType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -54,20 +51,8 @@ public class Stream {
             Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(countDT, 0), "outputDroneTypes");
             int countDD = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
             Stream.dataStreamIn(APIEndpoints.getDroneDynamics(countDD, 0), "outputDroneDynamics");
-//            ThreadDrone threadDrone = new ThreadDrone() ;
-//            Thread threadD = new Thread (threadDrone);
-//            ThreadDroneType threadDroneType = new ThreadDroneType() ;
-//            Thread threadDT = new Thread (threadDroneType);
-//            ThreadDroneDynamic threadDroneDynamic = new ThreadDroneDynamic() ;
-//            Thread threadDD = new Thread (threadDroneDynamic);
-//            threadD.start();
-//            threadDT.start();
-//            threadDD.start();
-//            threadD.join();
-//            threadDT.join();
-//            threadDD.join();//TODO: join?
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // TODO: is that right ?
         }
     }
     public static boolean isValidFileName(String fileName){

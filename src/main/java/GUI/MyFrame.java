@@ -71,7 +71,6 @@ public class MyFrame extends JFrame {
 
         for (int i = 0; i < minSize; i++) {
             Drones drone = DronesList.get(i);
-            System.out.println(drone);
             data[i][0] = drone.getId();
             data[i][1] = drone.getDroneType().getTypeName();
 

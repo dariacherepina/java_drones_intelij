@@ -34,7 +34,6 @@ public class APIConnection {
 
     public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
-        String nextPageLink = null;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -99,22 +98,5 @@ public class APIConnection {
         return inputJson.getAsJsonObject();
     }
 
-//    public static String pagination(String line) {
-//        try {
-//            JSONObject jsonObject = new JSONObject(line);
-//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-//                LOGGER.log(Level.INFO, "next is null");
-//                return null;
-//            } else {
-//                LOGGER.log(Level.INFO, "next is not null");
-//                return jsonObject.get("next").toString();
-//            }
-//        } catch (JSONException e) {
-//            LOGGER.log(Level.INFO, "JSONException");
-//        } catch (NullPointerException e) {
-//            LOGGER.log(Level.INFO, "NullPointerException");
-//        }
-//        return null;
-//    }
 
 }

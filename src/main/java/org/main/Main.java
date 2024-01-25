@@ -3,6 +3,7 @@ package org.main;
 import API.Stream;
 import Drone.*;
 import GUI.MyFrame;
+import Threads.ThreadCheckRefresh;
 import org.json.JSONException;
 
 import java.io.File;
@@ -20,24 +21,23 @@ public class Main implements Sortable {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
+        ThreadCheckRefresh threadDrone = new ThreadCheckRefresh();
+        Thread threadD = new Thread(threadDrone);
         try {
-            ArrayList<Drones> DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
-            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
-            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
-            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            System.out.println(DronesList);
-            //helper.checkToInitialiseAllData(DronesList, DroneTypesList, DroneDynamicsList);
+            helper.checkToInitialiseAllData();
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
-                        new MyFrame(DronesList, DroneTypesList, DroneDynamicsList);
+                        new MyFrame(helper.getDronesList(), helper.getDroneTypesList(), helper.getDroneDynamicsList());
                     } catch (IOException e) {
                         LOGGER.log(Level.SEVERE, "IOException in MyFrame", e);
                     }
                 }
             });
 
+            threadD.start();
         } catch (JSONException e) {
+            threadD.interrupt();
             LOGGER.log(Level.SEVERE, "Problems with JSONException in main ", e);
         } catch (IOException e) {
             throw new RuntimeException(e);

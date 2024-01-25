@@ -76,7 +76,7 @@ public class DroneIDActionListener implements ActionListener {
         try {
             droneInfo = helper.findDrone(DronesList, droneId);
         } catch (InvalidIdInput ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException(ex); // TODO: is that right
         }
 
 
@@ -159,7 +159,7 @@ public class DroneIDActionListener implements ActionListener {
 //                    JTextArea droneInfoTextArea1 = new JTextArea();
 //                    droneInfoTextArea1.setEditable(false);
 
-                String infoText2 = "Drone Dynamic\n " + droneInfo.getDroneDynamicsList().get(userNumber);
+                String infoText2 = droneInfo.getDroneDynamicsList().get(userNumber).toString();
                 droneInfoTextArea2.setText(infoText2);
                 panel.add(droneInfoTextArea2);
                 panel.add(frame.getReturnPlus5Button());
@@ -236,7 +236,7 @@ public class DroneIDActionListener implements ActionListener {
         for(DroneDynamics droneDyn : droneInfo.getDroneDynamicsList()){
             if (Objects.equals(droneDyn.getTimestamp(), nextTimeStemp)){
                 return droneDyn;
-            } // TODO:Button history 5 min should be in the DroneID window
+            }
         }
         return null;
     }

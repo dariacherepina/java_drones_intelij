@@ -67,7 +67,6 @@ public class RefreshActionListener implements ActionListener {
         DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
         helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
         LOGGER.info("Data is initialised!");
-        //updateTables (DronesList, DroneTypesList, DroneDynamicsList) aufrufen und dann weiter mit die drei ArrayListe arbeiten(Tabelle ersetzen)
-        //TODO: refresh button -> to replace tables with neu data/ is list changed or should i return it, if yes, how ?
+
     }
 }
