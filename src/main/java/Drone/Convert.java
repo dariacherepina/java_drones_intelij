@@ -1,16 +1,34 @@
 package Drone;
 
+import API.Stream;
 import Exception.*;
+import Drone.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
 public class Convert {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
+    public void checkToInitialiseAllData(ArrayList<Drones> DronesList,  ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
+        if (Drones.ifFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
+            initialiseAllData(DronesList, DroneTypesList, DroneDynamicsList);
+        }else {
+            Stream.fetchData();
+            initialiseAllData(DronesList, DroneTypesList, DroneDynamicsList);
+        }
+    }
+    public void initialiseAllData(ArrayList<Drones> DronesList,  ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
+        //initialise data with data from files
+        DronesList = initialiseDrones(Stream.dataStreamOut("outputDrones"));
+        DroneTypesList = initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
+        DroneDynamicsList = initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
+        addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+    }
 
     public ArrayList<Drones> initialiseDrones(JsonObject input) {
         ArrayList<Drones> dronesList = new ArrayList<>();

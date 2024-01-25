@@ -11,4 +11,5 @@ public abstract class Refresh {
     public abstract int checkOfflineCount();
     public abstract boolean checkRefresh()  throws IOException;
 
+
 }

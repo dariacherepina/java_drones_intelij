@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Drone.*;
 
+import javax.swing.*;
 
 public class Main implements Sortable {
     // Define constants
@@ -18,31 +20,14 @@ public class Main implements Sortable {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
-        try {// TODO: auftelung
-            File file1 = new File("outputDrones.json");
-            File file2 = new File("outputDroneTypes.json");
-            File file3 = new File("outputDroneDynamics.json");
-            ArrayList<Drones> DronesList;
-            ArrayList<DroneTypes> DroneTypesList;
-            ArrayList<DroneDynamics> DroneDynamicsList;
-            if (file1.exists() && file1.isFile() && file1.length() > 0
-                    && file2.exists() && file2.isFile() && file2.length() > 0
-                    && file3.exists() && file3.isFile() && file3.length() > 0) {
-                //initialise data with data from files
-                DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
-                DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
-                DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
-                helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            }else {
-                Stream.fetchData();
-                DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
-                DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
-                DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
-                helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-            }
-
-
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        try {
+            ArrayList<Drones> DronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
+            ArrayList<DroneTypes> DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
+            ArrayList<DroneDynamics> DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
+            helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+            System.out.println(DronesList);
+            //helper.checkToInitialiseAllData(DronesList, DroneTypesList, DroneDynamicsList);
+            SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
                         new MyFrame(DronesList, DroneTypesList, DroneDynamicsList);

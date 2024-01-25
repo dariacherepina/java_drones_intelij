@@ -6,6 +6,7 @@ import API.Stream;
 import Exception.*;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -22,6 +23,8 @@ public class DroneTypes extends Refresh {
 
     private static int onlineCount;
     private static int offlineCount;
+    private static File file = new File("outputDroneTypes.json");
+
     public DroneTypes(){};
 
     public DroneTypes(int id, String manufacturer, String typeName, int weight, int maximumSpeed, int batteryCapacity, int controlRange, int maximumCarriage) {
@@ -66,25 +69,34 @@ public class DroneTypes extends Refresh {
 
     public void setMaximumSpeed(int maximumSpeed) {
         this.maximumSpeed = maximumSpeed;
-
     }
 
     public void setBatteryCapacity(int batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
     }
 
-
     public void setControlRange(int controlRange) {
         this.controlRange = controlRange;
     }
-
 
     public void setMaximumCarriage(int maximumCarriage) {
         this.maximumCarriage = maximumCarriage;
     }
 
+    public static void setOnlineCount(int onlineCount) {
+        DroneTypes.onlineCount = onlineCount;
+    }
+
+    public static void setOfflineCount(int offlineCount) {
+        DroneTypes.offlineCount = offlineCount;
+    }
+
+    public static void setFile(File file) {
+        DroneTypes.file = file;
+    }
+
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public String getManufacturer() {
@@ -123,6 +135,10 @@ public class DroneTypes extends Refresh {
         return offlineCount;
     }
 
+    public static File getFile() {
+        return file;
+    }
+
     @Override
     public int checkOfflineCount() {
         JsonObject o;
@@ -152,6 +168,13 @@ public class DroneTypes extends Refresh {
             return true;
         } else {
             LOGGER.warning("No updates");
+            return false;
+        }
+    }
+    public static boolean ifFileValid(){
+        if (file.exists() && file.isFile() && file.length() > 0){
+            return true;
+        }else {
             return false;
         }
     }
