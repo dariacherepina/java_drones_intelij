@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public interface Sort {
+public interface Sortable {
     static ArrayList<Drones> sortCarriageWeight(ArrayList<Drones> dronesList) {
         Collections.sort(dronesList, new Comparator<Drones>() {
             @Override

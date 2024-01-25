@@ -3,6 +3,7 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
+import Exception.*;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Drones extends Refreshable {
+
+public class Drones extends Refresh {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private ArrayList<DroneDynamics> droneDynamicsList;
     private DroneTypes droneType;
@@ -27,6 +29,7 @@ public class Drones extends Refreshable {
     private static int onlineCount;
     private static int offlineCount;
 
+    public Drones() {}
 
     public Drones(int id, String droneTypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
@@ -164,7 +167,7 @@ public class Drones extends Refreshable {
     @Override
     public int checkOnlineCount() {
         try {
-            onlineCount = APIEndpoints.getDronesUrl(1, 0).get("count").getAsInt();
+            onlineCount = APIEndpoints.getDronesUrl(25, 24).get("count").getAsInt();
         } catch (NullPointerException e) {
             LOGGER.warning("NullPointerException: count is null");
         }
@@ -172,13 +175,14 @@ public class Drones extends Refreshable {
     }
 
     @Override
-    public void refresh() throws IOException {
+    public boolean checkRefresh() throws IOException{
         if (checkOfflineCount() < checkOnlineCount()) {
-            Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, offlineCount), "outputDrones", true);
-        } else if (checkOfflineCount() > checkOfflineCount()) {
-            LOGGER.warning("Online Number of Data is smaller than offline, can't be right");
+            return true;
         } else {
-            LOGGER.info("Same amount of data. No Updates ");
+            LOGGER.info("No updates");
+            return false;
         }
     }
+
+
 }
