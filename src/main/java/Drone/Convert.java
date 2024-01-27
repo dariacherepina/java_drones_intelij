@@ -70,6 +70,11 @@ public class Convert {
             ));
 
         }
+        droneTypesList.sort((o1, o2) -> {
+            int id1 = (o1).getId();
+            int id2 = (o2).getId();
+            return Integer.compare(id1, id2);
+        });
         return droneTypesList;
     }
 
