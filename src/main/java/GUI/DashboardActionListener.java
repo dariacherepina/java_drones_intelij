@@ -28,52 +28,25 @@ public class DashboardActionListener implements ActionListener {
         frame.setLabel("DRONE OVERVIEW");
 
         // Define the columns for the table
-        String[] columns = {"ID", "TypeName", "Status"};
+        String[] columns = {"ID", "TypeName", "Manufacturer"};
 
-
-
-        // Determine the number of rows needed based on the ArrayList with the largest size
-        int numRows = Math.max(DronesList.size(), Math.max(DroneTypesList.size(), DroneDynamicsList.size()));
+        // Determine the number of rows needed based on the ArrayList with the smallest size
+        int numRows = DronesList.size();
 
         // Create a 2D array to hold the data for the table
         Object[][] data = new Object[numRows][columns.length];
 
-        // Populate the data array with the specific information you need
-        for (int i = 0; i < numRows; i++) {
-            if (i < DronesList.size()) {
-                Drones drone = DronesList.get(i);
-                data[i][0] = drone.getId();
+        int minSize = DronesList.size();
 
-                // Assuming you have a method to get TypeName from Drone
-                data[i][1] = drone.getDroneType().getTypeName();
+        for (int i = 0; i < minSize; i++) {
+            Drones drone = DronesList.get(i);
+            data[i][0] = drone.getId();
+            data[i][1] = drone.getDroneType().getTypeName();
 
-                if (i < DroneDynamicsList.size()) {
-                    DroneDynamics droneDynamics = DroneDynamicsList.get(i);
-                    // Assuming you have a method to get Status from DroneDynamics
-                    data[i][2] = droneDynamics.getStatus();
-                }
-//                        else {
-//                            data[i][2] = ""; // Placeholder for Status, modify accordingly
-//                        }
-            }
-//                    else {
-//                        // Populate remaining rows with empty data or placeholders
-//                        data[i][0] = "";
-//                        data[i][1] = "";
-//                        data[i][2] = "";
-//                    }
-
-
-            if (i < DroneTypesList.size()) {
-                DroneTypes droneType = DroneTypesList.get(i);
-                // You need to decide how to map DroneTypes data to the columns
-            }
-
-            if (i < DroneDynamicsList.size()) {
-                DroneDynamics droneDynamics = DroneDynamicsList.get(i);
-                // You need to decide how to map DroneDynamics data to the columns
-            }
+            DroneDynamics droneDynamics = DroneDynamicsList.get(i);
+            data[i][2] = drone.getDroneType().getManufacturer();
         }
+
 
         // Set the new data model for the table
         frame.getTable().setModel(new DefaultTableModel(data, columns));

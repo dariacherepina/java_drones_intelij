@@ -1,16 +1,38 @@
 package Drone;
 
+import API.Stream;
 import Exception.*;
+import Drone.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 
 public class Convert {
+    ArrayList<Drones> DronesList;
+    ArrayList<DroneTypes> DroneTypesList;
+    ArrayList<DroneDynamics> DroneDynamicsList;
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
+    public void checkToInitialiseAllData() throws IOException {
+        if (Drones.ifFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
+            initialiseAllData();
+        }else {
+            Stream.fetchData();
+            initialiseAllData();
+        }
+    }
+    public void initialiseAllData() throws IOException {
+        //initialise data with data from files
+        DronesList = initialiseDrones(Stream.dataStreamOut("outputDrones"));
+        DroneTypesList = initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
+        DroneDynamicsList = initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
+        addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
+    }
 
     public ArrayList<Drones> initialiseDrones(JsonObject input) {
         ArrayList<Drones> dronesList = new ArrayList<>();
@@ -48,6 +70,11 @@ public class Convert {
             ));
 
         }
+        droneTypesList.sort((o1, o2) -> {
+            int id1 = (o1).getId();
+            int id2 = (o2).getId();
+            return Integer.compare(id1, id2);
+        });
         return droneTypesList;
     }
 
@@ -90,14 +117,14 @@ public class Convert {
     }
 
 
-    //addign DroneTypes and DroneDynamics to the Drones based on the id
+    //add DroneTypes and DroneDynamics to the Drones based on the id
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
             try {
                 addDroneTypesForDrone(drone, droneTypesList);
                 addDroneDynamicsForDrone(drone, droneDynamicsList);
             } catch (AbsenceTypeForDrone e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(e); // TODO: is that right ?
             }
         }
     }
@@ -128,9 +155,8 @@ public class Convert {
         Object[][] droneTypesObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {
             Drones droneObj = drones.get(i);
-            Object[] droneArray = new Object[5]; // considering there are 9 properties in the DroneType class
+            Object[] droneArray = new Object[5];
             droneArray[0] = droneObj.getId();
-//            droneArray[1] = droneObj.getDroneType();
             droneArray[1] = droneObj.getCreated();
             droneArray[2] = droneObj.getSerialNumber();
             droneArray[3] = droneObj.getCarriageWeight();
@@ -154,7 +180,6 @@ public class Convert {
             droneTypeArray[5] = droneTypeObj.getBatteryCapacity();
             droneTypeArray[6] = droneTypeObj.getControlRange();
             droneTypeArray[7] = droneTypeObj.getMaximumCarriage();
-            // considering there are 9 properties in the DroneType class
 
             droneTypesObj[i] = droneTypeArray;
         }
@@ -178,11 +203,20 @@ public class Convert {
             droneDynamicsArray[8] = droneDynamicsObj.getBattery_status();
             droneDynamicsArray[9] = droneDynamicsObj.getLast_seen();
             droneDynamicsArray[10] = droneDynamicsObj.getStatus();
-
-
             droneTypesObj[i] = droneDynamicsArray;
         }
         return droneTypesObj;
     }
 
+    public ArrayList<Drones> getDronesList() {
+        return DronesList;
+    }
+
+    public ArrayList<DroneTypes> getDroneTypesList() {
+        return DroneTypesList;
+    }
+
+    public ArrayList<DroneDynamics> getDroneDynamicsList() {
+        return DroneDynamicsList;
+    }
 }

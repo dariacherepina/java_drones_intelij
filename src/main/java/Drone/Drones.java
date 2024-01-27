@@ -6,6 +6,7 @@ import API.Stream;
 import Exception.*;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,6 +29,7 @@ public class Drones extends Refresh {
 
     private static int onlineCount;
     private static int offlineCount;
+    private static File file = new File("outputDrones.json");
 
     public Drones() {}
 
@@ -60,15 +62,23 @@ public class Drones extends Refresh {
 
     @Override
     public String toString() {
-        return "Drones [id=" + id
-                + ", droneType= " + droneType
-                + ", droneDynamicsList =" + droneDynamicsList
-                + ", created=" + created
-                + ", serialNumber=" + serialNumber
-                + ", carriage_weight=" + carriageWeight
-                + ", carriage_type=" + carriageType + "]";
+        return "Drones\nId: " + id
+                + "\nDronetype: " + droneType
+                + "\nDrone Dynamics List: " + droneDynamicsList
+                + "\nCreated: " + created
+                + "\nSerial Number: " + serialNumber
+                + "\nCarriage Weight: " + carriageWeight
+                + "\nCarriage Type: " + carriageType;
     }
 
+
+    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) {
+        this.droneDynamicsList = droneDynamicsList;
+    }
+
+    public void setDroneType(DroneTypes droneType) {
+        this.droneType = droneType;
+    }
 
     public void setIdType(int idType) {
         this.idType = idType;
@@ -76,10 +86,6 @@ public class Drones extends Refresh {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setDroneType(DroneTypes droneType) {
-        this.droneType = droneType;
     }
 
     public void setDroneTypeLink(String droneTypeLink) {
@@ -102,17 +108,36 @@ public class Drones extends Refresh {
         this.carriageType = carriageType;
     }
 
-    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) {
-        this.droneDynamicsList = droneDynamicsList;
+    public static void setOnlineCount(int onlineCount) {
+        Drones.onlineCount = onlineCount;
     }
 
+    public static void setOfflineCount(int offlineCount) {
+        Drones.offlineCount = offlineCount;
+    }
 
-    public int getId() {
-        return this.id;
+    public static void setFile(File file) {
+        Drones.file = file;
+    }
+
+    public ArrayList<DroneDynamics> getDroneDynamicsList() {
+        return droneDynamicsList;
     }
 
     public DroneTypes getDroneType() {
         return droneType;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDroneTypeLink() {
+        return droneTypeLink;
     }
 
     public String getCreated() {
@@ -131,24 +156,16 @@ public class Drones extends Refresh {
         return carriageType;
     }
 
-    public ArrayList<DroneDynamics> getDroneDynamicsList() {
-        return droneDynamicsList;
-    }
-
-    public int getIdType() {
-        return idType;
-    }
-
-    public String getDroneTypeLink() {
-        return droneTypeLink;
+    public static int getOnlineCount() {
+        return onlineCount;
     }
 
     public static int getOfflineCount() {
         return offlineCount;
     }
 
-    public static int getOnlineCount() {
-        return onlineCount;
+    public static File getFile() {
+        return file;
     }
 
     @Override
@@ -183,18 +200,13 @@ public class Drones extends Refresh {
             return false;
         }
     }
-//    @Override
-//    public void refresh() throws IOException {
-//        if (checkRefresh()) {
-//            try {
-//                Stream.dataStreamIn(APIEndpoints.getDronesUrl(100, 0), "outputDrones");
-//                //trigger gui to refetch data
-//            } catch (InvalidFileNameException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }else {
-//            LOGGER.info("Same amount of data. No Updates ");
-//        }
-//    }
+    public static boolean ifFileValid() throws IOException {
+        if (file.exists() && file.isFile() && file.length() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 
 }
