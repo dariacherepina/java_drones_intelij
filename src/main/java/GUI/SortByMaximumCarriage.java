@@ -27,7 +27,7 @@ public class SortByMaximumCarriage implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(Sortable.sortMaximumCarriage(DroneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortMaximumCarriage(DroneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
 

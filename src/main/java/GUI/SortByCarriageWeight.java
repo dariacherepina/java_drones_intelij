@@ -27,7 +27,7 @@ public class SortByCarriageWeight implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-        Object[][] data = helper.ArrayList2ObjectDrones(Sortable.sortCarriageWeight(DronesList));
+        Object[][] data = helper.convertArrayListToObjectDrones(Sortable.sortCarriageWeight(DronesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
 

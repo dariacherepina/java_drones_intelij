@@ -28,7 +28,7 @@ public class DroneDynamicsActionListener implements ActionListener {
 
 
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-        Object[][] data = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
+        Object[][] data = helper.convertArrayListToObjectDroneDynamics(DroneDynamicsList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
     }

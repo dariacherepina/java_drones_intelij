@@ -112,7 +112,7 @@ public class DroneIDActionListener implements ActionListener {
 
         droneInfoTextArea.setText(infoText);
         // DroneDynamics for Drone as Object[][]
-        //Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneInfo.getDroneDynamicsList());
+        //Object[][] data = helper.convertArrayListToObjectDroneDynamics(droneInfo.getDroneDynamicsList());
         // Add the JTextArea to the textFrame
         panel.add(droneInfoTextArea);
 

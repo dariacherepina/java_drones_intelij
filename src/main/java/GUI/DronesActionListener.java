@@ -40,7 +40,7 @@ public class DronesActionListener implements ActionListener{
 
 
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-        Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
+        Object[][] data = helper.convertArrayListToObjectDrones(DronesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
     }

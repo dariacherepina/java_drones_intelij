@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static GUI.MyFrame.helper;
-
 public class RefreshActionListener implements ActionListener {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
     private Convert helper = new Convert();
@@ -37,18 +35,18 @@ public class RefreshActionListener implements ActionListener {
         try {
             updateTables(DronesList, DroneTypesList, DroneDynamicsList);
             String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-            Object[][] data = helper.ArrayList2ObjectDrones(DronesList);
+            Object[][] data = helper.convertArrayListToObjectDrones(DronesList);
             frame.getTable().setBackground(Color.PINK);
             frame.getTable().setModel(new DefaultTableModel(data, columns));
 
 
             String[] columns1 = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-            Object[][] data1 = helper.ArrayList2ObjectDroneType(DroneTypesList);
+            Object[][] data1 = helper.convertArrayListToObjectDroneType(DroneTypesList);
             frame.getTable().setModel(new DefaultTableModel(data1, columns1));
 
 
             String[] columns2 = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-            Object[][] data2 = helper.ArrayList2ObjectDroneDynamics(DroneDynamicsList);
+            Object[][] data2 = helper.convertArrayListToObjectDroneDynamics(DroneDynamicsList);
             frame.getTable().setModel(new DefaultTableModel(data2, columns2));
 
 

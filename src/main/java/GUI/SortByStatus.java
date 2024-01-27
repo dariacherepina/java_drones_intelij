@@ -29,7 +29,7 @@ public class SortByStatus implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-        Object[][] data = helper.ArrayList2ObjectDroneDynamics(Sortable.sortStatus(DroneDynamicsList));
+        Object[][] data = helper.convertArrayListToObjectDroneDynamics(Sortable.sortStatus(DroneDynamicsList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
 

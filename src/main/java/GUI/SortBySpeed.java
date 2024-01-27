@@ -27,7 +27,7 @@ public class SortBySpeed implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(Sortable.sortSpeed(DroneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortSpeed(DroneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
 

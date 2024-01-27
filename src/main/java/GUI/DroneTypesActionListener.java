@@ -26,7 +26,7 @@ public class DroneTypesActionListener implements ActionListener {
         frame.getEastPanel().add(frame.getSortBySpeed());
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(DroneTypesList);
+        Object[][] data = helper.convertArrayListToObjectDroneType(DroneTypesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
 
