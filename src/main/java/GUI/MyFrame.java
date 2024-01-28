@@ -136,16 +136,22 @@ public class MyFrame extends JFrame {
 
         sortByCarriageWeight = new JButton("Sort Carriage Weight");
         sortByCarriageWeight.setBackground(Color.white);
-        sortByCarriageWeight.setSize(180,40);
+        sortByCarriageWeight.setPreferredSize(new Dimension(300,40));
 
         sortByMaximumCarriage = new JButton("Sort Maximum Carriage");
         sortByMaximumCarriage.setBackground(Color.white);
+        sortByMaximumCarriage.setPreferredSize(new Dimension(300,40));
+
 
         sortBySpeed = new JButton("Sort Maximum Speed");
         sortBySpeed.setBackground(Color.white);
+        sortBySpeed.setPreferredSize(new Dimension(300,40));
+
 
         sortByStatus = new JButton("Sort Status");
         sortByStatus.setBackground(Color.white);
+        sortByStatus.setPreferredSize(new Dimension(300,40));
+
 
         returnPlus5Button = new JButton("TimeStamp+5");
         returnPlus5Button.setBackground(Color.white);
@@ -153,7 +159,7 @@ public class MyFrame extends JFrame {
         returnMinus5Button = new JButton("TimeStamp-5");
         returnMinus5Button.setBackground(Color.white);
 
-        Dimension maxButtonSize = new Dimension(180, 40);  //makes all buttons have the same size
+        Dimension maxButtonSize = new Dimension(240, 40);  //makes all buttons have the same size
         dashboardButton.setMaximumSize(maxButtonSize);
         droneCatalogButton.setMaximumSize(maxButtonSize);
         dronesButton.setMaximumSize(maxButtonSize);
@@ -163,10 +169,6 @@ public class MyFrame extends JFrame {
         refreshButton.setMaximumSize(maxButtonSize);
         returnPlus5Button.setMaximumSize(maxButtonSize);
         returnMinus5Button.setMaximumSize(maxButtonSize);
-        sortByCarriageWeight.setMaximumSize(maxButtonSize);
-        sortByMaximumCarriage.setMaximumSize(maxButtonSize);
-        sortBySpeed.setMaximumSize(maxButtonSize);
-        sortByStatus.setMaximumSize(maxButtonSize);
 
         //ActionListeners for the buttons
         dashboardButton.addActionListener(new DashboardActionListener(this, dronesList, droneTypesList,droneDynamicsList));   //ActionListener for dashboardButton
