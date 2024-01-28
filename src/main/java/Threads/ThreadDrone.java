@@ -16,7 +16,7 @@ import API.Stream;
 import Exception.InvalidFileNameException;
 import org.main.Main;
 
-public class ThreadDrone implements Runnable{  //TODO: implements Runnable cleaner
+public class ThreadDrone implements Runnable{
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
     private Convert helper = new Convert();
 

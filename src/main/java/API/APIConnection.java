@@ -30,7 +30,7 @@ public class APIConnection {
     public APIConnection() {
     }
 
-    //public JsonObject getResponse(String endpoint) { // TODO: PAGINATION: figue out how to do pagination without getHeaderField?
+
 
     public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
@@ -74,21 +74,9 @@ public class APIConnection {
             while ((line = reader.readLine()) != null) {
                 responseContent.append(line);
                 responseContent.append("\n");
-                try {
-                    nextPageLink = pagination(line);
-                } catch (JSONException e) {
-                    System.out.println("JSONException e in APIConnection");
-                }
             }
             reader.close();
 
-//                System.out.println("nextPageLink" + nextPageLink);
-            if (nextPageLink == null || nextPageLink.equals("null")) {
-
-                nextPageUrl = null;
-            } else {
-                nextPageUrl = nextPageLink;
-            }
 
         } catch (SocketTimeoutException e) {
             //Handle SocketTimeoutException with retries
@@ -111,22 +99,22 @@ public class APIConnection {
         return inputJson.getAsJsonObject();
     }
 
-    public static String pagination(String line) {
-        try {
-            JSONObject jsonObject = new JSONObject(line);
-            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
-                LOGGER.log(Level.INFO, "next is null");
-                return null;
-            } else {
-                LOGGER.log(Level.INFO, "next is not null");
-                return jsonObject.get("next").toString();
-            }
-        } catch (JSONException e) {
-            LOGGER.log(Level.INFO, "JSONException");
-        } catch (NullPointerException e) {
-            LOGGER.log(Level.INFO, "NullPointerException");
-        }
-        return null;
-    }
+//    public static String pagination(String line) {
+//        try {
+//            JSONObject jsonObject = new JSONObject(line);
+//            if (jsonObject.get("next") == null || jsonObject.get("next").toString().equals("null")) {
+//                LOGGER.log(Level.INFO, "next is null");
+//                return null;
+//            } else {
+//                LOGGER.log(Level.INFO, "next is not null");
+//                return jsonObject.get("next").toString();
+//            }
+//        } catch (JSONException e) {
+//            LOGGER.log(Level.INFO, "JSONException");
+//        } catch (NullPointerException e) {
+//            LOGGER.log(Level.INFO, "NullPointerException");
+//        }
+//        return null;
+//    }
 
 }

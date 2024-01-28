@@ -6,6 +6,7 @@ import API.Stream;
 import Exception.*;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +30,8 @@ public class DroneDynamics extends Refresh {
     private String status;
     private static int onlineCount;
     private static int offlineCount;
+    private static File file = new File("outputDroneDynamics.json");
+
     public DroneDynamics(){}
 
 
@@ -68,8 +71,7 @@ public class DroneDynamics extends Refresh {
 
     @Override
     public String toString() {
-        return
-                 "Id: " + id
+        return "Id: " + id
                 + "\nTimestamp: " + timestamp
                 + "\nSpeed:" + speed
                 + "\nAlign Roll:" + align_roll
@@ -83,12 +85,12 @@ public class DroneDynamics extends Refresh {
     }
 
 
-    public void setDrone(String drone) {
-        this.drone = drone;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setDrone(String drone) {
+        this.drone = drone;
     }
 
     public void setTimestamp(String timestamp) {
@@ -131,8 +133,20 @@ public class DroneDynamics extends Refresh {
         this.status = status;
     }
 
+    public static void setOnlineCount(int onlineCount) {
+        DroneDynamics.onlineCount = onlineCount;
+    }
+
+    public static void setOfflineCount(int offlineCount) {
+        DroneDynamics.offlineCount = offlineCount;
+    }
+
+    public static void setFile(File file) {
+        DroneDynamics.file = file;
+    }
+
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public String getDrone() {
@@ -187,6 +201,10 @@ public class DroneDynamics extends Refresh {
         return offlineCount;
     }
 
+    public static File getFile() {
+        return file;
+    }
+
     @Override
     public int checkOfflineCount() {
         try {
@@ -217,5 +235,11 @@ public class DroneDynamics extends Refresh {
         }
     }
 
-
+    public static boolean ifFileValid(){
+        if (file.exists() && file.isFile() && file.length() > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
