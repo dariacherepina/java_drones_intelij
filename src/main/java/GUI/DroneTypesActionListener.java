@@ -25,10 +25,11 @@ public class DroneTypesActionListener implements ActionListener {
         frame.setLabel("DRONE TYPES");
 
         frame.getPanelSort().remove(frame.getSortByCarriageWeight());
-        frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().add(frame.getSortByMaximumCarriage());
         frame.getPanelSort().add(frame.getSortBySpeed());
+        frame.getMainPanel().revalidate();
+        frame.getMainPanel().repaint();
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
         Object[][] data = helper.ArrayList2ObjectDroneType(droneTypesList);

@@ -25,11 +25,12 @@ public class DroneDynamicsActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE DYNAMICS");
 
+        frame.getPanelSort().add(frame.getSortByStatus());
         frame.getPanelSort().remove(frame.getSortByCarriageWeight());
-        frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().remove(frame.getSortByMaximumCarriage());
         frame.getPanelSort().remove(frame.getSortBySpeed());
-        frame.getPanelSort().add(frame.getSortByStatus());
+        frame.getMainPanel().revalidate();
+        frame.getMainPanel().repaint();
 
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
         Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneDynamicsList);
