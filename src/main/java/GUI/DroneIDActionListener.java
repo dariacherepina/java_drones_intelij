@@ -123,7 +123,7 @@ public class DroneIDActionListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 if(userNumber <= 1441 && userNumber >= 4) {  //area userNumber from 5 to 1441
                     String nextTimeStempMinus = getDroneDynamicMinus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
-                    String infoTextDroneDynamics = findDroneDyn5min(nextTimeStempMinus, droneInfo).toString();
+                    String infoTextDroneDynamics = Objects.requireNonNull(findDroneDyn5min(nextTimeStempMinus, droneInfo)).toString();
                     System.out.println(infoTextDroneDynamics);
                     droneInfoTextArea2.setText(infoTextDroneDynamics);
                     panel.removeAll();
@@ -153,7 +153,7 @@ public class DroneIDActionListener implements ActionListener {
                 if(userNumber <= 1437 && userNumber >= 0) { // area userNumber from 5 to 1441
                     frame.getReturnPlus5Button().setBackground(Color.WHITE);
                     String nextTimeStempPlus = getDroneDynamicPlus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
-                    String infoTextDroneDynamics1 = findDroneDyn5min(nextTimeStempPlus, droneInfo).toString();
+                    String infoTextDroneDynamics1 = Objects.requireNonNull(findDroneDyn5min(nextTimeStempPlus, droneInfo)).toString();
                     System.out.println(infoTextDroneDynamics1);
                     droneInfoTextArea2.setText(infoTextDroneDynamics1);
                     panel.removeAll();

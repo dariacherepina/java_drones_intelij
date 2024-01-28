@@ -3,9 +3,6 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
-import Exception.*;
-import com.google.gson.JsonObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;

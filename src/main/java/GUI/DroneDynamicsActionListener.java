@@ -2,10 +2,7 @@ package GUI;
 
 import Drone.Convert;
 import Drone.DroneDynamics;
-import Drone.Drones;
-
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

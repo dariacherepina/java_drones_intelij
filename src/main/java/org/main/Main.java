@@ -1,22 +1,14 @@
 package org.main;
-
-import API.Stream;
 import Drone.*;
 import GUI.MyFrame;
 import Threads.ThreadCheckRefresh;
 import org.json.JSONException;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Drone.*;
-
 import javax.swing.*;
 
 public class Main implements Sortable {
-    // Define constants
     static Convert helper = new Convert();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 

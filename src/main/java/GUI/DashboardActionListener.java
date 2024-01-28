@@ -41,8 +41,7 @@ public class DashboardActionListener implements ActionListener {
             Drones drone = dronesList.get(i);
             data[i][0] = drone.getId();
             data[i][1] = drone.getDroneType().getTypeName();
-
-            DroneDynamics droneDynamics = droneDynamicsList.get(i);
+            DroneDynamics droneDynamics = droneDynamicsList.get(i); //TODO: do we need that ?
             data[i][2] = drone.getDroneType().getManufacturer();
         }
         frame.getTable().setModel(new DefaultTableModel(data, columns));         // Set the new data model for the table

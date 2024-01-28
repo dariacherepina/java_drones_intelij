@@ -3,7 +3,6 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
-import Exception.*;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public class DroneTypes extends Refresh {
     private static int offlineCount;
     private static File file = new File("outputDroneTypes.json");
 
-    public DroneTypes(){};
+    public DroneTypes(){}
 
     public DroneTypes(int id, String manufacturer, String typeName, int weight, int maximumSpeed, int batteryCapacity, int controlRange, int maximumCarriage) {
         this.id = id;

@@ -2,9 +2,6 @@ package API;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,8 +30,6 @@ public class APIConnection {
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
-        int retries = 3;
-
         try {
 
             final HttpURLConnection connection = getHttpURLConnection(nextPageUrl);
@@ -45,21 +40,14 @@ public class APIConnection {
             reader = new BufferedReader(new InputStreamReader(
                     status > 299 ? connection.getErrorStream() : connection.getInputStream()));
 
-
             while ((line = reader.readLine()) != null) {
                 responseContent.append(line);
                 responseContent.append("\n");
             }
             reader.close();
 
-
         } catch (SocketTimeoutException e) {
-            if (retries > 0) {
-                LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
-                retries--;
-            } else {
-                LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
-            }
+            LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
         } catch (MalformedURLException e) {
 
             LOGGER.log(Level.SEVERE, "MalformedURLException occurred", e);
@@ -74,7 +62,7 @@ public class APIConnection {
      *
      * @param nextPageUrl String
      * @return connection of HttpURLConnection datatype
-     * @throws IOException
+     * @throws IOException input output exception
      */
     private static HttpURLConnection getHttpURLConnection(String nextPageUrl) throws IOException {
         URL url = new URL(nextPageUrl);
@@ -86,6 +74,4 @@ public class APIConnection {
         connection.setReadTimeout(1000000);
         return connection;
     }
-
-
 }
