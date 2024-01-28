@@ -2,14 +2,13 @@ package Drone;
 
 import API.Stream;
 import Exception.*;
-import Drone.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -18,6 +17,11 @@ public class Convert {
     ArrayList<DroneTypes> DroneTypesList;
     ArrayList<DroneDynamics> DroneDynamicsList;
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
+
+    /**
+     * We want to check if the data is already saved to the files than just initialise, if not than fetch data first and then initialise it
+     * @throws IOException throws
+     */
     public void checkToInitialiseAllData() throws IOException {
         if (Drones.ifFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
             initialiseAllData();
@@ -26,14 +30,23 @@ public class Convert {
             initialiseAllData();
         }
     }
+
+    /**
+     * initialise ArrayLists with data from files
+     * @throws IOException throws
+     */
     public void initialiseAllData() throws IOException {
-        //initialise data with data from files
         DronesList = initialiseDrones(Stream.dataStreamOut("outputDrones"));
         DroneTypesList = initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
         DroneDynamicsList = initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
         addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
     }
 
+    /**
+     *
+     * @param input JsonObject from the files
+     * @return ArrayList<Drones>
+     */
     public ArrayList<Drones> initialiseDrones(JsonObject input) {
         ArrayList<Drones> dronesList = new ArrayList<>();
         JsonArray jsonArray = input.getAsJsonArray("results");
@@ -52,7 +65,11 @@ public class Convert {
         }
         return dronesList;
     }
-
+    /**
+     *
+     * @param input JsonObject from the files
+     * @return ArrayList<DroneTypes>
+     */
     public ArrayList<DroneTypes> initialiseDroneTypes(JsonObject input) {
         ArrayList<DroneTypes> droneTypesList = new ArrayList<>();
         JsonArray jsonArray = input.getAsJsonArray("results");
@@ -77,7 +94,11 @@ public class Convert {
         });
         return droneTypesList;
     }
-
+    /**
+     *
+     * @param input JsonObject from the files
+     * @return ArrayList<DroneDynamics>
+     */
     public ArrayList<DroneDynamics> initialiseDroneDynamics(JsonObject input) {
         ArrayList<DroneDynamics> droneDynamicsList = new ArrayList<>();
         JsonArray jsonArray = input.getAsJsonArray("results");
@@ -106,29 +127,47 @@ public class Convert {
         return droneDynamicsList;
     }
 
-    // find right drone in arrayList of drones
+    /**
+     * Find the drone in ArrayList of drones with the right id
+     * @param dronesList ArrayList<Drones>
+     * @param id int
+     * @return drone of the right id
+     * @throws InvalidIdInput customise Exception, when the id is out of range
+     */
+
     public Drones findDrone(ArrayList<Drones> dronesList, int id) throws InvalidIdInput{
         for (Drones drone : dronesList) {
             if (drone.getId() == id) {
                 return drone;
             }
         }
-        throw new InvalidIdInput("Invalid drone ID input"); //TODO: check implementation of Exception
+        throw new InvalidIdInput("Invalid drone ID input");
     }
 
-
-    //add DroneTypes and DroneDynamics to the Drones based on the id
+    /**
+     * add DroneTypes and DroneDynamics to the Drones based on the id
+     * @param dronesList ArrayList<Drones>
+     * @param droneTypesList ArrayList<DroneTypes
+     * @param droneDynamicsList ArrayList<DroneDynamics>
+     */
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
         for (Drones drone : dronesList) {
             try {
                 addDroneTypesForDrone(drone, droneTypesList);
                 addDroneDynamicsForDrone(drone, droneDynamicsList);
             } catch (AbsenceTypeForDrone e) {
-                throw new RuntimeException(e); // TODO: is that right ?
+                LOGGER.log(Level.SEVERE, "Error adding additional data to drone",e);
+                throw new RuntimeException(e);
             }
         }
     }
 
+    /**
+     * To add the DroneType for each Drone
+     * @param drone Drones
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @throws AbsenceTypeForDrone No DroneType for this Drone
+     */
     private void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) throws AbsenceTypeForDrone {
         for (DroneTypes droneType : droneTypesList) {
             if (drone.getIdType() == droneType.getId()) {
@@ -136,10 +175,15 @@ public class Convert {
             }
         }
         if(drone.getDroneType() == null){
-            throw new AbsenceTypeForDrone("No DroneType for this Drone");//TODO: check implementation of Exception
+            throw new AbsenceTypeForDrone("No DroneType for this Drone");
         }
     }
 
+    /**
+     * To add the DroneDynamics for each Drone
+     * @param drone Drones
+     * @param droneDynamicsList ArrayList<DroneDynamics>
+     */
     private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
         ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
         for (DroneDynamics droneDynamic : droneDynamicsList) {
@@ -150,9 +194,15 @@ public class Convert {
         drone.setDroneDynamicsList(droneDynamicsForDrone);
     }
 
-    public Object[][] ArrayList2ObjectDrones(ArrayList<Drones> drones) {
+    /**
+     * Convert Arraylist<Drones> drones to Object [][]
+     * @param drones ArrayList<Drones>
+     * @return Object [][] droneObj
+     */
+    public Object[][] convertArrayListToObjectDrones(ArrayList<Drones> drones) {
         int numRows = drones.size();
-        Object[][] droneTypesObj = new Object[numRows][8];
+        Object[][] donesObj = new Object[numRows][8];
+
         for (int i = 0; i < numRows; i++) {
             Drones droneObj = drones.get(i);
             Object[] droneArray = new Object[5];
@@ -161,12 +211,17 @@ public class Convert {
             droneArray[2] = droneObj.getSerialNumber();
             droneArray[3] = droneObj.getCarriageWeight();
             droneArray[4] = droneObj.getCarriageType();
-            droneTypesObj[i] = droneArray;
+            donesObj[i] = droneArray;
         }
-        return droneTypesObj;
+        return donesObj;
     }
 
-    public Object[][] ArrayList2ObjectDroneType(ArrayList<DroneTypes> droneTypes) {
+    /**
+     * Convert Arraylist<DroneTypes> drones to Object [][]
+     * @param droneTypes ArrayList<DroneTypes>
+     * @return Object [][] droneTypesObj
+     */
+    public Object[][] convertArrayListToObjectDroneType(ArrayList<DroneTypes> droneTypes) {
         int numRows = droneTypes.size();
         Object[][] droneTypesObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {
@@ -185,27 +240,31 @@ public class Convert {
         }
         return droneTypesObj;
     }
-
-    public Object[][] ArrayList2ObjectDroneDynamics(ArrayList<DroneDynamics> droneDynamics) {
+    /**
+     * Convert Arraylist<DroneDynamics> drones to Object [][]
+     * @param droneDynamics ArrayList<DroneDynamics>
+     * @return Object [][] droneDynamicsObj
+     */
+    public Object[][] convertArrayListToObjectDroneDynamics(ArrayList<DroneDynamics> droneDynamics) {
         int numRows = droneDynamics.size();
-        Object[][] droneTypesObj = new Object[numRows][8];
+        Object[][] droneDynamicsObj = new Object[numRows][8];
         for (int i = 0; i < numRows; i++) {
-            DroneDynamics droneDynamicsObj = droneDynamics.get(i);
+            DroneDynamics droneDynamicObj = droneDynamics.get(i);
             Object[] droneDynamicsArray = new Object[11]; // considering there are 9 properties in the DroneType class
-            droneDynamicsArray[0] = droneDynamicsObj.getId();
-            droneDynamicsArray[1] = droneDynamicsObj.getTimestamp();
-            droneDynamicsArray[2] = droneDynamicsObj.getSpeed();
-            droneDynamicsArray[3] = droneDynamicsObj.getAlign_roll();
-            droneDynamicsArray[4] = droneDynamicsObj.getAlign_pitch();
-            droneDynamicsArray[5] = droneDynamicsObj.getAlign_yaw();
-            droneDynamicsArray[6] = droneDynamicsObj.getLongitude();
-            droneDynamicsArray[7] = droneDynamicsObj.getLatitude();
-            droneDynamicsArray[8] = droneDynamicsObj.getBattery_status();
-            droneDynamicsArray[9] = droneDynamicsObj.getLast_seen();
-            droneDynamicsArray[10] = droneDynamicsObj.getStatus();
-            droneTypesObj[i] = droneDynamicsArray;
+            droneDynamicsArray[0] = droneDynamicObj.getId();
+            droneDynamicsArray[1] = droneDynamicObj.getTimestamp();
+            droneDynamicsArray[2] = droneDynamicObj.getSpeed();
+            droneDynamicsArray[3] = droneDynamicObj.getAlign_roll();
+            droneDynamicsArray[4] = droneDynamicObj.getAlign_pitch();
+            droneDynamicsArray[5] = droneDynamicObj.getAlign_yaw();
+            droneDynamicsArray[6] = droneDynamicObj.getLongitude();
+            droneDynamicsArray[7] = droneDynamicObj.getLatitude();
+            droneDynamicsArray[8] = droneDynamicObj.getBattery_status();
+            droneDynamicsArray[9] = droneDynamicObj.getLast_seen();
+            droneDynamicsArray[10] = droneDynamicObj.getStatus();
+            droneDynamicsObj[i] = droneDynamicsArray;
         }
-        return droneTypesObj;
+        return droneDynamicsObj;
     }
 
     public ArrayList<Drones> getDronesList() {

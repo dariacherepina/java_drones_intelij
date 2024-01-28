@@ -38,7 +38,10 @@ public class DroneTypes extends Refresh {
         this.maximumCarriage = maximumCarriage;
     }
 
-
+    /**
+     * To transform the Object to String
+     * @return String
+     */
     public String toString() {
         return "\n Id: " + id
                 + "\nManufacturer: " + manufacturer
@@ -138,7 +141,10 @@ public class DroneTypes extends Refresh {
     public static File getFile() {
         return file;
     }
-
+    /**
+     * To get the count of the data from the file
+     * @return int offlineCount
+     */
     @Override
     public int checkOfflineCount() {
         JsonObject o;
@@ -151,7 +157,10 @@ public class DroneTypes extends Refresh {
         }
         return offlineCount;
     }
-
+    /**
+     * To get the count of the data from the server
+     * @return int onlineCount
+     */
     @Override
     public int checkOnlineCount() {
         try {
@@ -161,16 +170,23 @@ public class DroneTypes extends Refresh {
         }
         return onlineCount;
     }
-
+    /**
+     * If true there is new data on the server, if false there is not
+     * @return boolean
+     */
     @Override
     public boolean checkRefresh() throws IOException{
         if (checkOfflineCount() < checkOnlineCount()) {
             return true;
         } else {
-            LOGGER.warning("No updates");
+            LOGGER.info("No updates");
             return false;
         }
     }
+    /**
+     * To check if file exist and if it is empty
+     * @return boolean
+     */
     public static boolean ifFileValid(){
         if (file.exists() && file.isFile() && file.length() > 0){
             return true;

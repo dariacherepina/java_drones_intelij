@@ -46,7 +46,12 @@ public class Drones extends Refresh {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * To get id of the DroneType of this Drone
+     * @param droneTypeLink String Link of the DroneTypes
+     * @return int the id of the DroneType to this Drone
+     * @throws MalformedURLException when URL is malformed
+     */
     public int extractIdFromUrl(String droneTypeLink) throws MalformedURLException {
         try {
             URL urlObj = new URL(droneTypeLink); // Use the passed parameter
@@ -59,7 +64,10 @@ public class Drones extends Refresh {
             throw e;
         }
     }
-
+    /**
+     * To transform the Object to String
+     * @return String
+     */
     @Override
     public String toString() {
         return "Drones\nId: " + id
@@ -167,7 +175,10 @@ public class Drones extends Refresh {
     public static File getFile() {
         return file;
     }
-
+    /**
+     * To get the count of the data from the file
+     * @return int offlineCount
+     */
     @Override
     public int checkOfflineCount() {
         JsonObject o;
@@ -180,7 +191,10 @@ public class Drones extends Refresh {
         }
         return offlineCount;
     }
-
+    /**
+     * To get the count of the data from the server
+     * @return int onlineCount
+     */
     @Override
     public int checkOnlineCount() {
         try {
@@ -190,7 +204,10 @@ public class Drones extends Refresh {
         }
         return onlineCount;
     }
-
+    /**
+     * If true there is new data on the server, if false there is not
+     * @return boolean
+     */
     @Override
     public boolean checkRefresh() throws IOException{
         if (checkOfflineCount() < checkOnlineCount()) {
@@ -200,6 +217,10 @@ public class Drones extends Refresh {
             return false;
         }
     }
+    /**
+     * To check if file exist and if it is empty
+     * @return boolean
+     */
     public static boolean ifFileValid() throws IOException {
         if (file.exists() && file.isFile() && file.length() > 0){
             return true;

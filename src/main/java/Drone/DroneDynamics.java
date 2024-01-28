@@ -54,7 +54,12 @@ public class DroneDynamics extends Refresh {
         }
     }
 
-
+    /**
+     * To get id of the Drone of this DroneDynamics
+     * @param drone String Link of the Drones
+     * @return int the id of the drone to this DroneDynamic
+     * @throws MalformedURLException when URL is malformed
+     */
     public int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
             URL urlObj = new URL(drone); // Use the passed parameter
@@ -68,7 +73,10 @@ public class DroneDynamics extends Refresh {
         }
     }
 
-
+    /**
+     * To transform the Object to String
+     * @return String
+     */
     @Override
     public String toString() {
         return "Drone Dynamic:\n"
@@ -206,6 +214,10 @@ public class DroneDynamics extends Refresh {
         return file;
     }
 
+    /**
+     * To get the count of the data from the file
+     * @return int offlineCount
+     */
     @Override
     public int checkOfflineCount() {
         try {
@@ -216,7 +228,10 @@ public class DroneDynamics extends Refresh {
         }
         return offlineCount;
     }
-
+    /**
+     * To get the count of the data from the server
+     * @return int onlineCount
+     */
     @Override
     public int checkOnlineCount() {
         try {
@@ -226,8 +241,13 @@ public class DroneDynamics extends Refresh {
         }
         return onlineCount;
     }
+
+    /**
+     * If true there is new data on the server, if false there is not
+     * @return boolean
+     */
     @Override
-    public boolean checkRefresh() throws IOException{
+    public boolean checkRefresh() {
         if (checkOfflineCount() < checkOnlineCount()) {
             return true;
         } else {
@@ -236,6 +256,10 @@ public class DroneDynamics extends Refresh {
         }
     }
 
+    /**
+     * To check if file exist and if it is empty
+     * @return boolean
+     */
     public static boolean ifFileValid(){
         if (file.exists() && file.isFile() && file.length() > 0){
             return true;

@@ -11,26 +11,20 @@ import java.util.ArrayList;
 
 public class SortBySpeed implements ActionListener {
     private Convert helper;
-
-
     private MyFrame frame;
-    private ArrayList<DroneTypes> DroneTypesList;
+    private ArrayList<DroneTypes> droneTypesList;
 
-    public SortBySpeed(MyFrame frame, ArrayList<DroneTypes> DroneTypesList){
+    public SortBySpeed(MyFrame frame, ArrayList<DroneTypes> droneTypesList){
         this.frame = frame;
-        this.DroneTypesList = DroneTypesList;
+        this.droneTypesList = droneTypesList;
         this.helper = new Convert();
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(Sortable.sortSpeed(DroneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortSpeed(droneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
-
-
     }
 }
