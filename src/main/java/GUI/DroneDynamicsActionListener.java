@@ -2,6 +2,7 @@ package GUI;
 
 import Drone.Convert;
 import Drone.DroneDynamics;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +13,18 @@ public class DroneDynamicsActionListener implements ActionListener {
     private ArrayList<DroneDynamics> droneDynamicsList;
     private Convert helper;
 
-    public DroneDynamicsActionListener(MyFrame frame, ArrayList<DroneDynamics> droneDynamicsList){
+    public DroneDynamicsActionListener(MyFrame frame, ArrayList<DroneDynamics> droneDynamicsList) {
         this.frame = frame;
         this.droneDynamicsList = droneDynamicsList;
         this.helper = new Convert();
     }
 
+    /**
+     * adjust Sort-Buttons
+     * updates GUI to display 'DRONE DYNAMICS' label and populates table
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE DYNAMICS");

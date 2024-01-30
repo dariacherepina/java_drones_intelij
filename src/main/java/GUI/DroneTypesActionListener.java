@@ -20,6 +20,12 @@ public class DroneTypesActionListener implements ActionListener {
         this.droneTypesList = droneTypesList;
         this.helper = new Convert();
     }
+
+    /**
+     * adjust Sort-Buttons
+     * updates GUI to display 'DRONE TYPES' label and populates table
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE TYPES");

@@ -23,6 +23,10 @@ public class SortByStatus implements ActionListener {
         this.helper = new Convert();
     }
 
+    /**
+     * when clicking the droneDynamicsButton the droneDynamicsList can be sorted by status
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};

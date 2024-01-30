@@ -15,7 +15,7 @@ public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
     /**
-     *
+     *pecialized class is called subclas
      * @param jsonObject JsonObject
      * @param fileName String
      * @throws InvalidFileNameException custom exception

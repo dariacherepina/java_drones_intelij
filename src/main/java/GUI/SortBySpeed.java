@@ -20,6 +20,10 @@ public class SortBySpeed implements ActionListener {
         this.helper = new Convert();
     }
 
+    /**
+     * when clicking the droneTypesButton the droneTypesList can be sorted by maximum speed
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
