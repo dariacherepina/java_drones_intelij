@@ -25,12 +25,12 @@ public class Drones extends Refresh {
     private String serialNumber;
     private int carriageWeight;
     private String carriageType;
-
     private static int onlineCount;
     private static int offlineCount;
     private static File file = new File("outputDrones.json");
 
-    public Drones() {}
+    public Drones() {
+    }
 
     public Drones(int id, String droneTypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
@@ -45,8 +45,10 @@ public class Drones extends Refresh {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * To get id of the DroneType of this Drone
+     *
      * @param droneTypeLink String Link of the DroneTypes
      * @return int the id of the DroneType to this Drone
      * @throws MalformedURLException when URL is malformed
@@ -63,8 +65,10 @@ public class Drones extends Refresh {
             throw e;
         }
     }
+
     /**
      * To transform the Object to String
+     *
      * @return String
      */
     @Override
@@ -174,8 +178,10 @@ public class Drones extends Refresh {
     public static File getFile() {
         return file;
     }
+
     /**
      * To get the count of the data from the file
+     *
      * @return int offlineCount
      */
     @Override
@@ -190,8 +196,10 @@ public class Drones extends Refresh {
         }
         return offlineCount;
     }
+
     /**
      * To get the count of the data from the server
+     *
      * @return int onlineCount
      */
     @Override
@@ -203,12 +211,14 @@ public class Drones extends Refresh {
         }
         return onlineCount;
     }
+
     /**
      * If true there is new data on the server, if false there is not
+     *
      * @return boolean
      */
     @Override
-    public boolean checkRefresh() throws IOException{
+    public boolean checkRefresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
             return true;
         } else {
@@ -216,14 +226,16 @@ public class Drones extends Refresh {
             return false;
         }
     }
+
     /**
      * To check if file exist and if it is empty
+     *
      * @return boolean
      */
     public static boolean ifFileValid() throws IOException {
-        if (file.exists() && file.isFile() && file.length() > 0){
+        if (file.exists() && file.isFile() && file.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

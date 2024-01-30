@@ -8,6 +8,7 @@ import java.util.Comparator;
 public interface Sortable {
     /**
      * To sort ArrayList<Drones> by CarriageWeight
+     *
      * @param dronesList ArrayList<Drones>
      * @return ArrayList<Drones> sorted
      */
@@ -20,8 +21,10 @@ public interface Sortable {
         });
         return dronesList;
     }
+
     /**
      * To sort ArrayList<DroneTypes> by speed
+     *
      * @param droneTypesList ArrayList<DroneTypes>
      * @return ArrayList<DroneTypes> sorted
      */
@@ -37,6 +40,7 @@ public interface Sortable {
 
     /**
      * To sort ArrayList<DroneTypes> by maximumCarriage
+     *
      * @param droneTypesList ArrayList<DroneTypes>
      * @return ArrayList<DroneTypes> sorted
      */
@@ -53,6 +57,7 @@ public interface Sortable {
     /**
      * ON goes first, OF second and IS last
      * To sort ArrayList<DroneDynamics>  by status
+     *
      * @param droneDynamicsList ArrayList<DroneDynamics>
      * @return ArrayList<DroneDynamics> sorted
      */

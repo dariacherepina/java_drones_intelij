@@ -3,6 +3,7 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,7 +13,6 @@ import java.util.logging.Logger;
 
 public class DroneDynamics extends Refresh {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-
     private int id;
     private String drone;
     private String timestamp;
@@ -29,7 +29,8 @@ public class DroneDynamics extends Refresh {
     private static int offlineCount;
     private static File file = new File("outputDroneDynamics.json");
 
-    public DroneDynamics(){}
+    public DroneDynamics() {
+    }
 
 
     public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
@@ -53,6 +54,7 @@ public class DroneDynamics extends Refresh {
 
     /**
      * To get id of the Drone of this DroneDynamics
+     *
      * @param drone String Link of the Drones
      * @return int the id of the drone to this DroneDynamic
      * @throws MalformedURLException when URL is malformed
@@ -72,6 +74,7 @@ public class DroneDynamics extends Refresh {
 
     /**
      * To transform the Object to String
+     *
      * @return String
      */
     @Override
@@ -87,7 +90,7 @@ public class DroneDynamics extends Refresh {
                 + "\nLatitude: " + latitude
                 + "\nBattery Status: " + battery_status
                 + "\nLast Seen: " + last_seen
-                + "\nStatus: " + status ;
+                + "\nStatus: " + status;
     }
 
 
@@ -213,6 +216,7 @@ public class DroneDynamics extends Refresh {
 
     /**
      * To get the count of the data from the file
+     *
      * @return int offlineCount
      */
     @Override
@@ -225,8 +229,10 @@ public class DroneDynamics extends Refresh {
         }
         return offlineCount;
     }
+
     /**
      * To get the count of the data from the server
+     *
      * @return int onlineCount
      */
     @Override
@@ -241,6 +247,7 @@ public class DroneDynamics extends Refresh {
 
     /**
      * If true there is new data on the server, if false there is not
+     *
      * @return boolean
      */
     @Override
@@ -255,12 +262,13 @@ public class DroneDynamics extends Refresh {
 
     /**
      * To check if file exist and if it is empty
+     *
      * @return boolean
      */
-    public static boolean ifFileValid(){
-        if (file.exists() && file.isFile() && file.length() > 0){
+    public static boolean ifFileValid() {
+        if (file.exists() && file.isFile() && file.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

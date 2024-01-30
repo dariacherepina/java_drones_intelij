@@ -9,19 +9,23 @@ public class APIEndpoints extends APIConnection {
     static JsonObject droneDynamicsResponse;
 
     /**
+     * using the getResponse method with a drones-specific endpoint
      *
-     * @param limit int
+     * @param limit  int
      * @param offset int
      * @return JsonObject with data from  Drones
      */
+
     public static JsonObject getDronesUrl(int limit, int offset) {
         dronesResponse = getResponse("drones/?format=json&limit=" + limit + "&offset=" + offset);
         //dronesResponse = getResponse("drones/?format=json&limit=100&offset=0");
         return dronesResponse;
     }
+
     /**
+     * using the getResponse method with a dronetypes-specific endpoint
      *
-     * @param limit int
+     * @param limit  int
      * @param offset int
      * @return JsonObject with data from DroneType
      */
@@ -29,9 +33,11 @@ public class APIEndpoints extends APIConnection {
         droneTypesResponse = getResponse("dronetypes/?format=json&limit=" + limit + "&offset=" + offset);
         return droneTypesResponse;
     }
+
     /**
+     * using the getResponse method with a dronedynamics-specific endpoint
      *
-     * @param limit int
+     * @param limit  int
      * @param offset int
      * @return JsonObject with data from DroneDynamic
      */

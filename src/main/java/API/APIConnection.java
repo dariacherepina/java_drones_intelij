@@ -1,7 +1,9 @@
 package API;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,28 +17,27 @@ import java.util.logging.Logger;
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-
     private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     public APIConnection() {
     }
+
     /**
+     * method use built connection to the server to fetch the data
      *
      * @param endpoint String
      * @return JsonObject from Response
-     * */
+     */
+
     public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
         try {
-
             final HttpURLConnection connection = getHttpURLConnection(nextPageUrl);
-
             int status = connection.getResponseCode();
             LOGGER.info("Response code " + status);
-
             reader = new BufferedReader(new InputStreamReader(
                     status > 299 ? connection.getErrorStream() : connection.getInputStream()));
 
@@ -59,6 +60,7 @@ public class APIConnection {
     }
 
     /**
+     * method to build connection to the server
      *
      * @param nextPageUrl String
      * @return connection of HttpURLConnection datatype

@@ -1,12 +1,15 @@
 package org.main;
-import Drone.*;
+
+import Drone.Convert;
+import Drone.Sortable;
 import GUI.MyFrame;
 import Threads.ThreadCheckRefresh;
 import org.json.JSONException;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 
 public class Main implements Sortable {
     static Convert helper = new Convert();

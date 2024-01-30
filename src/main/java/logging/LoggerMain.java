@@ -1,4 +1,5 @@
 package logging;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
@@ -20,16 +21,17 @@ public class LoggerMain {
     }
 
 
-    public static Logger getLogger(){
+    public static Logger getLogger() {
         return logger;
     }
 
     /**
-     *Creates a formatted message with date and time
+     * Creates a formatted message with date and time
+     *
      * @param message String
      * @return the formatted message with date and time
      */
-    public static String MyMessage(String message){
+    public static String MyMessage(String message) {
         SimpleDateFormat dateBuilder = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         String MyDate = dateBuilder.format(new Date());
         return MyDate + ": " + message;
@@ -37,9 +39,10 @@ public class LoggerMain {
 
     /**
      * Logs an exception and prints the formatted message to the consol
+     *
      * @param e the exception to be logged
      */
-    public static void loggerException(Exception e){
+    public static void loggerException(Exception e) {
         logger.severe(MyMessage("Exception: " + e.getMessage()));
         e.printStackTrace();
     }
