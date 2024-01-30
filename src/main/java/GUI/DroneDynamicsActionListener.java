@@ -2,10 +2,8 @@ package GUI;
 
 import Drone.Convert;
 import Drone.DroneDynamics;
-import Drone.Drones;
 
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,12 +13,18 @@ public class DroneDynamicsActionListener implements ActionListener {
     private ArrayList<DroneDynamics> droneDynamicsList;
     private Convert helper;
 
-    public DroneDynamicsActionListener(MyFrame frame, ArrayList<DroneDynamics> droneDynamicsList){
+    public DroneDynamicsActionListener(MyFrame frame, ArrayList<DroneDynamics> droneDynamicsList) {
         this.frame = frame;
         this.droneDynamicsList = droneDynamicsList;
         this.helper = new Convert();
     }
 
+    /**
+     * adjust Sort-Buttons
+     * updates GUI to display 'DRONE DYNAMICS' label and populates table
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE DYNAMICS");
@@ -33,7 +37,7 @@ public class DroneDynamicsActionListener implements ActionListener {
         frame.getMainPanel().repaint();
 
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-        Object[][] data = helper.ArrayList2ObjectDroneDynamics(droneDynamicsList);
+        Object[][] data = helper.convertArrayListToObjectDroneDynamics(droneDynamicsList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
     }

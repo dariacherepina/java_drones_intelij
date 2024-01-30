@@ -1,11 +1,7 @@
 package API;
 
-import Threads.ThreadDrone;
-import Threads.ThreadDroneDynamic;
-import Threads.ThreadDroneType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import Exception.InvalidFileNameException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,13 +14,18 @@ import Exception.*;
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
-    public static void dataStreamIn(JsonObject jsonObject, String fileName) throws IOException, InvalidFileNameException {
+    /**
+     *
+     * @param jsonObject JsonObject
+     * @param fileName String
+     * @throws InvalidFileNameException custom exception
+     */
+    public static void dataStreamIn(JsonObject jsonObject, String fileName) throws InvalidFileNameException {
         if (!isValidFileName(fileName)) {
             throw new InvalidFileNameException("The filename provided is incorrect.");
-        }//TODO: Exception
+        }
 
         String jsonString = new Gson().toJson(jsonObject);
-        // Write the JSON string to a file
         try {
             FileWriter fileWriter = new FileWriter(fileName + ".json");
             fileWriter.write(jsonString);
@@ -34,6 +35,12 @@ public class Stream {
         }
     }
 
+    /**
+     *
+     * @param fileName String
+     * @return jsonObject
+     * @throws IOException Error reading JSON from file
+     */
     public static JsonObject dataStreamOut(String fileName) throws IOException {
         JsonObject jsonObject = null;
         try {
@@ -47,6 +54,9 @@ public class Stream {
         return jsonObject;
     }
 
+    /**
+     * this method fetches data from the server
+     */
     public static void fetchData() {
         try {
             int countD = APIEndpoints.getDronesUrl(25, 24).get("count").getAsInt();
@@ -55,22 +65,16 @@ public class Stream {
             Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(countDT, 0), "outputDroneTypes");
             int countDD = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
             Stream.dataStreamIn(APIEndpoints.getDroneDynamics(countDD, 0), "outputDroneDynamics");
-//            ThreadDrone threadDrone = new ThreadDrone() ;
-//            Thread threadD = new Thread (threadDrone);
-//            ThreadDroneType threadDroneType = new ThreadDroneType() ;
-//            Thread threadDT = new Thread (threadDroneType);
-//            ThreadDroneDynamic threadDroneDynamic = new ThreadDroneDynamic() ;
-//            Thread threadDD = new Thread (threadDroneDynamic);
-//            threadD.start();
-//            threadDT.start();
-//            threadDD.start();
-//            threadD.join();
-//            threadDT.join();
-//            threadDD.join();//TODO: join?
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     *
+     * @param fileName String
+     * @return boolean whether is the name right or not
+     */
     public static boolean isValidFileName(String fileName){
         if(!Objects.equals(fileName, "outputDrones") ||
                 !Objects.equals(fileName, "outputDroneTypes") ||

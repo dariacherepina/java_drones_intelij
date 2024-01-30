@@ -14,18 +14,21 @@ public class SortBySpeed implements ActionListener {
     private MyFrame frame;
     private ArrayList<DroneTypes> droneTypesList;
 
-    public SortBySpeed(MyFrame frame, ArrayList<DroneTypes> DroneTypesList){
+    public SortBySpeed(MyFrame frame, ArrayList<DroneTypes> droneTypesList){
         this.frame = frame;
         this.droneTypesList = droneTypesList;
         this.helper = new Convert();
     }
 
+    /**
+     * when clicking the droneTypesButton the droneTypesList can be sorted by maximum speed
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(Sortable.sortSpeed(droneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortSpeed(droneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }
 }
-

@@ -3,7 +3,6 @@ package Drone;
 import API.APIConnection;
 import API.APIEndpoints;
 import API.Stream;
-import Exception.*;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -26,12 +25,12 @@ public class Drones extends Refresh {
     private String serialNumber;
     private int carriageWeight;
     private String carriageType;
-
     private static int onlineCount;
     private static int offlineCount;
     private static File file = new File("outputDrones.json");
 
-    public Drones() {}
+    public Drones() {
+    }
 
     public Drones(int id, String droneTypeLink, String created, String serialNumber, int carriageWeight, String carriageType) {
         this.id = id;
@@ -47,6 +46,13 @@ public class Drones extends Refresh {
         }
     }
 
+    /**
+     * To get id of the DroneType of this Drone
+     *
+     * @param droneTypeLink String Link of the DroneTypes
+     * @return int the id of the DroneType to this Drone
+     * @throws MalformedURLException when URL is malformed
+     */
     public int extractIdFromUrl(String droneTypeLink) throws MalformedURLException {
         try {
             URL urlObj = new URL(droneTypeLink); // Use the passed parameter
@@ -60,6 +66,11 @@ public class Drones extends Refresh {
         }
     }
 
+    /**
+     * To transform the Object to String
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "Drones\nId: " + id
@@ -168,6 +179,11 @@ public class Drones extends Refresh {
         return file;
     }
 
+    /**
+     * To get the count of the data from the file
+     *
+     * @return int offlineCount
+     */
     @Override
     public int checkOfflineCount() {
         JsonObject o;
@@ -181,6 +197,11 @@ public class Drones extends Refresh {
         return offlineCount;
     }
 
+    /**
+     * To get the count of the data from the server
+     *
+     * @return int onlineCount
+     */
     @Override
     public int checkOnlineCount() {
         try {
@@ -191,8 +212,13 @@ public class Drones extends Refresh {
         return onlineCount;
     }
 
+    /**
+     * If true there is new data on the server, if false there is not
+     *
+     * @return boolean
+     */
     @Override
-    public boolean checkRefresh() throws IOException{
+    public boolean checkRefresh() throws IOException {
         if (checkOfflineCount() < checkOnlineCount()) {
             return true;
         } else {
@@ -200,10 +226,16 @@ public class Drones extends Refresh {
             return false;
         }
     }
-    public static boolean ifFileValid(){
-        if (file.exists() && file.isFile() && file.length() > 0){
+
+    /**
+     * To check if file exist and if it is empty
+     *
+     * @return boolean
+     */
+    public static boolean ifFileValid() throws IOException {
+        if (file.exists() && file.isFile() && file.length() > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

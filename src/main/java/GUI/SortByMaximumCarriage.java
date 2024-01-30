@@ -21,12 +21,15 @@ public class SortByMaximumCarriage implements ActionListener {
         this.helper = new Convert();
     }
 
+    /**
+     * when clicking the droneTypesButton the droneTypesList can be sorted by maximum carriage
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(Sortable.sortMaximumCarriage(droneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortMaximumCarriage(droneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }
 }
-

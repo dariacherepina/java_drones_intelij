@@ -20,6 +20,12 @@ public class DroneTypesActionListener implements ActionListener {
         this.droneTypesList = droneTypesList;
         this.helper = new Convert();
     }
+
+    /**
+     * adjust Sort-Buttons
+     * updates GUI to display 'DRONE TYPES' label and populates table
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE TYPES");
@@ -32,10 +38,10 @@ public class DroneTypesActionListener implements ActionListener {
         frame.getMainPanel().repaint();
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.ArrayList2ObjectDroneType(droneTypesList);
+        Object[][] data = helper.convertArrayListToObjectDroneType(droneTypesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
-       JScrollPane scrollPane = (JScrollPane) frame.getTable().getParent().getParent(); //whole scrollPane,sets background color of the table-scrollPane
-       scrollPane.getViewport().setBackground(Color.DARK_GRAY);  //Viewport = table
+        JScrollPane scrollPane = (JScrollPane) frame.getTable().getParent().getParent(); //whole scrollPane,sets background color of the table-scrollPane
+        scrollPane.getViewport().setBackground(Color.DARK_GRAY);  //Viewport = table
     }
 }

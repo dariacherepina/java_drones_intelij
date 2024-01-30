@@ -14,17 +14,21 @@ public class SortByCarriageWeight implements ActionListener {
     private MyFrame frame;
     private ArrayList<Drones> dronesList;
 
-    public SortByCarriageWeight(MyFrame frame, ArrayList<Drones> dronesList){
+    public SortByCarriageWeight(MyFrame frame, ArrayList<Drones> dronesList) {
         this.frame = frame;
         this.dronesList = dronesList;
         this.helper = new Convert();
 
     }
 
+    /**
+     * when clicking the dronesButton the dronesList can be sorted by carriage weight
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-        Object[][] data = helper.ArrayList2ObjectDrones(Sortable.sortCarriageWeight(dronesList));
+        Object[][] data = helper.convertArrayListToObjectDrones(Sortable.sortCarriageWeight(dronesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }
