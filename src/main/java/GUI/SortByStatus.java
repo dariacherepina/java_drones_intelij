@@ -1,8 +1,6 @@
 package GUI;
 
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.Sortable;
+import Drone.*;
 import org.main.Main;
 
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +28,7 @@ public class SortByStatus implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
-        Object[][] data = helper.convertArrayListToObjectDroneDynamics(Sortable.sortStatus(droneDynamicsList));
+        Object[][] data = helper.convertArrayListToObjectDroneDynamics(DroneDynamics.sortStatus(droneDynamicsList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }

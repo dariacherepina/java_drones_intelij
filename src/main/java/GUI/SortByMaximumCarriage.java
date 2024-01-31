@@ -1,9 +1,6 @@
 package GUI;
 
-import Drone.Convert;
-import Drone.DroneTypes;
-import Drone.Sortable;
-
+import Drone.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +25,7 @@ public class SortByMaximumCarriage implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
-        Object[][] data = helper.convertArrayListToObjectDroneType(Sortable.sortMaximumCarriage(droneTypesList));
+        Object[][] data = helper.convertArrayListToObjectDroneType(DroneTypes.sortMaximumCarriage(droneTypesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }

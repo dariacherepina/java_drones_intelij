@@ -1,8 +1,7 @@
 package GUI;
 
 import Drone.Convert;
-import Drone.Drones;
-import Drone.Sortable;
+import Drone.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -28,7 +27,7 @@ public class SortByCarriageWeight implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-        Object[][] data = helper.convertArrayListToObjectDrones(Sortable.sortCarriageWeight(dronesList));
+        Object[][] data = helper.convertArrayListToObjectDrones(Drones.sortCarriageWeight(dronesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
         frame.getTable().repaint();
     }

@@ -7,9 +7,12 @@ import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
-public class DroneTypes extends Refresh {
+public class DroneTypes implements Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String manufacturer;
@@ -204,4 +207,35 @@ public class DroneTypes extends Refresh {
     }
 
 
+    /**
+     * To sort ArrayList<DroneTypes> by speed
+     *
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @return ArrayList<DroneTypes> sorted
+     */
+    public static ArrayList<DroneTypes> sortSpeed(ArrayList<DroneTypes> droneTypesList) {
+        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
+            @Override
+            public int compare(DroneTypes d1, DroneTypes d2) {
+                return Integer.compare(d1.getMaximumSpeed(), d2.getMaximumSpeed());
+            }
+        });
+        return droneTypesList;
+    }
+
+    /**
+     * To sort ArrayList<DroneTypes> by maximumCarriage
+     *
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @return ArrayList<DroneTypes> sorted
+     */
+    public static ArrayList<DroneTypes> sortMaximumCarriage(ArrayList<DroneTypes> droneTypesList) {
+        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
+            @Override
+            public int compare(DroneTypes d1, DroneTypes d2) {
+                return Integer.compare(d1.getMaximumCarriage(), d2.getMaximumCarriage());
+            }
+        });
+        return droneTypesList;
+    }
 }

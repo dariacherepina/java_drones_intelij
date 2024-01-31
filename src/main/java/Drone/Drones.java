@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Drones extends Refresh {
+public class Drones extends Catalog implements Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private ArrayList<DroneDynamics> droneDynamicsList;
     private DroneTypes droneType;
@@ -240,5 +242,19 @@ public class Drones extends Refresh {
         }
     }
 
-
+    /**
+     * To sort ArrayList<Drones> by CarriageWeight
+     *
+     * @param dronesList ArrayList<Drones>
+     * @return ArrayList<Drones> sorted
+     */
+    public static ArrayList<Drones> sortCarriageWeight(ArrayList<Drones> dronesList) {
+        Collections.sort(dronesList, new Comparator<Drones>() {
+            @Override
+            public int compare(Drones d1, Drones d2) {
+                return Integer.compare(d1.getCarriageWeight(), d2.getCarriageWeight());
+            }
+        });
+        return dronesList;
+    }
 }

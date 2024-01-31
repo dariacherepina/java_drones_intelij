@@ -101,11 +101,13 @@ public class DroneIDActionListener implements ActionListener {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.getReturnPlus5Button().setBackground(Color.WHITE);
+                frame.getReturnMinus5Button().setBackground(Color.WHITE);
                 String userInput = userInputField.getText();
 
                 try {   // Check if the user entered a number
 
-                    userNumber = Integer.parseInt(userInput);
+                    userNumber = Integer.parseInt(userInput) - 1; // 0-1440
                 } catch (NumberFormatException ex) {
                     // Handle the case where the user did not enter a valid number
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -136,10 +138,9 @@ public class DroneIDActionListener implements ActionListener {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userNumber <= 1441 && userNumber >= 4) {  //area userNumber from 5 to 1441
+                if (userNumber <= 1440 && userNumber >= 5) {
                     String nextTimeStempMinus = getDroneDynamicMinus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
                     String infoTextDroneDynamics = Objects.requireNonNull(findDroneDyn5min(nextTimeStempMinus, droneInfo)).toString();
-                    System.out.println(infoTextDroneDynamics);
                     droneInfoTextArea2.setText(infoTextDroneDynamics);
                     panel.removeAll();
 
@@ -152,7 +153,7 @@ public class DroneIDActionListener implements ActionListener {
                     textFrame.revalidate();
                     textFrame.repaint();
                     userNumber = userNumber - 5;
-                    if (userNumber <= 1437 && userNumber >= 0) {
+                    if (userNumber <= 1436 && userNumber >= 0) {
                         frame.getReturnPlus5Button().setBackground(Color.WHITE);
                     }
                 } else {
@@ -169,11 +170,10 @@ public class DroneIDActionListener implements ActionListener {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userNumber <= 1437 && userNumber >= 0) { // area userNumber from 5 to 1441
+                if (userNumber <= 1436 && userNumber >= 0) {
                     frame.getReturnPlus5Button().setBackground(Color.WHITE);
                     String nextTimeStempPlus = getDroneDynamicPlus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
                     String infoTextDroneDynamics1 = Objects.requireNonNull(findDroneDyn5min(nextTimeStempPlus, droneInfo)).toString();
-                    System.out.println(infoTextDroneDynamics1);
                     droneInfoTextArea2.setText(infoTextDroneDynamics1);
                     panel.removeAll();
 
@@ -186,7 +186,7 @@ public class DroneIDActionListener implements ActionListener {
                     textFrame.revalidate();
                     textFrame.repaint();
                     userNumber = userNumber + 5;
-                    if (userNumber <= 1441 && userNumber >= 4) {
+                    if (userNumber <= 1440 && userNumber >= 5) {
                         frame.getReturnMinus5Button().setBackground(Color.WHITE);
                     }
                 } else {
