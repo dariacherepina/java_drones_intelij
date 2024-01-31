@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DroneDynamics extends Catalog implements Refreshable  {
+public class DroneDynamics implements Refreshable  {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String drone;
