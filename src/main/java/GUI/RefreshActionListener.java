@@ -72,6 +72,9 @@ public class RefreshActionListener implements ActionListener {
                 "Your data is being refreshed. Please click 'OK'.",
                 "Attention",
                 JOptionPane.INFORMATION_MESSAGE);
+        LOGGER.info("Data is being refreshed!");
+
+
         Stream.fetchData();
         DronesList = null;
         DroneTypesList = null;
@@ -80,7 +83,6 @@ public class RefreshActionListener implements ActionListener {
         DroneTypesList = helper.initialiseDroneTypes(Stream.dataStreamOut("outputDroneTypes"));
         DroneDynamicsList = helper.initialiseDroneDynamics(Stream.dataStreamOut("outputDroneDynamics"));
         helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
-        LOGGER.info("Data is initialised!");
 
         JOptionPane.showMessageDialog(frame,
                 "Data initialised successfully! Click the button you want, to see the updated data.",

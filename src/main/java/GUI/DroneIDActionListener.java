@@ -38,12 +38,12 @@ public class DroneIDActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        String droneIdString = JOptionPane.showInputDialog("Enter Drone ID: (71-95)"); // Use input dialog to get drone ID from the user
-        if (droneIdString == null || droneIdString.trim().isEmpty()) { // Check if the user clicked Cancel or entered an empty value
+        String droneIdString = JOptionPane.showInputDialog("Enter Drone ID: (71-95)");
+        if (droneIdString == null || droneIdString.trim().isEmpty()) {
             return; // Exit if no input or canceled
         }
 
-        int droneId = Integer.parseInt(droneIdString); // Convert the input to an integer
+        int droneId = Integer.parseInt(droneIdString);
         if (droneId < 71 || droneId > 95) {
             JFrame textFrame1 = new JFrame("ATTENTION!");
             textFrame1.setSize(350, 90);
@@ -51,33 +51,33 @@ public class DroneIDActionListener implements ActionListener {
             // Create a JTextArea to display the information
             JTextArea droneInfoTextArea1 = new JTextArea();
             droneInfoTextArea1.setEditable(false);
-            String infoText1 = "             !!Please enter a Drone ID between 71 and 95!!"; // Add the information to the JTextArea
+            String infoText1 = "             !!Please enter a Drone ID between 71 and 95!!";
             droneInfoTextArea1.setForeground(Color.RED);
             droneInfoTextArea1.setText(infoText1);
-            textFrame1.add(new JScrollPane(droneInfoTextArea1)); // Add the JTextArea to the textFrame
-            textFrame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // close frame when user clicks on x
+            textFrame1.add(new JScrollPane(droneInfoTextArea1));
+            textFrame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             textFrame1.setVisible(true);
             textFrame1.setResizable(false);
-            return; // Exit if no input or canceled
+            return;
         }
 
-        try { // Use helper method to get information for the specific drone ID
+        try {
             droneInfo = helper.findDrone(dronesList, droneId);
         } catch (InvalidIdInput ex) {
             throw new RuntimeException(ex);
         }
 
-        JFrame textFrame = new JFrame("Drone Information"); // Create a new JFrame for displaying text
-        textFrame.setSize(950, 350); // Set the size to match the JTable and JScrollPane dimensions
+        JFrame textFrame = new JFrame("Drone Information");
+        textFrame.setSize(950, 350);
         textFrame.setLocationRelativeTo(null);
         textFrame.setResizable(false);
 
-        JTextArea droneInfoTextArea = new JTextArea(); // Create a JTextArea to display the information
+        JTextArea droneInfoTextArea = new JTextArea();
         droneInfoTextArea.setEditable(false);
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        String infoText =         // Add the information to the JTextArea
+        String infoText =
                 "Drone " + droneInfo.getId() +
                         "\nCreation Time: " + droneInfo.getCreated() +
                         "\nSerial Number: " + droneInfo.getSerialNumber() +
@@ -87,10 +87,10 @@ public class DroneIDActionListener implements ActionListener {
         droneInfoTextArea.setText(infoText);
         panel.add(droneInfoTextArea);
 
-        JTextField userInputField = new JTextField(); // Create a JTextField for user input
+        JTextField userInputField = new JTextField();
         userInputField.setPreferredSize(new Dimension(150, 30));
 
-        JButton submitButton = new JButton("Submit"); // Create a JButton to submit the input
+        JButton submitButton = new JButton("Submit");
         droneInfoTextArea2 = new JTextArea();
         droneInfoTextArea2.setEditable(false);
 
@@ -102,32 +102,27 @@ public class DroneIDActionListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userInput = userInputField.getText();
-
-                try {   // Check if the user entered a number
-
+                try {
                     userNumber = Integer.parseInt(userInput);
                 } catch (NumberFormatException ex) {
-                    // Handle the case where the user did not enter a valid number
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
                 String infoText2 = droneInfo.getDroneDynamicsList().get(userNumber).toString();
                 droneInfoTextArea2.setText(infoText2);
                 panel.add(droneInfoTextArea2);
                 panel.add(frame.getReturnPlus5Button());
                 panel.add(frame.getReturnMinus5Button());
-
                 textFrame.revalidate();
                 textFrame.repaint();
             }
         });
         textFrame.add(panel, BorderLayout.NORTH);
 
-        JPanel inputPanel = new JPanel();// Create a JPanel to hold the input components
-        inputPanel.add(new JLabel("Please enter a number between 1 and 1441 for a specific DroneDynamic of the Drone:\n"));
-        inputPanel.add(userInputField);
-        inputPanel.add(submitButton);
-        textFrame.add(inputPanel, BorderLayout.SOUTH);// Add the inputPanel to the textFrame
+        JPanel inputPanelSouth = new JPanel();
+        inputPanelSouth.add(new JLabel("Please enter a number between 1 and 1441 for a specific DroneDynamic of the Drone:\n"));
+        inputPanelSouth.add(userInputField);
+        inputPanelSouth.add(submitButton);
+        textFrame.add(inputPanelSouth, BorderLayout.SOUTH);
 
         frame.getReturnMinus5Button().addActionListener(new ActionListener() {
             /**
@@ -136,7 +131,7 @@ public class DroneIDActionListener implements ActionListener {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userNumber <= 1441 && userNumber >= 4) {  //area userNumber from 5 to 1441
+                if (userNumber <= 1441 && userNumber >= 4) {
                     String nextTimeStempMinus = getDroneDynamicMinus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
                     String infoTextDroneDynamics = Objects.requireNonNull(findDroneDyn5min(nextTimeStempMinus, droneInfo)).toString();
                     System.out.println(infoTextDroneDynamics);
@@ -156,7 +151,7 @@ public class DroneIDActionListener implements ActionListener {
                         frame.getReturnPlus5Button().setBackground(Color.WHITE);
                     }
                 } else {
-                    frame.getReturnMinus5Button().setBackground(Color.GRAY);  //button grey -> it doesn't work because id is out of range for this button
+                    frame.getReturnMinus5Button().setBackground(Color.GRAY);
 
                 }
             }
@@ -169,7 +164,7 @@ public class DroneIDActionListener implements ActionListener {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (userNumber <= 1437 && userNumber >= 0) { // area userNumber from 5 to 1441
+                if (userNumber <= 1437 && userNumber >= 0) {
                     frame.getReturnPlus5Button().setBackground(Color.WHITE);
                     String nextTimeStempPlus = getDroneDynamicPlus5(droneInfo.getDroneDynamicsList().get(userNumber).getTimestamp());
                     String infoTextDroneDynamics1 = Objects.requireNonNull(findDroneDyn5min(nextTimeStempPlus, droneInfo)).toString();
@@ -204,7 +199,7 @@ public class DroneIDActionListener implements ActionListener {
      * @param timestamp
      * @return
      */
-    private String getDroneDynamicMinus5(String timestamp) { // minus 5 minuten
+    private String getDroneDynamicMinus5(String timestamp) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
         ZonedDateTime zoneDateTime = ZonedDateTime.parse(timestamp, formatter);
         zoneDateTime = zoneDateTime.minusMinutes(5);

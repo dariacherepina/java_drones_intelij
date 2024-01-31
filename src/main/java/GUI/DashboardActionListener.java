@@ -38,9 +38,9 @@ public class DashboardActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().remove(frame.getSortByStatus());
 
-        String[] columns = {"ID", "TypeName", "Manufacturer"}; // Define the columns for the table
-        int numRows = dronesList.size(); // Determine the number of rows needed based on the ArrayList with the smallest size
-        Object[][] data = new Object[numRows][columns.length]; // Create a 2D array to hold the data for the table
+        String[] columns = {"ID", "TypeName", "Manufacturer"};
+        int numRows = dronesList.size();
+        Object[][] data = new Object[numRows][columns.length];
         int minSize = dronesList.size();
 
         for (int i = 0; i < minSize; i++) {
@@ -49,6 +49,6 @@ public class DashboardActionListener implements ActionListener {
             data[i][1] = drone.getDroneType().getTypeName();
             data[i][2] = drone.getDroneType().getManufacturer();
         }
-        frame.getTable().setModel(new DefaultTableModel(data, columns));         // Set the new data model for the table
+        frame.getTable().setModel(new DefaultTableModel(data, columns));
     }
 }

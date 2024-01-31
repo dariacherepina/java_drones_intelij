@@ -33,8 +33,8 @@ public class DroneDynamicsActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByCarriageWeight());
         frame.getPanelSort().remove(frame.getSortByMaximumCarriage());
         frame.getPanelSort().remove(frame.getSortBySpeed());
-        frame.getMainPanel().revalidate();
-        frame.getMainPanel().repaint();
+        frame.getImageTablePanel().revalidate();
+        frame.getImageTablePanel().repaint();
 
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
         Object[][] data = helper.convertArrayListToObjectDroneDynamics(droneDynamicsList);

@@ -33,8 +33,8 @@ public class DronesActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().add(frame.getSortByCarriageWeight());
-        frame.getMainPanel().revalidate();
-        frame.getMainPanel().repaint();
+        frame.getImageTablePanel().revalidate();
+        frame.getImageTablePanel().repaint();
 
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
         Object[][] data = helper.convertArrayListToObjectDrones(dronesList);
