@@ -12,10 +12,12 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import Exception.*;
 
 public class DroneIDActionListener implements ActionListener {
+    private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
     private MyFrame frame;
     private ArrayList<Drones> dronesList;
     private Convert helper;
@@ -45,19 +47,11 @@ public class DroneIDActionListener implements ActionListener {
 
         int droneId = Integer.parseInt(droneIdString);
         if (droneId < 71 || droneId > 95) {
-            JFrame textFrame1 = new JFrame("ATTENTION!");
-            textFrame1.setSize(350, 90);
-            textFrame1.setLocationRelativeTo(null);
-            // Create a JTextArea to display the information
-            JTextArea droneInfoTextArea1 = new JTextArea();
-            droneInfoTextArea1.setEditable(false);
-            String infoText1 = "             !!Please enter a Drone ID between 71 and 95!!";
-            droneInfoTextArea1.setForeground(Color.RED);
-            droneInfoTextArea1.setText(infoText1);
-            textFrame1.add(new JScrollPane(droneInfoTextArea1));
-            textFrame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            textFrame1.setVisible(true);
-            textFrame1.setResizable(false);
+            JOptionPane.showMessageDialog(frame,
+                    " !! Please enter a Drone ID between 71 and 95 !!",
+                    "Attention!",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    LOGGER.info("Invalid number!");
             return;
         }
 

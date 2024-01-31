@@ -58,6 +58,7 @@ public class RefreshActionListener implements ActionListener {
         Object[][] data2 = helper.convertArrayListToObjectDroneDynamics(droneDynamicsList);
         frame.getTable().setModel(new DefaultTableModel(data2, columns2));
 
+
     }
 //TODO Daria Code kommentieren
     /**
@@ -69,11 +70,10 @@ public class RefreshActionListener implements ActionListener {
      */
     private void updateTables(ArrayList<Drones> DronesList, ArrayList<DroneTypes> DroneTypesList, ArrayList<DroneDynamics> DroneDynamicsList) throws IOException {
         JOptionPane.showMessageDialog(frame,
-                "Your data is being refreshed. Please click 'OK'.",
-                "Attention",
+                "Your data is being refreshed right now. Please click 'OK'.",
+                "Attention!",
                 JOptionPane.INFORMATION_MESSAGE);
         LOGGER.info("Data is being refreshed!");
-
 
         Stream.fetchData();
         DronesList = null;
@@ -85,8 +85,8 @@ public class RefreshActionListener implements ActionListener {
         helper.addAdditinalDataToDrone(DronesList, DroneTypesList, DroneDynamicsList);
 
         JOptionPane.showMessageDialog(frame,
-                "Data initialised successfully! Click the button you want, to see the updated data.",
-                "Data initialised",
+                "Data initialised successfully! Click the button you want, to see the refreshed data.",
+                "Data initialised!",
                 JOptionPane.INFORMATION_MESSAGE);
         LOGGER.info("Data is initialised!");
 
