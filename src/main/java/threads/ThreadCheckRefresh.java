@@ -32,7 +32,6 @@ public class ThreadCheckRefresh implements Runnable {
     public void run() {
         while (!Thread.interrupted()) {
             try {
-                Thread.sleep(2000);
                 if (drone.isRefreshChecked()) {
                     showRefreshWindow("Drone");
                     Thread.sleep(60000);
@@ -43,6 +42,7 @@ public class ThreadCheckRefresh implements Runnable {
                     showRefreshWindow("DroneDynamics");
                     Thread.sleep(60000);
                 }
+                Thread.sleep(60000);
             } catch (InterruptedException | IOException e) {
                 LOGGER.log(Level.SEVERE, "Exception was interrupted or there was IOException ");
                 throw new RuntimeException(e);
