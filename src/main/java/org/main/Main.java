@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The main class serves as an entry point for the application.
+ * It organizes the initialization of essential components and manages threads for data refreshing.
+ * It also creates the main graphical user interface.
+ */
 public class Main{
     static Convert helper = new Convert();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
