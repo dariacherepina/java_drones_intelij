@@ -1,13 +1,14 @@
 package Drone;
 
+import API.APIConnection;
+
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public interface Refreshable {
-
-    int checkOnlineCount(); //filename, etc
-
+    Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
+    int checkOnlineCount();
     int checkOfflineCount();
-
     boolean checkRefresh() throws IOException;
 
 

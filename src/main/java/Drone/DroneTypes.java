@@ -12,6 +12,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
+/**
+ *
+ */
 public class DroneTypes implements Refreshable {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;

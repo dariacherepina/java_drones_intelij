@@ -25,7 +25,7 @@ public class Convert {
     public void checkToInitialiseAllData() throws IOException {
         if (Drones.ifFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
             initialiseAllData();
-        }else {
+        }else{
             Stream.fetchData();
             initialiseAllData();
         }

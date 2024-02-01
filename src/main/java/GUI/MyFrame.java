@@ -198,9 +198,10 @@ public class MyFrame extends JFrame {
         createLabel(); //calls the method createLabel
         this.setVisible(true); // makes frame visible, in the end in order to see every component
     }
-//TODO Daria fragen
     /**
-     *
+     * method initialised three ArrayList for Drones, DroneTypes and DroneDynamics
+     * and after that calls the method to add all additional data from DroneTypes and DroneDynamics to Drone
+     * and create a new instance of class MyFrame
      * @param args
      */
     public static void main(String[] args) {
