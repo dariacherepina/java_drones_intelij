@@ -59,7 +59,6 @@ public class DroneDynamics implements Refreshable {
             throw new RuntimeException(e);
         }
     }
-
     /**
      * ON goes first, OF second and IS last
      * To sort ArrayList<DroneDynamics>  by status
@@ -74,7 +73,6 @@ public class DroneDynamics implements Refreshable {
                 return d1.getStatus().compareTo(d2.getStatus());
             }
         });
-
         Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
             @Override
             public int compare(DroneDynamics d1, DroneDynamics d2) {
@@ -109,7 +107,6 @@ public class DroneDynamics implements Refreshable {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -179,65 +176,16 @@ public class DroneDynamics implements Refreshable {
         }
     }
 
-
-    public void setId(int id) {
-        this.id = id;
+    public static int getOnlineCount() {
+        return onlineCount;
     }
 
-    public void setDrone(String drone) {
-        this.drone = drone;
+    public static int getOfflineCount() {
+        return offlineCount;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void setAlign_roll(String align_roll) {
-        this.align_roll = align_roll;
-    }
-
-    public void setAlign_pitch(String align_pitch) {
-        this.align_pitch = align_pitch;
-    }
-
-    public void setAlign_yaw(String align_yaw) {
-        this.align_yaw = align_yaw;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setBattery_status(String battery_status) {
-        this.battery_status = battery_status;
-    }
-
-    public void setLast_seen(String last_seen) {
-        this.last_seen = last_seen;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public static void setOnlineCount(int onlineCount) {
-        DroneDynamics.onlineCount = onlineCount;
-    }
-
-    public static void setOfflineCount(int offlineCount) {
-        DroneDynamics.offlineCount = offlineCount;
-    }
-
-    public static void setFile(File file) {
-        DroneDynamics.file = file;
+    public static File getFile() {
+        return file;
     }
 
     public int getId() {
@@ -288,16 +236,64 @@ public class DroneDynamics implements Refreshable {
         return status;
     }
 
-    public static int getOnlineCount() {
-        return onlineCount;
+    public static void setOnlineCount(int onlineCount) {
+        DroneDynamics.onlineCount = onlineCount;
     }
 
-    public static int getOfflineCount() {
-        return offlineCount;
+    public static void setOfflineCount(int offlineCount) {
+        DroneDynamics.offlineCount = offlineCount;
     }
 
-    public static File getFile() {
-        return file;
+    public static void setFile(File file) {
+        DroneDynamics.file = file;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDrone(String drone) {
+        this.drone = drone;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void setAlign_roll(String align_roll) {
+        this.align_roll = align_roll;
+    }
+
+    public void setAlign_pitch(String align_pitch) {
+        this.align_pitch = align_pitch;
+    }
+
+    public void setAlign_yaw(String align_yaw) {
+        this.align_yaw = align_yaw;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setBattery_status(String battery_status) {
+        this.battery_status = battery_status;
+    }
+
+    public void setLast_seen(String last_seen) {
+        this.last_seen = last_seen;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**

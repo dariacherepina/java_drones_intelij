@@ -19,10 +19,10 @@ import java.util.logging.Logger;
  * @author Daria Cherepina
  */
 public class Convert {
-    ArrayList<Drones> DronesList;
-    ArrayList<DroneTypes> DroneTypesList;
-    ArrayList<DroneDynamics> DroneDynamicsList;
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
+    private ArrayList<Drones> DronesList;
+    private ArrayList<DroneTypes> DroneTypesList;
+    private ArrayList<DroneDynamics> DroneDynamicsList;
 
     /**
      * We want to check if the data is already saved to the files than just initialise,
@@ -70,8 +70,6 @@ public class Convert {
                     obj.get("carriage_weight").getAsInt(),
                     obj.get("carriage_type").getAsString()
             ));
-
-
         }
         return dronesList;
     }
@@ -97,7 +95,6 @@ public class Convert {
                     obj.get("control_range").getAsInt(),
                     obj.get("max_carriage").getAsInt()
             ));
-
         }
         droneTypesList.sort((o1, o2) -> {
             int id1 = (o1).getId();
@@ -131,7 +128,6 @@ public class Convert {
                     obj.get("last_seen").getAsString(),
                     obj.get("status").getAsString()
             ));
-
             droneDynamicsList.sort((o1, o2) -> {
                 int id1 = (o1).getId();
                 int id2 = (o2).getId();

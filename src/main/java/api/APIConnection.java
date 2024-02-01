@@ -39,6 +39,7 @@ public class APIConnection {
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
+
         try {
             final HttpURLConnection connection = getHttpURLConnection(nextPageUrl);
             int status = connection.getResponseCode();

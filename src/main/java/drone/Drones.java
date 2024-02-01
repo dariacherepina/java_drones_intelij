@@ -93,7 +93,6 @@ public class Drones implements Refreshable {
         try {
             o = Stream.dataStreamOut("outputDrones");
             offlineCount = o.get("count").getAsInt();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -145,49 +144,16 @@ public class Drones implements Refreshable {
                 + "\nCarriage Type: " + carriageType;
     }
 
-    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) { this.droneDynamicsList = droneDynamicsList; }
-    public void setDroneType(DroneTypes droneType) {
-        this.droneType = droneType;
+    public static int getOnlineCount() {
+        return onlineCount;
     }
 
-    public void setIdType(int idType) {
-        this.idType = idType;
+    public static int getOfflineCount() {
+        return offlineCount;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setDroneTypeLink(String droneTypeLink) {
-        this.droneTypeLink = droneTypeLink;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public void setCarriageWeight(int carriageWeight) {
-        this.carriageWeight = carriageWeight;
-    }
-
-    public void setCarriageType(String carriageType) {
-        this.carriageType = carriageType;
-    }
-
-    public static void setOnlineCount(int onlineCount) {
-        Drones.onlineCount = onlineCount;
-    }
-
-    public static void setOfflineCount(int offlineCount) {
-        Drones.offlineCount = offlineCount;
-    }
-
-    public static void setFile(File file) {
-        Drones.file = file;
+    public static File getFile() {
+        return file;
     }
 
     public ArrayList<DroneDynamics> getDroneDynamicsList() {
@@ -226,16 +192,52 @@ public class Drones implements Refreshable {
         return carriageType;
     }
 
-    public static int getOnlineCount() {
-        return onlineCount;
+    public static void setOnlineCount(int onlineCount) {
+        Drones.onlineCount = onlineCount;
     }
 
-    public static int getOfflineCount() {
-        return offlineCount;
+    public static void setOfflineCount(int offlineCount) {
+        Drones.offlineCount = offlineCount;
     }
 
-    public static File getFile() {
-        return file;
+    public static void setFile(File file) {
+        Drones.file = file;
+    }
+
+    public void setDroneDynamicsList(ArrayList<DroneDynamics> droneDynamicsList) {
+        this.droneDynamicsList = droneDynamicsList;
+    }
+
+    public void setDroneType(DroneTypes droneType) {
+        this.droneType = droneType;
+    }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDroneTypeLink(String droneTypeLink) {
+        this.droneTypeLink = droneTypeLink;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public void setCarriageWeight(int carriageWeight) {
+        this.carriageWeight = carriageWeight;
+    }
+
+    public void setCarriageType(String carriageType) {
+        this.carriageType = carriageType;
     }
 
     /**

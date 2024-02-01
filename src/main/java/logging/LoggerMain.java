@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 /**
  * The LoggerMain configures different levels to capture all massages
  * and provides method to retrieve the configured Logger
+ *
  * @author Nisa Colak
  */
 public class LoggerMain {

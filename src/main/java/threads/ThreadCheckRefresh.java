@@ -55,7 +55,7 @@ public class ThreadCheckRefresh implements Runnable {
      *
      * @param dataType String The datatype of the data which needs to be refreshed
      */
-    private void showRefreshWindow(String dataType){
+    private void showRefreshWindow(String dataType) {
         JOptionPane.showMessageDialog(null,
                 "Please click on Refresh button if you want to get new data for" + dataType,
                 "Update", JOptionPane.INFORMATION_MESSAGE);

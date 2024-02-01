@@ -2,8 +2,8 @@ package org.main;
 
 import drone.Convert;
 import gui.MyFrame;
-import threads.ThreadCheckRefresh;
 import org.json.JSONException;
+import threads.ThreadCheckRefresh;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * It organizes the initialization of essential components and manages threads for data refreshing.
  * It also creates the main graphical user interface.
  */
-public class Main{
+public class Main {
     static Convert helper = new Convert();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 

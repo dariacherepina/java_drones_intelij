@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  */
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-
     /**
      * Writes the json response to a json file
      *
@@ -30,7 +29,6 @@ public class Stream {
         if (!isValidFileName(fileName)) {
             throw new InvalidFileNameException("The filename provided is incorrect.");
         }
-
         String jsonString = new Gson().toJson(jsonObject);
         try {
             FileWriter fileWriter = new FileWriter(fileName + ".json");
@@ -65,12 +63,12 @@ public class Stream {
      * and writes it to the json files
      */
     public static void fetchData() {
+        int countD = APIEndpoints.getDronesUrl(25, 24).get("count").getAsInt();
+        int countDT = APIEndpoints.getDroneTypesUrl(20, 19).get("count").getAsInt();
+        int countDD = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
         try {
-            int countD = APIEndpoints.getDronesUrl(25, 24).get("count").getAsInt();
             Stream.dataStreamIn(APIEndpoints.getDronesUrl(countD, 0), "outputDrones");
-            int countDT = APIEndpoints.getDroneTypesUrl(20, 19).get("count").getAsInt();
             Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(countDT, 0), "outputDroneTypes");
-            int countDD = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
             Stream.dataStreamIn(APIEndpoints.getDroneDynamics(countDD, 0), "outputDroneDynamics");
         } catch (Exception e) {
             throw new RuntimeException(e);

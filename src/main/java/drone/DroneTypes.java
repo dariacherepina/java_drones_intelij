@@ -153,48 +153,16 @@ public class DroneTypes implements Refreshable {
         }
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static int getOnlineCount() {
+        return onlineCount;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public static int getOfflineCount() {
+        return offlineCount;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public void setMaximumSpeed(int maximumSpeed) {
-        this.maximumSpeed = maximumSpeed;
-    }
-
-    public void setBatteryCapacity(int batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
-    }
-
-    public void setControlRange(int controlRange) {
-        this.controlRange = controlRange;
-    }
-
-    public void setMaximumCarriage(int maximumCarriage) {
-        this.maximumCarriage = maximumCarriage;
-    }
-
-    public static void setOnlineCount(int onlineCount) {
-        DroneTypes.onlineCount = onlineCount;
-    }
-
-    public static void setOfflineCount(int offlineCount) {
-        DroneTypes.offlineCount = offlineCount;
-    }
-
-    public static void setFile(File file) {
-        DroneTypes.file = file;
+    public static File getFile() {
+        return file;
     }
 
     public int getId() {
@@ -229,17 +197,47 @@ public class DroneTypes implements Refreshable {
         return maximumCarriage;
     }
 
-    public static int getOnlineCount() {
-        return onlineCount;
+    public static void setOnlineCount(int onlineCount) {
+        DroneTypes.onlineCount = onlineCount;
     }
 
-    public static int getOfflineCount() {
-        return offlineCount;
+    public static void setOfflineCount(int offlineCount) {
+        DroneTypes.offlineCount = offlineCount;
     }
 
-    public static File getFile() {
-        return file;
+    public static void setFile(File file) {
+        DroneTypes.file = file;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setMaximumSpeed(int maximumSpeed) {
+        this.maximumSpeed = maximumSpeed;
+    }
+
+    public void setBatteryCapacity(int batteryCapacity) {
+        this.batteryCapacity = batteryCapacity;
+    }
+
+    public void setControlRange(int controlRange) {
+        this.controlRange = controlRange;
+    }
+
+    public void setMaximumCarriage(int maximumCarriage) {
+        this.maximumCarriage = maximumCarriage;
+    }
 }
