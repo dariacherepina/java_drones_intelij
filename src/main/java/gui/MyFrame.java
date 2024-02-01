@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * implements the JFrame for the GUI and calls the ActionListeners of the other buttons
+ * Implements the JFrame for the GUI and calls the ActionListeners of the other buttons
  * @author Afnan Ismail, Daria Cherepina, Alina Winschel
  */
 
@@ -177,8 +177,8 @@ public class MyFrame extends JFrame {
         returnMinus5Button.setMaximumSize(maxButtonSize);
 
         /**
-         * sets up the ActionListener for various buttons
-         * initializes the layout of the frame for the Drones Simulator application
+         * Sets up the ActionListener for the various buttons
+         * and initializes the layout of the frame for the application
          * each button is associated with a specific ActionListener to handle user interactions
          * the frame includes panels for navigation buttons, the main content, and additional components
          * @author Afnan Ismail
@@ -204,7 +204,7 @@ public class MyFrame extends JFrame {
     }
 
     /**
-     * method initialised three ArrayList for Drones, DroneTypes and DroneDynamics
+     * Initializes three ArrayList for Drones, DroneTypes and DroneDynamics
      * and after that calls the method to add all additional data from DroneTypes and DroneDynamics to Drone
      * and create a new instance of class MyFrame
      * @param args
@@ -224,7 +224,7 @@ public class MyFrame extends JFrame {
     }
 
     /**
-     * displays the drone image and the label 'DRONE OVERVIEW'
+     * Displays the drone image and the label 'DRONE OVERVIEW'
      * @author Afnan Ismail
      */
 
@@ -242,7 +242,7 @@ public class MyFrame extends JFrame {
     }
 
     /**
-     * changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
+     * Changes the title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
      * @param labelText the text to set for tableTitleLabel
      * @author Afnan Ismail
      */

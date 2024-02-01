@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements ActionListener for droneTypesButton
+ * Implements the ActionListener for the `droneTypesButton`
  * @author  Alina Winschel & Daria Cherepina
  */
 
@@ -27,8 +27,8 @@ public class DroneTypesActionListener implements ActionListener {
     }
 
     /**
-     * adjust Sort-Buttons
-     * updates GUI to display 'DRONE TYPES' label and populates table
+     * Adjusts the Sort-Buttons and
+     * updates the GUI to display the 'DRONE TYPES' label and populates the table
      * @param e the event to be processed
      * @author Alina Winschel & Daria Cherepina
      */

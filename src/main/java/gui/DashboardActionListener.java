@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements ActionListener for dashboardButton
+ * Implements the ActionListener for the`dashboardButton`
  * @author Alina Winschel
  */
 
@@ -22,8 +22,8 @@ public class DashboardActionListener implements ActionListener {
     }
 
     /**
-     * removes Sort-Buttons from DashBoard
-     * updates GUI to display 'DRONE OVERVIEW' label and populates table
+     * Removes the Sort-Buttons from the`dashboardButton`
+     * and updates the GUI to display the 'DRONE OVERVIEW' label and populates the table
      * @param e the event to be processed
      * @author Alina Winschel
      */

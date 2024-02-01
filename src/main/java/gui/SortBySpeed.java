@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements the ActionListener of the sortBySpeedButton
+ * Implements the ActionListener of the `sortSpeed` Button
  * @author Afnan Ismail
  */
 
@@ -24,7 +24,7 @@ public class SortBySpeed implements ActionListener {
     }
 
     /**
-     * when clicking the droneTypesButton the droneTypesList can be sorted by maximum speed
+     * When clicking the `droneTypesButton` the droneTypesList can be sorted by maximum speed
      * @param e the event to be processed
      * @author Afnan Ismail & Daria Cherepina
      */

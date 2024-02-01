@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
- * implements the ActionListener of the refreshButton
+ * Implements the ActionListener of the `refreshButton`
  * @author Afnan Ismail & Daria Cherepina
  */
 
@@ -37,7 +37,7 @@ public class RefreshActionListener implements ActionListener {
     }
 
     /**
-     * updates table when clicking on the buttons Dashboard, Drones, DroneTypes and DroneDynamics
+     * Updates the table when clicking on the buttons Dashboard, Drones, DroneTypes and DroneDynamics
      * @param e the event to be processed
      * @author Afnan Ismail & Daria Cherepina
      */
@@ -64,7 +64,7 @@ public class RefreshActionListener implements ActionListener {
     }
 
     /**
-     * the data is updated with  Stream.fetchData()
+     * The data is updated with Stream.fetchData()
      * and then we replace old data in the ArrayLists with new one
      * @param DronesList List of Drones
      * @param DroneTypesList List of DroneType

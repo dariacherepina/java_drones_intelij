@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements ActionListener for DroneDynamicsButton
+ * Implements the ActionListener for the`droneDynamicsButton`
  * @author Alina Winschel & Daria Cherepina
  */
 
@@ -25,8 +25,8 @@ public class DroneDynamicsActionListener implements ActionListener {
     }
 
     /**
-     * adjust Sort-Buttons
-     * updates GUI to display 'DRONE DYNAMICS' label and populates table
+     * Adjusts the Sort-Buttons,
+     * updates the GUI to display the 'DRONE DYNAMICS' label and populates the table
      * @param e the event to be processed
      * @author Alina Winschel & Daria Cherepina
      */

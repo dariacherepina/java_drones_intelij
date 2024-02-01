@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * implements ActionListener for droneCatalogButton
+ * Implements the ActionListener for the `droneCatalogButton`
  * @author Alina Winschel
  */
 
@@ -17,7 +17,7 @@ public class DroneCatalogActionListener implements ActionListener {
     }
 
     /**
-     * to display other buttons and change colour of 'droneCatalogButton'
+     * Displays the other buttons and changes the colour of the 'droneCatalogButton'
      * @param e the event to be processed
      * @author Alina Winschel
      */

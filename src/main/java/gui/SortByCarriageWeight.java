@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements the ActionListener of the sortByCarriageWeightButton
+ * Implements the ActionListener of the `sortCarriageWeight` Button
  * @author Afnan Ismail
  */
 
@@ -25,7 +25,7 @@ public class SortByCarriageWeight implements ActionListener {
     }
 
     /**
-     * when clicking the dronesButton the dronesList can be sorted by carriage weight
+     * When clicking the `dronesButton` the dronesList can be sorted by carriage weight
      * @param e the event to be processed
      * @author Afnan Ismail & Daria Cherepina
      */

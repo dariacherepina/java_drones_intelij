@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements the ActionListener of the sortByStatusButton
+ * Implements the ActionListener of the `sortStatus` Button
  * @author Afnan Ismail
  */
 
@@ -24,7 +24,7 @@ public class SortByStatus implements ActionListener {
     }
 
     /**
-     * when clicking the droneDynamicsButton the droneDynamicsList can be sorted by status
+     * When clicking the `droneDynamicsButton` the droneDynamicsList can be sorted by status
      * @param e the event to be processed
      * @author Afnan Ismail & Daria Cherepina
      */

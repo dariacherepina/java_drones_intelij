@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * implements the ActionListener of the sortByMaximumCarriageButton
+ * Implements the ActionListener of the `sortMaximumCarriage` button
  * @author Afnan Ismail
  */
 
@@ -24,7 +24,7 @@ public class SortByMaximumCarriage implements ActionListener {
     }
 
     /**
-     * when clicking the droneTypesButton the droneTypesList can be sorted by maximum carriage
+     * When clicking the `droneTypesButton` the droneTypesList can be sorted by maximum carriage
      * @param e the event to be processed
      * @author Afnan Ismail & Daria Cherepina
      */

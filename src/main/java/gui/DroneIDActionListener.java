@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
- * implements ActionListener for droneIDButton
+ * Implements the  ActionListener for the `droneIDButton`
  * @author Afnan Ismail & Alina Winschel & Daria Cherepina
  */
 
@@ -37,8 +37,8 @@ public class DroneIDActionListener implements ActionListener {
     }
 
     /**
-     * display individual drone information by asking the user for an id
-     * give error when user enters wrong id
+     * Displays the individual drone information by asking the user for an id and
+     * gives an error when the user enters a wrong id
      * @param e the event to be processed
      * @author Alina Winschel & Afnan Ismail
      */
@@ -95,7 +95,7 @@ public class DroneIDActionListener implements ActionListener {
         submitButton.addActionListener(new ActionListener() {
 
             /**
-             *check valid user input to display the Drone Dynamics
+             *Checks the valid user input to display the DroneDynamics
              * @param e the event to be processed
              * @author Afnan Ismail & Daria Cherepina
              */
@@ -133,7 +133,7 @@ public class DroneIDActionListener implements ActionListener {
         frame.getReturnMinus5Button().addActionListener(new ActionListener() {
 
             /**
-             * subtract 5 minutes from the timestamp
+             * Subtracts 5 minutes from the timestamp
              * @param e the event to be processed
              * @author Afnan Ismail & Daria Cherepina
              */
@@ -167,7 +167,7 @@ public class DroneIDActionListener implements ActionListener {
         frame.getReturnPlus5Button().addActionListener(new ActionListener() {
 
             /**
-             * add 5 minutes to the timestamp
+             * Adds 5 minutes to the timestamp
              * @param e the event to be processed
              * @author Afnan Ismail & Daria Cherepina
              */
@@ -203,8 +203,8 @@ public class DroneIDActionListener implements ActionListener {
     }
 
     /**
-     * we convert the timestamp in ZonedDateTime with help of DateTimeFormatter
-     * and then just subtracting 5 minutes from the timestamp
+     * Converts the timestamp in ZonedDateTime with help of the DateTimeFormatter
+     * and subtracts 5 minutes from the timestamp
      * @param timestamp parameter from DroneDynamics
      * @return String new timestamp (-5 minutes)
      * @author Daria Cherepina
@@ -219,8 +219,8 @@ public class DroneIDActionListener implements ActionListener {
     }
 
     /**
-     * we convert the timestamp in ZonedDateTime with help of DateTimeFormatter
-     * and then just adding 5 minutes to the timestamp
+     * Converts the timestamp in ZonedDateTime with the help of the DateTimeFormatter
+     * and adds 5 minutes to the timestamp
      * @param timestamp parameter from DroneDynamics
      * @return String new timestamp (+5 minutes)
      * @author Daria Cherepina
@@ -235,7 +235,7 @@ public class DroneIDActionListener implements ActionListener {
     }
 
     /**
-     * To find DroneDynamic by the timestamp
+     * Finds the DroneDynamics through the timestamp
      * @param nextTimeStemp parameter from DroneDynamics
      * @param droneInfo drone that was chosen by user
      * @return the found DroneDynamic
