@@ -214,7 +214,6 @@ public class DroneIDActionListener implements ActionListener {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
         ZonedDateTime zoneDateTime = ZonedDateTime.parse(timestamp, formatter);
         zoneDateTime = zoneDateTime.minusMinutes(5);
-        System.out.println(zoneDateTime.format(formatter));
         return zoneDateTime.format(formatter);
     }
 
@@ -230,7 +229,6 @@ public class DroneIDActionListener implements ActionListener {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
         ZonedDateTime zoneDateTime = ZonedDateTime.parse(timestamp, formatter);
         zoneDateTime = zoneDateTime.plusMinutes(5);
-        System.out.println(zoneDateTime.format(formatter));
         return zoneDateTime.format(formatter);
     }
 
