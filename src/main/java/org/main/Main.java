@@ -1,22 +1,21 @@
 package org.main;
 
-import API.Stream;
-import Drone.*;
-import GUI.MyFrame;
-import Threads.ThreadCheckRefresh;
+import drone.Convert;
+import gui.MyFrame;
 import org.json.JSONException;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import Drone.*;
+import threads.ThreadCheckRefresh;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Main implements Sortable {
-    // Define constants
+/**
+ * The main class serves as an entry point for the application.
+ * It organizes the initialization of essential components and manages threads for data refreshing.
+ * It also creates the main graphical user interface.
+ */
+public class Main {
     static Convert helper = new Convert();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
@@ -34,19 +33,14 @@ public class Main implements Sortable {
                     }
                 }
             });
-
             threadD.start();
         } catch (JSONException e) {
             threadD.interrupt();
             LOGGER.log(Level.SEVERE, "Problems with JSONException in main ", e);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An IOException occurred during thread start in main ", e);
             throw new RuntimeException(e);
         }
 
     }
 }
-
-
-
-
-

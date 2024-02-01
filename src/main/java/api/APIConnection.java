@@ -1,9 +1,8 @@
-package API;
+package api;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,36 +14,38 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class makes HTTP GET requests to a specified API endpoint
+ *
+ * @author Nisa Colak
+ */
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
-   
     private static final String TOKEN = "Token 1586b43740b3c8b3686b31e2dc1cf1b4273b838f";
 
     public APIConnection() {
     }
+
     /**
-    *
-    * @param endpoint String
+     * method use built connection to the server to fetch the data
+     *
+     * @param endpoint String with an endpoint to needed url
      * @return JsonObject from Response
-    * */
+     */
+
     public static JsonObject getResponse(String endpoint) {
         String nextPageUrl = "http://dronesim.facets-labs.com/api/" + endpoint;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder();
-        int retries = 3;
 
         try {
-
             final HttpURLConnection connection = getHttpURLConnection(nextPageUrl);
-
             int status = connection.getResponseCode();
             LOGGER.info("Response code " + status);
-
             reader = new BufferedReader(new InputStreamReader(
                     status > 299 ? connection.getErrorStream() : connection.getInputStream()));
-
 
             while ((line = reader.readLine()) != null) {
                 responseContent.append(line);
@@ -52,14 +53,8 @@ public class APIConnection {
             }
             reader.close();
 
-
         } catch (SocketTimeoutException e) {
-            if (retries > 0) {
-                LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
-                retries--;
-            } else {
-                LOGGER.log(Level.SEVERE, "Socket timeout occurred. Max retries reached. Giving up...", e);
-            }
+            LOGGER.log(Level.SEVERE, "Socket timeout occurred. Retrying...", e);
         } catch (MalformedURLException e) {
 
             LOGGER.log(Level.SEVERE, "MalformedURLException occurred", e);
@@ -71,10 +66,11 @@ public class APIConnection {
     }
 
     /**
+     * method to build connection to the server
      *
-     * @param nextPageUrl String
+     * @param nextPageUrl String an url to the page we are building connection
      * @return connection of HttpURLConnection datatype
-     * @throws IOException
+     * @throws IOException input output exception
      */
     private static HttpURLConnection getHttpURLConnection(String nextPageUrl) throws IOException {
         URL url = new URL(nextPageUrl);
@@ -86,6 +82,4 @@ public class APIConnection {
         connection.setReadTimeout(1000000);
         return connection;
     }
-
-
 }
