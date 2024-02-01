@@ -1,17 +1,23 @@
-package Drone;
+package drone;
 
-import API.Stream;
-import Exception.*;
+import api.Stream;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import exception.AbsenceTypeForDrone;
+import exception.InvalidIdInput;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * This class includes methods to fetch and initialize lists of drones, drone types, and drone dynamics
+ * and there are methods to convert the ArrayLists to Object[][]
+ *
+ * @author Daria Cherepina
+ */
 public class Convert {
     ArrayList<Drones> DronesList;
     ArrayList<DroneTypes> DroneTypesList;
@@ -19,13 +25,15 @@ public class Convert {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());
 
     /**
-     * We want to check if the data is already saved to the files than just initialise, if not than fetch data first and then initialise it
-     * @throws IOException throws
+     * We want to check if the data is already saved to the files than just initialise,
+     * if not than fetch data first and then initialise it
+     *
+     * @throws IOException input/output exception
      */
     public void checkToInitialiseAllData() throws IOException {
-        if (Drones.ifFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
+        if (Drones.isFileValid() && DroneTypes.ifFileValid() && DroneDynamics.ifFileValid()) {
             initialiseAllData();
-        }else{
+        } else {
             Stream.fetchData();
             initialiseAllData();
         }
@@ -33,6 +41,7 @@ public class Convert {
 
     /**
      * initialise ArrayLists with data from files
+     *
      * @throws IOException throws
      */
     public void initialiseAllData() throws IOException {
@@ -43,6 +52,7 @@ public class Convert {
     }
 
     /**
+     * method to initialise ArrayList<Drones>
      *
      * @param input JsonObject from the files
      * @return ArrayList<Drones>
@@ -65,7 +75,9 @@ public class Convert {
         }
         return dronesList;
     }
+
     /**
+     * method to initialise ArrayList<DroneTypes>
      *
      * @param input JsonObject from the files
      * @return ArrayList<DroneTypes>
@@ -94,7 +106,9 @@ public class Convert {
         });
         return droneTypesList;
     }
+
     /**
+     * method to initialise ArrayList<DroneDynamics>
      *
      * @param input JsonObject from the files
      * @return ArrayList<DroneDynamics>
@@ -128,14 +142,15 @@ public class Convert {
     }
 
     /**
-     * Find the drone in ArrayList of drones with the right id
+     * Find the drone in ArrayList<Drones> with the needed id
+     *
      * @param dronesList ArrayList<Drones>
-     * @param id int
-     * @return drone of the right id
+     * @param id         int id of drone
+     * @return drone of the needed id
      * @throws InvalidIdInput customise Exception, when the id is out of range
      */
 
-    public Drones findDrone(ArrayList<Drones> dronesList, int id) throws InvalidIdInput{
+    public Drones findDrone(ArrayList<Drones> dronesList, int id) throws InvalidIdInput {
         for (Drones drone : dronesList) {
             if (drone.getId() == id) {
                 return drone;
@@ -146,8 +161,9 @@ public class Convert {
 
     /**
      * add DroneTypes and DroneDynamics to the Drones based on the id
-     * @param dronesList ArrayList<Drones>
-     * @param droneTypesList ArrayList<DroneTypes
+     *
+     * @param dronesList        ArrayList<Drones>
+     * @param droneTypesList    ArrayList<DroneTypes>
      * @param droneDynamicsList ArrayList<DroneDynamics>
      */
     public void addAdditinalDataToDrone(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) {
@@ -156,15 +172,16 @@ public class Convert {
                 addDroneTypesForDrone(drone, droneTypesList);
                 addDroneDynamicsForDrone(drone, droneDynamicsList);
             } catch (AbsenceTypeForDrone e) {
-                LOGGER.log(Level.SEVERE, "Error adding additional data to drone",e);
+                LOGGER.log(Level.SEVERE, "Error adding additional data to drone", e);
                 throw new RuntimeException(e);
             }
         }
     }
 
     /**
-     * To add the DroneType for each Drone
-     * @param drone Drones
+     * To add the DroneType information to each Drone
+     *
+     * @param drone          Drones
      * @param droneTypesList ArrayList<DroneTypes>
      * @throws AbsenceTypeForDrone No DroneType for this Drone
      */
@@ -174,14 +191,15 @@ public class Convert {
                 drone.setDroneType(droneType);
             }
         }
-        if(drone.getDroneType() == null){
+        if (drone.getDroneType() == null) {
             throw new AbsenceTypeForDrone("No DroneType for this Drone");
         }
     }
 
     /**
-     * To add the DroneDynamics for each Drone
-     * @param drone Drones
+     * To add the DroneDynamics information to each Drone
+     *
+     * @param drone             Drones
      * @param droneDynamicsList ArrayList<DroneDynamics>
      */
     private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
@@ -196,6 +214,7 @@ public class Convert {
 
     /**
      * Convert Arraylist<Drones> drones to Object [][]
+     *
      * @param drones ArrayList<Drones>
      * @return Object [][] droneObj
      */
@@ -218,6 +237,7 @@ public class Convert {
 
     /**
      * Convert Arraylist<DroneTypes> drones to Object [][]
+     *
      * @param droneTypes ArrayList<DroneTypes>
      * @return Object [][] droneTypesObj
      */
@@ -240,8 +260,10 @@ public class Convert {
         }
         return droneTypesObj;
     }
+
     /**
      * Convert Arraylist<DroneDynamics> drones to Object [][]
+     *
      * @param droneDynamics ArrayList<DroneDynamics>
      * @return Object [][] droneDynamicsObj
      */

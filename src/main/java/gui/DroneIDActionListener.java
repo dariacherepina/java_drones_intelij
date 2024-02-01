@@ -1,8 +1,8 @@
-package GUI;
+package gui;
 
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.Drones;
+import drone.Convert;
+import drone.DroneDynamics;
+import drone.Drones;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import Exception.*;
+import exception.*;
 
 public class DroneIDActionListener implements ActionListener {
     private MyFrame frame;
@@ -78,7 +78,7 @@ public class DroneIDActionListener implements ActionListener {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         String infoText =         // Add the information to the JTextArea
-                "Drone " + droneInfo.getId() +
+                "drone " + droneInfo.getId() +
                         "\nCreation Time: " + droneInfo.getCreated() +
                         "\nSerial Number: " + droneInfo.getSerialNumber() +
                         "\nCarriage Weight: " + droneInfo.getCarriageWeight() +

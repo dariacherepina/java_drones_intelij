@@ -1,8 +1,8 @@
-package GUI;
+package gui;
 
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import drone.DroneDynamics;
+import drone.DroneTypes;
+import drone.Drones;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;

@@ -1,5 +1,8 @@
-package Exception;
+package exception;
 
+/**
+ * @author Daria Cherepina
+ */
 public class InvalidFileNameException extends java.lang.Exception {
     /**
      * Throw when the filename is not valid

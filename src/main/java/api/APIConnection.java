@@ -1,4 +1,4 @@
-package API;
+package api;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,6 +14,11 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class makes HTTP GET requests to a specified API endpoint
+ *
+ * @author Nisa Colak
+ */
 public class APIConnection {
     private static final String USER_AGENT = "Mozilla Firefox Awesome version";
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
@@ -25,7 +30,7 @@ public class APIConnection {
     /**
      * method use built connection to the server to fetch the data
      *
-     * @param endpoint String
+     * @param endpoint String with an endpoint to needed url
      * @return JsonObject from Response
      */
 
@@ -62,7 +67,7 @@ public class APIConnection {
     /**
      * method to build connection to the server
      *
-     * @param nextPageUrl String
+     * @param nextPageUrl String an url to the page we are building connection
      * @return connection of HttpURLConnection datatype
      * @throws IOException input output exception
      */

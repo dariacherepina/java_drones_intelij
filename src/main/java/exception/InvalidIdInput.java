@@ -1,5 +1,8 @@
-package Exception;
+package exception;
 
+/**
+ * @author Daria Cherepina
+ */
 public class InvalidIdInput extends Exception {
     /**
      * Throw when input of id is out of range

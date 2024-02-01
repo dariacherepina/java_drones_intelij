@@ -1,8 +1,8 @@
-package Drone;
+package drone;
 
-import API.APIConnection;
-import API.APIEndpoints;
-import API.Stream;
+import api.APIConnection;
+import api.APIEndpoints;
+import api.Stream;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -13,9 +13,15 @@ import java.util.Comparator;
 import java.util.logging.Logger;
 
 /**
+ * This class is a representation of drone types,
+ * and its information about a specific drone type, including its characteristics
  *
+ * @author Nisa Colak
  */
 public class DroneTypes implements Refreshable {
+    private static int onlineCount;
+    private static int offlineCount;
+    private static File file = new File("outputDroneTypes.json");
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String manufacturer;
@@ -25,9 +31,6 @@ public class DroneTypes implements Refreshable {
     private int batteryCapacity;
     private int controlRange;
     private int maximumCarriage;
-    private static int onlineCount;
-    private static int offlineCount;
-    private static File file = new File("outputDroneTypes.json");
 
     public DroneTypes() {
     }
@@ -42,7 +45,51 @@ public class DroneTypes implements Refreshable {
         this.controlRange = controlRange;
         this.maximumCarriage = maximumCarriage;
     }
+    /**
+     * To check if file exist and if it is empty
+     *
+     * @return boolean
+     */
+    public static boolean ifFileValid() {
+        if (file.exists() && file.isFile() && file.length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+
+    /**
+     * To sort ArrayList<DroneTypes> by speed
+     *
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @return ArrayList<DroneTypes> sorted
+     */
+    public static ArrayList<DroneTypes> sortSpeed(ArrayList<DroneTypes> droneTypesList) {
+        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
+            @Override
+            public int compare(DroneTypes d1, DroneTypes d2) {
+                return Integer.compare(d1.getMaximumSpeed(), d2.getMaximumSpeed());
+            }
+        });
+        return droneTypesList;
+    }
+
+    /**
+     * To sort ArrayList<DroneTypes> by maximumCarriage
+     *
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @return ArrayList<DroneTypes> sorted
+     */
+    public static ArrayList<DroneTypes> sortMaximumCarriage(ArrayList<DroneTypes> droneTypesList) {
+        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
+            @Override
+            public int compare(DroneTypes d1, DroneTypes d2) {
+                return Integer.compare(d1.getMaximumCarriage(), d2.getMaximumCarriage());
+            }
+        });
+        return droneTypesList;
+    }
     /**
      * To transform the Object to String
      *
@@ -58,7 +105,53 @@ public class DroneTypes implements Refreshable {
                 + "\nControl Range: " + controlRange
                 + "\nMaximumCarriage: " + maximumCarriage;
     }
+    /**
+     * To get the count of the data from the file
+     *
+     * @return int offlineCount
+     */
+    @Override
+    public int checkOfflineCount() {
+        JsonObject o;
+        try {
+            o = Stream.dataStreamOut("outputDroneTypes");
+            offlineCount = o.get("count").getAsInt();
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return offlineCount;
+    }
+
+    /**
+     * To get the count of the data from the server
+     *
+     * @return int onlineCount
+     */
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = APIEndpoints.getDroneTypesUrl(25, 19).get("count").getAsInt();
+        } catch (NullPointerException e) {
+            LOGGER.warning("NullPointerException: count is null");
+        }
+        return onlineCount;
+    }
+
+    /**
+     * If true there is new data on the server, if false there is not
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isRefreshChecked() throws IOException {
+        if (checkOfflineCount() < checkOnlineCount()) {
+            return true;
+        } else {
+            LOGGER.info("No updates");
+            return false;
+        }
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -148,97 +241,5 @@ public class DroneTypes implements Refreshable {
         return file;
     }
 
-    /**
-     * To get the count of the data from the file
-     *
-     * @return int offlineCount
-     */
-    @Override
-    public int checkOfflineCount() {
-        JsonObject o;
-        try {
-            o = Stream.dataStreamOut("outputDroneTypes");
-            offlineCount = o.get("count").getAsInt();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return offlineCount;
-    }
-
-    /**
-     * To get the count of the data from the server
-     *
-     * @return int onlineCount
-     */
-    @Override
-    public int checkOnlineCount() {
-        try {
-            onlineCount = APIEndpoints.getDroneTypesUrl(25, 19).get("count").getAsInt();
-        } catch (NullPointerException e) {
-            LOGGER.warning("NullPointerException: count is null");
-        }
-        return onlineCount;
-    }
-
-    /**
-     * If true there is new data on the server, if false there is not
-     *
-     * @return boolean
-     */
-    @Override
-    public boolean checkRefresh() throws IOException {
-        if (checkOfflineCount() < checkOnlineCount()) {
-            return true;
-        } else {
-            LOGGER.info("No updates");
-            return false;
-        }
-    }
-
-    /**
-     * To check if file exist and if it is empty
-     *
-     * @return boolean
-     */
-    public static boolean ifFileValid() {
-        if (file.exists() && file.isFile() && file.length() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
-     * To sort ArrayList<DroneTypes> by speed
-     *
-     * @param droneTypesList ArrayList<DroneTypes>
-     * @return ArrayList<DroneTypes> sorted
-     */
-    public static ArrayList<DroneTypes> sortSpeed(ArrayList<DroneTypes> droneTypesList) {
-        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
-            @Override
-            public int compare(DroneTypes d1, DroneTypes d2) {
-                return Integer.compare(d1.getMaximumSpeed(), d2.getMaximumSpeed());
-            }
-        });
-        return droneTypesList;
-    }
-
-    /**
-     * To sort ArrayList<DroneTypes> by maximumCarriage
-     *
-     * @param droneTypesList ArrayList<DroneTypes>
-     * @return ArrayList<DroneTypes> sorted
-     */
-    public static ArrayList<DroneTypes> sortMaximumCarriage(ArrayList<DroneTypes> droneTypesList) {
-        Collections.sort(droneTypesList, new Comparator<DroneTypes>() {
-            @Override
-            public int compare(DroneTypes d1, DroneTypes d2) {
-                return Integer.compare(d1.getMaximumCarriage(), d2.getMaximumCarriage());
-            }
-        });
-        return droneTypesList;
-    }
 }

@@ -1,8 +1,8 @@
-package Drone;
+package drone;
 
-import API.APIConnection;
-import API.APIEndpoints;
-import API.Stream;
+import api.APIConnection;
+import api.APIEndpoints;
+import api.Stream;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,16 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DroneDynamics implements Refreshable  {
+/**
+ * This class represents the dynamic characteristics of drones
+ * and providing time-related information for each drone
+ *
+ * @author Nisa Colak
+ */
+public class DroneDynamics implements Refreshable {
+    private static int onlineCount;
+    private static int offlineCount;
+    private static File file = new File("outputDroneDynamics.json");
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String drone;
@@ -28,13 +37,9 @@ public class DroneDynamics implements Refreshable  {
     private String battery_status;
     private String last_seen;
     private String status;
-    private static int onlineCount;
-    private static int offlineCount;
-    private static File file = new File("outputDroneDynamics.json");
 
     public DroneDynamics() {
     }
-
 
     public DroneDynamics(String drone, String timestamp, int speed, String align_roll, String align_pitch, String align_yaw, String longitude, String latitude, String battery_status, String last_seen, String status) {
         this.drone = drone;
@@ -56,23 +61,55 @@ public class DroneDynamics implements Refreshable  {
     }
 
     /**
-     * To get id of the Drone of this DroneDynamics
+     * ON goes first, OF second and IS last
+     * To sort ArrayList<DroneDynamics>  by status
      *
-     * @param drone String Link of the Drones
-     * @return int the id of the drone to this DroneDynamic
-     * @throws MalformedURLException when URL is malformed
+     * @param droneDynamicsList ArrayList<DroneDynamics>
+     * @return ArrayList<DroneDynamics> sorted
      */
-    public int extractIdFromUrl(String drone) throws MalformedURLException {
-        try {
-            URL urlObj = new URL(drone); // Use the passed parameter
-            String path = urlObj.getPath();
-            String[] parts = path.split("/");
-            String lastPart = parts[parts.length - 1];
-            return Integer.parseInt(lastPart);
-        } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
-            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + drone, e);
-            throw e;
+    public static ArrayList<DroneDynamics> sortStatus(ArrayList<DroneDynamics> droneDynamicsList) {
+        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
+            @Override
+            public int compare(DroneDynamics d1, DroneDynamics d2) {
+                return d1.getStatus().compareTo(d2.getStatus());
+            }
+        });
+
+        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
+            @Override
+            public int compare(DroneDynamics d1, DroneDynamics d2) {
+                if (d1.getStatus().equals("ON")) {
+                    return -1;
+                } else if (d1.getStatus().equals("OF")) {
+                    if (d2.getStatus().equals("ON")) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    if (d2.getStatus().equals("ON") || d2.getStatus().equals("OF")) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        });
+        return droneDynamicsList;
+    }
+
+    /**
+     * To check if file exist and if it is empty
+     *
+     * @return boolean
+     */
+    public static boolean ifFileValid() {
+        if (file.exists() && file.isFile() && file.length() > 0) {
+            return true;
+        } else {
+            return false;
         }
+
     }
 
     /**
@@ -94,6 +131,52 @@ public class DroneDynamics implements Refreshable  {
                 + "\nBattery Status: " + battery_status
                 + "\nLast Seen: " + last_seen
                 + "\nStatus: " + status;
+    }
+
+    /**
+     * To get the count of the data from the file
+     *
+     * @return int offlineCount
+     */
+    @Override
+    public int checkOfflineCount() {
+        try {
+            offlineCount = Stream.dataStreamOut("outputDroneDynamics").get("count").getAsInt();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return offlineCount;
+    }
+
+    /**
+     * To get the count of the data from the server
+     *
+     * @return int onlineCount
+     */
+    @Override
+    public int checkOnlineCount() {
+        try {
+            onlineCount = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
+        } catch (NullPointerException e) {
+            LOGGER.warning("NullPointerException: count is null");
+        }
+        return onlineCount;
+    }
+
+    /**
+     * If true there is new data on the server, if false there is not
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isRefreshChecked() {
+        if (checkOfflineCount() < checkOnlineCount()) {
+            return true;
+        } else {
+            LOGGER.info("No updates");
+            return false;
+        }
     }
 
 
@@ -218,99 +301,22 @@ public class DroneDynamics implements Refreshable  {
     }
 
     /**
-     * To get the count of the data from the file
+     * To get id of the Drone of this DroneDynamics
      *
-     * @return int offlineCount
+     * @param drone String Link of the Drones
+     * @return int the id of the drone to this DroneDynamic
+     * @throws MalformedURLException when URL is malformed
      */
-    @Override
-    public int checkOfflineCount() {
+    private int extractIdFromUrl(String drone) throws MalformedURLException {
         try {
-            offlineCount = Stream.dataStreamOut("outputDroneDynamics").get("count").getAsInt();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            URL urlObj = new URL(drone); // Use the passed parameter
+            String path = urlObj.getPath();
+            String[] parts = path.split("/");
+            String lastPart = parts[parts.length - 1];
+            return Integer.parseInt(lastPart);
+        } catch (MalformedURLException | ArrayIndexOutOfBoundsException e) {
+            LOGGER.log(Level.SEVERE, "Failed to extract ID from URL: " + drone, e);
+            throw e;
         }
-        return offlineCount;
-    }
-
-    /**
-     * To get the count of the data from the server
-     *
-     * @return int onlineCount
-     */
-    @Override
-    public int checkOnlineCount() {
-        try {
-            onlineCount = APIEndpoints.getDroneDynamics(36025, 36024).get("count").getAsInt();
-        } catch (NullPointerException e) {
-            LOGGER.warning("NullPointerException: count is null");
-        }
-        return onlineCount;
-    }
-
-    /**
-     * If true there is new data on the server, if false there is not
-     *
-     * @return boolean
-     */
-    @Override
-    public boolean checkRefresh() {
-        if (checkOfflineCount() < checkOnlineCount()) {
-            return true;
-        } else {
-            LOGGER.info("No updates");
-            return false;
-        }
-    }
-
-    /**
-     * To check if file exist and if it is empty
-     *
-     * @return boolean
-     */
-    public static boolean ifFileValid() {
-        if (file.exists() && file.isFile() && file.length() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-    /**
-     * ON goes first, OF second and IS last
-     * To sort ArrayList<DroneDynamics>  by status
-     *
-     * @param droneDynamicsList ArrayList<DroneDynamics>
-     * @return ArrayList<DroneDynamics> sorted
-     */
-    public static ArrayList<DroneDynamics> sortStatus(ArrayList<DroneDynamics> droneDynamicsList) {
-        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
-            @Override
-            public int compare(DroneDynamics d1, DroneDynamics d2) {
-                return d1.getStatus().compareTo(d2.getStatus());
-            }
-        });
-
-        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
-            @Override
-            public int compare(DroneDynamics d1, DroneDynamics d2) {
-                if (d1.getStatus().equals("ON")) {
-                    return -1;
-                } else if (d1.getStatus().equals("OF")) {
-                    if (d2.getStatus().equals("ON")) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } else {
-                    if (d2.getStatus().equals("ON") || d2.getStatus().equals("OF")) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            }
-        });
-        return droneDynamicsList;
     }
 }

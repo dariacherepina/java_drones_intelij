@@ -1,10 +1,10 @@
-package GUI;
+package gui;
 
-import API.Stream;
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import api.Stream;
+import drone.Convert;
+import drone.DroneDynamics;
+import drone.DroneTypes;
+import drone.Drones;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static GUI.MyFrame.helper;
+import static gui.MyFrame.helper;
 
 public class RefreshActionListener implements ActionListener {
     private static final Logger LOGGER = Logger.getLogger(Convert.class.getName());

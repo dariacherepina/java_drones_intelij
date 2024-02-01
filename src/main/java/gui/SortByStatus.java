@@ -1,6 +1,6 @@
-package GUI;
+package gui;
 
-import Drone.*;
+import drone.*;
 import org.main.Main;
 
 import javax.swing.table.DefaultTableModel;

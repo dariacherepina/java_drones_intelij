@@ -1,8 +1,8 @@
 package org.main;
 
-import Drone.Convert;
-import GUI.MyFrame;
-import Threads.ThreadCheckRefresh;
+import drone.Convert;
+import gui.MyFrame;
+import threads.ThreadCheckRefresh;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -28,7 +28,6 @@ public class Main{
                     }
                 }
             });
-
             threadD.start();
         } catch (JSONException e) {
             threadD.interrupt();

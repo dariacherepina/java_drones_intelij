@@ -1,10 +1,10 @@
-package GUI;
+package gui;
 
-import API.Stream;
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import api.Stream;
+import drone.Convert;
+import drone.DroneDynamics;
+import drone.DroneTypes;
+import drone.Drones;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

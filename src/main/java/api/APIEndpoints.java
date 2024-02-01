@@ -1,8 +1,13 @@
-package API;
+package api;
 
 
 import com.google.gson.JsonObject;
 
+/**
+ * It provides methods for receiving data from "drones," "dronetypes," and "dronedynamics" endpoints
+ *
+ * @author Nisa Colak
+ */
 public class APIEndpoints extends APIConnection {
     static JsonObject dronesResponse;
     static JsonObject droneTypesResponse;

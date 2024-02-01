@@ -1,5 +1,8 @@
-package Exception;
+package exception;
 
+/**
+ * @author Daria Cherepina
+ */
 public class AbsenceTypeForDrone extends Exception {
     /**
      * Throw when there is no DroneType for the Drone
