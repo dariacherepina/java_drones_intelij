@@ -10,6 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Implements the ActionListener for the `droneTypesButton`
+ * @author  Alina Winschel & Daria Cherepina
+ */
+
 public class DroneTypesActionListener implements ActionListener {
     private MyFrame frame;
     private ArrayList<DroneTypes> droneTypesList;
@@ -22,10 +27,12 @@ public class DroneTypesActionListener implements ActionListener {
     }
 
     /**
-     * adjust Sort-Buttons
-     * updates GUI to display 'DRONE TYPES' label and populates table
+     * Adjusts the Sort-Buttons and
+     * updates the GUI to display the 'DRONE TYPES' label and populates the table
      * @param e the event to be processed
+     * @author Alina Winschel & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE TYPES");
@@ -34,14 +41,15 @@ public class DroneTypesActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().add(frame.getSortByMaximumCarriage());
         frame.getPanelSort().add(frame.getSortBySpeed());
-        frame.getMainPanel().revalidate();
-        frame.getMainPanel().repaint();
+
+        frame.getImageTablePanel().revalidate();
+        frame.getImageTablePanel().repaint();
 
         String[] columns = {"ID", "Manufacturer", "TypeName", "Weight", "MaximumSpeed", "BatteryCapacity", "ControlRange", "MaximumCarriage"};
         Object[][] data = helper.convertArrayListToObjectDroneType(droneTypesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
 
-        JScrollPane scrollPane = (JScrollPane) frame.getTable().getParent().getParent(); //whole scrollPane,sets background color of the table-scrollPane
-        scrollPane.getViewport().setBackground(Color.DARK_GRAY);  //Viewport = table
+        JScrollPane scrollPane = (JScrollPane) frame.getTable().getParent().getParent();
+        scrollPane.getViewport().setBackground(Color.DARK_GRAY);
     }
 }

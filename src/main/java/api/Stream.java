@@ -72,6 +72,7 @@ public class Stream {
             Stream.dataStreamIn(APIEndpoints.getDroneTypesUrl(countDT, 0), "outputDroneTypes");
             Stream.dataStreamIn(APIEndpoints.getDroneDynamics(countDD, 0), "outputDroneDynamics");
         } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An exception occurred while fetching data.", e);
             throw new RuntimeException(e);
         }
     }

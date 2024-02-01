@@ -38,6 +38,7 @@ public class Main {
             threadD.interrupt();
             LOGGER.log(Level.SEVERE, "Problems with JSONException in main ", e);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An IOException occurred during thread start in main ", e);
             throw new RuntimeException(e);
         }
 

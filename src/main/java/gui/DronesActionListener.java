@@ -8,6 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Implements the ActionListener for the `dronesButton`
+ * @author Alina Winschel & Daria Cherepina
+ */
+
 public class DronesActionListener implements ActionListener {
     private MyFrame frame;
     private ArrayList<Drones> dronesList;
@@ -20,11 +25,12 @@ public class DronesActionListener implements ActionListener {
     }
 
     /**
-     * adjust Sort-Buttons
-     * updates GUI to display 'DRONES' label and populates table
-     *
+     * Adjusts the Sort-Buttons and
+     * updates the GUI to display the 'DRONES' label and populates the table
      * @param e the event to be processed
+     * @author Alina Winschel & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONES");
@@ -33,12 +39,12 @@ public class DronesActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().add(frame.getSortByCarriageWeight());
-        frame.getMainPanel().revalidate();
-        frame.getMainPanel().repaint();
+
+        frame.getImageTablePanel().revalidate();
+        frame.getImageTablePanel().repaint();
 
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
         Object[][] data = helper.convertArrayListToObjectDrones(dronesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
-
     }
 }

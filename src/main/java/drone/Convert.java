@@ -25,8 +25,8 @@ public class Convert {
     private ArrayList<DroneDynamics> DroneDynamicsList;
 
     /**
-     * We want to check if the data is already saved to the files than just initialise,
-     * if not than fetch data first and then initialise it
+     * This method checks if the data is already saved to the files than just initialises it,
+     * if not than fetches data first and then initialises it
      *
      * @throws IOException input/output exception
      */
@@ -40,7 +40,7 @@ public class Convert {
     }
 
     /**
-     * initialise ArrayLists with data from files
+     * This method initialises ArrayLists with data from files
      *
      * @throws IOException throws
      */
@@ -52,7 +52,7 @@ public class Convert {
     }
 
     /**
-     * method to initialise ArrayList<Drones>
+     * This method initialises ArrayList<Drones>
      *
      * @param input JsonObject from the files
      * @return ArrayList<Drones>
@@ -75,7 +75,7 @@ public class Convert {
     }
 
     /**
-     * method to initialise ArrayList<DroneTypes>
+     * This method initialises  ArrayList<DroneTypes>
      *
      * @param input JsonObject from the files
      * @return ArrayList<DroneTypes>
@@ -105,7 +105,7 @@ public class Convert {
     }
 
     /**
-     * method to initialise ArrayList<DroneDynamics>
+     * This method initialises ArrayList<DroneDynamics>
      *
      * @param input JsonObject from the files
      * @return ArrayList<DroneDynamics>
@@ -156,7 +156,7 @@ public class Convert {
     }
 
     /**
-     * add DroneTypes and DroneDynamics to the Drones based on the id
+     * To add DroneTypes and DroneDynamics to the Drones based on the id
      *
      * @param dronesList        ArrayList<Drones>
      * @param droneTypesList    ArrayList<DroneTypes>
@@ -175,41 +175,7 @@ public class Convert {
     }
 
     /**
-     * To add the DroneType information to each Drone
-     *
-     * @param drone          Drones
-     * @param droneTypesList ArrayList<DroneTypes>
-     * @throws AbsenceTypeForDrone No DroneType for this Drone
-     */
-    private void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) throws AbsenceTypeForDrone {
-        for (DroneTypes droneType : droneTypesList) {
-            if (drone.getIdType() == droneType.getId()) {
-                drone.setDroneType(droneType);
-            }
-        }
-        if (drone.getDroneType() == null) {
-            throw new AbsenceTypeForDrone("No DroneType for this Drone");
-        }
-    }
-
-    /**
-     * To add the DroneDynamics information to each Drone
-     *
-     * @param drone             Drones
-     * @param droneDynamicsList ArrayList<DroneDynamics>
-     */
-    private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
-        ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
-        for (DroneDynamics droneDynamic : droneDynamicsList) {
-            if (drone.getId() == droneDynamic.getId()) {
-                droneDynamicsForDrone.add(droneDynamic);
-            }
-        }
-        drone.setDroneDynamicsList(droneDynamicsForDrone);
-    }
-
-    /**
-     * Convert Arraylist<Drones> drones to Object [][]
+     * To convert Arraylist<Drones> drones to Object [][]
      *
      * @param drones ArrayList<Drones>
      * @return Object [][] droneObj
@@ -232,7 +198,7 @@ public class Convert {
     }
 
     /**
-     * Convert Arraylist<DroneTypes> drones to Object [][]
+     * To convert Arraylist<DroneTypes> drones to Object [][]
      *
      * @param droneTypes ArrayList<DroneTypes>
      * @return Object [][] droneTypesObj
@@ -258,7 +224,7 @@ public class Convert {
     }
 
     /**
-     * Convert Arraylist<DroneDynamics> drones to Object [][]
+     * To convert Arraylist<DroneDynamics> drones to Object [][]
      *
      * @param droneDynamics ArrayList<DroneDynamics>
      * @return Object [][] droneDynamicsObj
@@ -295,5 +261,39 @@ public class Convert {
 
     public ArrayList<DroneDynamics> getDroneDynamicsList() {
         return DroneDynamicsList;
+    }
+
+    /**
+     * To add the DroneType information to each Drone
+     *
+     * @param drone          Drones
+     * @param droneTypesList ArrayList<DroneTypes>
+     * @throws AbsenceTypeForDrone No DroneType for this Drone
+     */
+    private void addDroneTypesForDrone(Drones drone, ArrayList<DroneTypes> droneTypesList) throws AbsenceTypeForDrone {
+        for (DroneTypes droneType : droneTypesList) {
+            if (drone.getIdType() == droneType.getId()) {
+                drone.setDroneType(droneType);
+            }
+        }
+        if (drone.getDroneType() == null) {
+            throw new AbsenceTypeForDrone("No DroneType for this Drone");
+        }
+    }
+
+    /**
+     * To add the DroneDynamics information to each Drone
+     *
+     * @param drone             Drones
+     * @param droneDynamicsList ArrayList<DroneDynamics>
+     */
+    private void addDroneDynamicsForDrone(Drones drone, ArrayList<DroneDynamics> droneDynamicsList) {
+        ArrayList<DroneDynamics> droneDynamicsForDrone = new ArrayList<>();
+        for (DroneDynamics droneDynamic : droneDynamicsList) {
+            if (drone.getId() == droneDynamic.getId()) {
+                droneDynamicsForDrone.add(droneDynamic);
+            }
+        }
+        drone.setDroneDynamicsList(droneDynamicsForDrone);
     }
 }

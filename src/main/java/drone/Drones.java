@@ -49,6 +49,7 @@ public class Drones implements Refreshable {
         try {
             this.idType = extractIdFromUrl(this.droneTypeLink);
         } catch (MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, "An exception occurred while extracting ID from URL.", e);
             throw new RuntimeException(e);
         }
     }
@@ -94,6 +95,7 @@ public class Drones implements Refreshable {
             o = Stream.dataStreamOut("outputDrones");
             offlineCount = o.get("count").getAsInt();
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An IOException occurred while checking offline count.", e);
             throw new RuntimeException(e);
         }
         return offlineCount;

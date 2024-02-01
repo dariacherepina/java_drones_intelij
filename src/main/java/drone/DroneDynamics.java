@@ -56,13 +56,13 @@ public class DroneDynamics implements Refreshable {
         try {
             this.id = extractIdFromUrl(this.drone);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, "An exception occurred while extracting ID from URL.", e);
         }
     }
 
     /**
-     * ON goes first, OF second and IS last
      * To sort ArrayList<DroneDynamics>  by status
+     * ON goes first, OF second and IS last
      *
      * @param droneDynamicsList ArrayList<DroneDynamics>
      * @return ArrayList<DroneDynamics> sorted
@@ -142,7 +142,7 @@ public class DroneDynamics implements Refreshable {
             offlineCount = Stream.dataStreamOut("outputDroneDynamics").get("count").getAsInt();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, "An IOException occurred while checking offline count.", e);
         }
         return offlineCount;
     }

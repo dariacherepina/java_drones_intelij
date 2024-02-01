@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -121,6 +122,7 @@ public class DroneTypes implements Refreshable {
             offlineCount = o.get("count").getAsInt();
 
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "An IOException occurred while checking offline count.", e);
             throw new RuntimeException(e);
         }
         return offlineCount;

@@ -14,7 +14,7 @@ public class APIEndpoints extends APIConnection {
     static JsonObject droneDynamicsResponse;
 
     /**
-     * using the getResponse method with a drones-specific endpoint
+     * Using the getResponse method with a drones-specific endpoint
      *
      * @param limit  int
      * @param offset int
@@ -28,7 +28,7 @@ public class APIEndpoints extends APIConnection {
     }
 
     /**
-     * using the getResponse method with a dronetypes-specific endpoint
+     * Using the getResponse method with a dronetypes-specific endpoint
      *
      * @param limit  int
      * @param offset int
@@ -40,7 +40,7 @@ public class APIEndpoints extends APIConnection {
     }
 
     /**
-     * using the getResponse method with a dronedynamics-specific endpoint
+     * Using the getResponse method with a dronedynamics-specific endpoint
      *
      * @param limit  int
      * @param offset int

@@ -4,6 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Implements the ActionListener for the `droneCatalogButton`
+ * @author Alina Winschel
+ */
+
 public class DroneCatalogActionListener implements ActionListener {
     private MyFrame frame;
 
@@ -12,20 +17,21 @@ public class DroneCatalogActionListener implements ActionListener {
     }
 
     /**
-     * to display other buttons and change colour of 'droneCatalogButton'
-     *
+     * Displays the other buttons and changes the colour of the 'droneCatalogButton'
      * @param e the event to be processed
+     * @author Alina Winschel
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        frame.getDroneCatalogButton().setBackground(Color.gray);  //droneCatalogButton turns gray when you click it once
+        frame.getDroneCatalogButton().setBackground(Color.gray);
 
-        frame.getPanel().add(frame.getDronesButton());// include buttons for Drones, DroneTypes and DroneDynamics to the Panel
-        frame.getPanel().add(frame.getDroneTypesButton());
-        frame.getPanel().add(frame.getDroneDynamicsButton());
-        frame.getPanel().add(frame.getDroneIDButton());
+        frame.getLeftPanel().add(frame.getDronesButton());
+        frame.getLeftPanel().add(frame.getDroneTypesButton());
+        frame.getLeftPanel().add(frame.getDroneDynamicsButton());
+        frame.getLeftPanel().add(frame.getDroneIDButton());
 
-        frame.revalidate();   //update frame in order to include the added buttons
+        frame.revalidate();
         frame.repaint();
     }
 }

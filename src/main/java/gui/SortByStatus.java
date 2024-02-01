@@ -1,16 +1,18 @@
 package gui;
 
 import drone.*;
-import org.main.Main;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.logging.Logger;
+
+/**
+ * Implements the ActionListener of the `sortStatus` Button
+ * @author Afnan Ismail
+ */
 
 public class SortByStatus implements ActionListener {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
     private Convert helper;
     private MyFrame frame;
     private ArrayList<DroneDynamics> droneDynamicsList;
@@ -22,14 +24,18 @@ public class SortByStatus implements ActionListener {
     }
 
     /**
-     * when clicking the droneDynamicsButton the droneDynamicsList can be sorted by status
+     * When clicking the `droneDynamicsButton` the droneDynamicsList can be sorted by status
      * @param e the event to be processed
+     * @author Afnan Ismail & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "TimeStamp", "Speed", "AlignmentRoll", "Pitch", "AlignmentYaw", "Longitude", "Latitude", "BatteryStatus", "LastSeen", "Status"};
         Object[][] data = helper.convertArrayListToObjectDroneDynamics(DroneDynamics.sortStatus(droneDynamicsList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
+
+        frame.getTable().revalidate();
         frame.getTable().repaint();
     }
 }

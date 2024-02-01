@@ -16,7 +16,7 @@ public class LoggerMain {
     private static Logger logger;
 
     /**
-     * Logger initialization
+     * Logger initialisation
      */
     static {
         logger = Logger.getLogger("LogUti");
@@ -44,7 +44,7 @@ public class LoggerMain {
     }
 
     /**
-     * Logs an exception and prints the formatted message to the consol
+     * Logs an exception and prints the formatted message to the console
      *
      * @param e the exception to be logged
      */
