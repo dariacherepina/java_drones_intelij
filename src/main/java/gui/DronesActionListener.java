@@ -1,12 +1,17 @@
-package GUI;
+package gui;
 
-import Drone.Drones;
-import Drone.Convert;
+import drone.Drones;
+import drone.Convert;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+/**
+ * implements ActionListener for dronesButton
+ * @author Alina Winschel & Daria Cherepina
+ */
 
 public class DronesActionListener implements ActionListener {
     private MyFrame frame;
@@ -22,9 +27,10 @@ public class DronesActionListener implements ActionListener {
     /**
      * adjust Sort-Buttons
      * updates GUI to display 'DRONES' label and populates table
-     *
      * @param e the event to be processed
+     * @author Alina Winschel & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONES");
@@ -33,12 +39,12 @@ public class DronesActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().remove(frame.getSortBySpeed());
         frame.getPanelSort().add(frame.getSortByCarriageWeight());
+
         frame.getImageTablePanel().revalidate();
         frame.getImageTablePanel().repaint();
 
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
         Object[][] data = helper.convertArrayListToObjectDrones(dronesList);
         frame.getTable().setModel(new DefaultTableModel(data, columns));
-
     }
 }

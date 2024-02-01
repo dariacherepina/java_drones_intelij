@@ -1,17 +1,20 @@
-package Drone;
+package drone;
 
-import API.APIConnection;
-import API.APIEndpoints;
-import API.Stream;
+import api.APIConnection;
+import api.APIEndpoints;
+import api.Stream;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DroneDynamics extends Refresh {
+public class DroneDynamics implements Refreshable  {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
     private int id;
     private String drone;
@@ -271,5 +274,43 @@ public class DroneDynamics extends Refresh {
         } else {
             return false;
         }
+
+    }
+    /**
+     * ON goes first, OF second and IS last
+     * To sort ArrayList<DroneDynamics>  by status
+     *
+     * @param droneDynamicsList ArrayList<DroneDynamics>
+     * @return ArrayList<DroneDynamics> sorted
+     */
+    public static ArrayList<DroneDynamics> sortStatus(ArrayList<DroneDynamics> droneDynamicsList) {
+        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
+            @Override
+            public int compare(DroneDynamics d1, DroneDynamics d2) {
+                return d1.getStatus().compareTo(d2.getStatus());
+            }
+        });
+
+        Collections.sort(droneDynamicsList, new Comparator<DroneDynamics>() {
+            @Override
+            public int compare(DroneDynamics d1, DroneDynamics d2) {
+                if (d1.getStatus().equals("ON")) {
+                    return -1;
+                } else if (d1.getStatus().equals("OF")) {
+                    if (d2.getStatus().equals("ON")) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    if (d2.getStatus().equals("ON") || d2.getStatus().equals("OF")) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        });
+        return droneDynamicsList;
     }
 }

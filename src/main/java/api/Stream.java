@@ -1,4 +1,4 @@
-package API;
+package api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Exception.*;
+import exception.*;
 
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
 
     /**
-     *
+     *pecialized class is called subclas
      * @param jsonObject JsonObject
      * @param fileName String
      * @throws InvalidFileNameException custom exception

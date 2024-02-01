@@ -1,10 +1,10 @@
-package GUI;
+package gui;
 
-import API.Stream;
-import Drone.Convert;
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import api.Stream;
+import drone.Convert;
+import drone.DroneDynamics;
+import drone.DroneTypes;
+import drone.Drones;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,9 +14,14 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * implements the JFrame for the GUI and calls the ActionListeners of the other buttons
+ * @author Afnan Ismail, Daria Cherepina, Alina Winschel
+ */
+
 public class MyFrame extends JFrame {
     static Convert helper = new Convert();
-    private JLabel label1;
+    private JLabel tableTitleLabel;
     private JPanel imageTablePanel;
     private JPanel refreshPanel;
     private JPanel leftPanel;
@@ -36,21 +41,22 @@ public class MyFrame extends JFrame {
     private JPanel panelSort;
 
     /**
-     * Constructs a new instance of MyFrame, a JFrame for the Drones Simulator application
-     *
-     * @param dronesList the list of Drones to be displayed in the frame
-     * @param droneTypesList the list of DroneTypes to be used in the frame
+     * Constructs a new instance of MyFrame, a JFrame for the Drone Navigator Suite application
+     * @param dronesList        the list of Drones to be displayed in the frame
+     * @param droneTypesList    the list of DroneTypes to be used in the frame
      * @param droneDynamicsList the list of DroneDynamics to be used in the frame
      * @throws IOException if an I/O error occurs
+     * @author Afnan Ismail & Alina Winschel
      */
+
     public MyFrame(ArrayList<Drones> dronesList, ArrayList<DroneTypes> droneTypesList, ArrayList<DroneDynamics> droneDynamicsList) throws IOException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setExtendedState(MAXIMIZED_BOTH);
-        this.setTitle("Drones simulator");
+        this.setTitle("Drone Navigator Suite");
 
-        ImageIcon imageLeftTitle = new ImageIcon("drone.jpg");
-        this.setIconImage(imageLeftTitle.getImage());
+        ImageIcon leftToTitleImage = new ImageIcon("drone.jpg");
+        this.setIconImage(leftToTitleImage.getImage());
         this.getContentPane().setBackground(Color.BLACK);
         this.setLayout(new BorderLayout());
 
@@ -129,7 +135,7 @@ public class MyFrame extends JFrame {
         droneIDButton = new JButton("DroneID");
         droneIDButton.setBackground(Color.white);
 
-        refreshPanel = new JPanel(); //includes refreshButton
+        refreshPanel = new JPanel();
         refreshPanel.setBackground(Color.BLACK);
         refreshPanel.setLayout(new BoxLayout(refreshPanel, BoxLayout.Y_AXIS));
 
@@ -175,8 +181,10 @@ public class MyFrame extends JFrame {
          * initializes the layout of the frame for the Drones Simulator application
          * each button is associated with a specific ActionListener to handle user interactions
          * the frame includes panels for navigation buttons, the main content, and additional components
+         * @author Afnan Ismail
          */
-        dashboardButton.addActionListener(new DashboardActionListener(this, dronesList, droneTypesList, droneDynamicsList));
+
+        dashboardButton.addActionListener(new DashboardActionListener(this, dronesList));
         droneCatalogButton.addActionListener(new DroneCatalogActionListener(this));
         dronesButton.addActionListener(new DronesActionListener(this, dronesList));
         droneTypesButton.addActionListener(new DroneTypesActionListener(this, droneTypesList));
@@ -194,11 +202,15 @@ public class MyFrame extends JFrame {
         createLabel();
         this.setVisible(true);
     }
-//TODO Daria fragen
+
     /**
-     *
+     * method initialised three ArrayList for Drones, DroneTypes and DroneDynamics
+     * and after that calls the method to add all additional data from DroneTypes and DroneDynamics to Drone
+     * and create a new instance of class MyFrame
      * @param args
+     * @author Daria Cherepina
      */
+
     public static void main(String[] args) {
         try {
             ArrayList<Drones> dronesList = helper.initialiseDrones(Stream.dataStreamOut("outputDrones"));
@@ -212,27 +224,31 @@ public class MyFrame extends JFrame {
     }
 
     /**
-     *displays the drone image and the label 'DRONE OVERVIEW'
+     * displays the drone image and the label 'DRONE OVERVIEW'
+     * @author Afnan Ismail
      */
+
     private void createLabel() {
-        label1 = new JLabel("DRONE OVERVIEW");
-        ImageIcon image2 = new ImageIcon("drones.png");
-        label1.setIcon(image2);
-        label1.setHorizontalTextPosition(JLabel.CENTER);
-        label1.setVerticalTextPosition(JLabel.TOP);
-        label1.setForeground(Color.WHITE);
-        label1.setIconTextGap(40);
-        label1.setVerticalAlignment(JLabel.CENTER);
-        label1.setHorizontalAlignment(JLabel.CENTER);
-        imageTablePanel.add(label1, BorderLayout.CENTER);
+        tableTitleLabel = new JLabel("DRONE OVERVIEW");
+        ImageIcon imageCenter = new ImageIcon("drones.png");
+        tableTitleLabel.setIcon(imageCenter);
+        tableTitleLabel.setHorizontalTextPosition(JLabel.CENTER);
+        tableTitleLabel.setVerticalTextPosition(JLabel.TOP);
+        tableTitleLabel.setForeground(Color.WHITE);
+        tableTitleLabel.setIconTextGap(40);
+        tableTitleLabel.setVerticalAlignment(JLabel.CENTER);
+        tableTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageTablePanel.add(tableTitleLabel, BorderLayout.CENTER);
     }
 
     /**
      * changes title ot the page when you click the different buttons, Drones, Drone Type & Drone Dynamics
-     * @param labelText the text to set for label1
+     * @param labelText the text to set for tableTitleLabel
+     * @author Afnan Ismail
      */
+
     public void setLabel(String labelText) {
-        label1.setText(labelText);
+        tableTitleLabel.setText(labelText);
     }
 
     public JTable getTable() {
@@ -245,6 +261,10 @@ public class MyFrame extends JFrame {
 
     public JPanel getImageTablePanel() {
         return imageTablePanel;
+    }
+
+    public JPanel getPanelSort() {
+        return panelSort;
     }
 
     public JButton getDroneCatalogButton() {
@@ -289,9 +309,5 @@ public class MyFrame extends JFrame {
 
     public JButton getReturnMinus5Button() {
         return returnMinus5Button;
-    }
-
-    public JPanel getPanelSort() {
-        return panelSort;
     }
 }

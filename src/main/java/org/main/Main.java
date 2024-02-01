@@ -1,9 +1,8 @@
 package org.main;
 
-import Drone.Convert;
-import Drone.Sortable;
-import GUI.MyFrame;
-import Threads.ThreadCheckRefresh;
+import drone.Convert;
+import gui.MyFrame;
+import threads.ThreadCheckRefresh;
 import org.json.JSONException;
 
 import javax.swing.*;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Main implements Sortable {
+public class Main{
     static Convert helper = new Convert();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 

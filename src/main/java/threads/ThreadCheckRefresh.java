@@ -1,8 +1,8 @@
-package Threads;
+package threads;
 
-import Drone.DroneDynamics;
-import Drone.DroneTypes;
-import Drone.Drones;
+import drone.DroneDynamics;
+import drone.DroneTypes;
+import drone.Drones;
 import org.main.Main;
 
 import javax.swing.*;

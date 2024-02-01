@@ -1,7 +1,7 @@
-package GUI;
+package gui;
 
-import Drone.DroneTypes;
-import Drone.Convert;
+import drone.DroneTypes;
+import drone.Convert;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,6 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+/**
+ * implements ActionListener for droneTypesButton
+ * @author  Alina Winschel & Daria Cherepina
+ */
 
 public class DroneTypesActionListener implements ActionListener {
     private MyFrame frame;
@@ -25,7 +30,9 @@ public class DroneTypesActionListener implements ActionListener {
      * adjust Sort-Buttons
      * updates GUI to display 'DRONE TYPES' label and populates table
      * @param e the event to be processed
+     * @author Alina Winschel & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setLabel("DRONE TYPES");
@@ -34,6 +41,7 @@ public class DroneTypesActionListener implements ActionListener {
         frame.getPanelSort().remove(frame.getSortByStatus());
         frame.getPanelSort().add(frame.getSortByMaximumCarriage());
         frame.getPanelSort().add(frame.getSortBySpeed());
+
         frame.getImageTablePanel().revalidate();
         frame.getImageTablePanel().repaint();
 

@@ -1,7 +1,7 @@
-package Drone;
+package drone;
 
-import API.Stream;
-import Exception.*;
+import api.Stream;
+import exception.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

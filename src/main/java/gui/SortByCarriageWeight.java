@@ -1,13 +1,17 @@
-package GUI;
+package gui;
 
-import Drone.Convert;
-import Drone.Drones;
-import Drone.Sortable;
+import drone.Convert;
+import drone.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+/**
+ * implements the ActionListener of the sortByCarriageWeightButton
+ * @author Afnan Ismail
+ */
 
 public class SortByCarriageWeight implements ActionListener {
     private Convert helper;
@@ -18,18 +22,21 @@ public class SortByCarriageWeight implements ActionListener {
         this.frame = frame;
         this.dronesList = dronesList;
         this.helper = new Convert();
-
     }
 
     /**
      * when clicking the dronesButton the dronesList can be sorted by carriage weight
      * @param e the event to be processed
+     * @author Afnan Ismail & Daria Cherepina
      */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String[] columns = {"ID", "CreationTime", "SerialNumber", "CarriageWeight", "CarriageType"};
-        Object[][] data = helper.convertArrayListToObjectDrones(Sortable.sortCarriageWeight(dronesList));
+        Object[][] data = helper.convertArrayListToObjectDrones(Drones.sortCarriageWeight(dronesList));
         frame.getTable().setModel(new DefaultTableModel(data, columns));
+
+        frame.getTable().revalidate();
         frame.getTable().repaint();
     }
 }
