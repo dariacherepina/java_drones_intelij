@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  */
 public class Stream {
     private static final Logger LOGGER = Logger.getLogger(APIConnection.class.getName());
+
     /**
      * Writes the json response to a json file
      *

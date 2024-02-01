@@ -98,6 +98,7 @@ public class Drones implements Refreshable {
         }
         return offlineCount;
     }
+
     /**
      * To get the count of the data from the server
      *

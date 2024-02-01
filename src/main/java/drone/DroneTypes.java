@@ -45,6 +45,7 @@ public class DroneTypes implements Refreshable {
         this.controlRange = controlRange;
         this.maximumCarriage = maximumCarriage;
     }
+
     /**
      * To check if file exist and if it is empty
      *
@@ -90,6 +91,7 @@ public class DroneTypes implements Refreshable {
         });
         return droneTypesList;
     }
+
     /**
      * To transform the Object to String
      *
@@ -105,6 +107,7 @@ public class DroneTypes implements Refreshable {
                 + "\nControl Range: " + controlRange
                 + "\nMaximumCarriage: " + maximumCarriage;
     }
+
     /**
      * To get the count of the data from the file
      *

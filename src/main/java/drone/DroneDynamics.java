@@ -59,6 +59,7 @@ public class DroneDynamics implements Refreshable {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * ON goes first, OF second and IS last
      * To sort ArrayList<DroneDynamics>  by status
